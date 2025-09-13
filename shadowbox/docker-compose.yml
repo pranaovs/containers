@@ -2,8 +2,7 @@ services:
   shadowbox:
     image: quay.io/outline/shadowbox:stable
     container_name: shadowbox
-    restart: always
-    # ports:
+    restart: unless-stopped
     #   - "${SB_API_PORT}:${SB_API_PORT}/tcp"   # Management API
     #   - "${SB_KEYS_PORT}:${SB_KEYS_PORT}/tcp"   # Access key port (TCP)
     #   - "${SB_KEYS_PORT}:${SB_KEYS_PORT}/udp"   # Access key port (UDP)
@@ -21,7 +20,7 @@ services:
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
-    restart: always
+    restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --cleanup --label-enable --interval 3600
