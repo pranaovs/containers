@@ -1,0 +1,17 @@
+services:
+  headscale:
+    image: docker.io/headscale/headscale:sha-474ea236
+    restart: unless-stopped
+    container_name: headscale
+    ports:
+    - "3478:3478/udp"
+    volumes:
+      - ./config:/etc/headscale
+      - ./lib:/var/lib/headscale
+      - ./run:/var/run/headscale
+    command: serve
+
+networks:
+  default:
+    name: caddy_net
+    external: true

@@ -1,0 +1,33 @@
+services:
+  shadowbox:
+    image: quay.io/outline/shadowbox:stable
+    container_name: shadowbox
+    restart: always
+    # ports:
+    #   - "${SB_API_PORT}:${SB_API_PORT}/tcp"   # Management API
+    #   - "${SB_KEYS_PORT}:${SB_KEYS_PORT}/tcp"   # Access key port (TCP)
+    #   - "${SB_KEYS_PORT}:${SB_KEYS_PORT}/udp"   # Access key port (UDP)
+    environment:
+      - SB_STATE_DIR=/data
+      - SB_API_PORT=${SB_API_PORT}
+      - SB_API_PREFIX=${SB_API_PREFIX}
+      - SB_CERTIFICATE_FILE=/data/shadowbox-selfsigned.crt
+      - SB_PRIVATE_KEY_FILE=/data/shadowbox-selfsigned.key
+    volumes:
+      - ./data:/data
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --cleanup --label-enable --interval 3600
+
+networks:
+  default:
+    name: caddy_net
+    external: true
+
