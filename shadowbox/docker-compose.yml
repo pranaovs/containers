@@ -3,9 +3,10 @@ services:
     image: quay.io/outline/shadowbox:stable
     container_name: shadowbox
     restart: unless-stopped
+    ports:
+      - "${SB_KEYS_PORT}:${SB_KEYS_PORT}/udp"   # Access key port (UDP)
     #   - "${SB_API_PORT}:${SB_API_PORT}/tcp"   # Management API
     #   - "${SB_KEYS_PORT}:${SB_KEYS_PORT}/tcp"   # Access key port (TCP)
-    #   - "${SB_KEYS_PORT}:${SB_KEYS_PORT}/udp"   # Access key port (UDP)
     environment:
       - SB_STATE_DIR=/data
       - SB_API_PORT=${SB_API_PORT}
