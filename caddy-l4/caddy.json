@@ -1,10 +1,63 @@
 {
   "apps": {
-    "http": {
+    "layer4": {
       "servers": {
-        "https443": {
+        "main": {
           "listen": [
             ":443"
+          ],
+          "routes": [
+            {
+              "match": [
+                {
+                  "tls": {
+                    "sni": [
+                      "vaultwarden.deepanalve.dev",
+                      "bitwarden.deepanalve.dev",
+                      "headscale.pranaovs.me",
+                      "photos.pranaovs.me",
+                      "immich.pranaovs.me",
+                      "shadowsocksapi.pranaovs.me"
+                    ]
+                  }
+                }
+              ],
+              "handle": [
+                {
+                  "handler": "proxy",
+                  "upstreams": [
+                    {
+                      "dial": [
+                        "localhost:8443"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "handle": [
+                {
+                  "handler": "proxy",
+                  "upstreams": [
+                    {
+                      "dial": [
+                        "shadowbox:443"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "http": {
+      "servers": {
+        "httpsa8443": {
+          "listen": [
+            ":8443"
           ],
           "routes": [
             {
@@ -67,19 +120,48 @@
               ]
             },
             {
+              "match": [
+                {
+                  "host": [
+                    "shadowsocksapi.pranaovs.me"
+                  ]
+                }
+              ],
               "handle": [
                 {
                   "handler": "reverse_proxy",
                   "upstreams": [
                     {
-                      "dial": "shadowbox:443"
+                      "dial": "shadowbox:42069"
                     }
-                  ]
+                  ],
+                  "transport": {
+                    "protocol": "http",
+                    "tls": {
+                      "insecure_skip_verify": true
+                    }
+                  }
                 }
               ]
             }
           ]
         }
+      }
+    },
+    "tls": {
+      "automation": {
+        "policies": [
+          {
+            "subjects": [
+              "vaultwarden.deepanalve.dev",
+              "bitwarden.deepanalve.dev",
+              "headscale.pranaovs.me",
+              "photos.pranaovs.me",
+              "immich.pranaovs.me",
+              "shadowsocksapi.pranaovs.me"
+            ]
+          }
+        ]
       }
     }
   }
