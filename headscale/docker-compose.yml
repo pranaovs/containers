@@ -1,7 +1,7 @@
 services:
   headscale:
     image: docker.io/headscale/headscale:stable
-    restart: unless-stopped
+    restart: always
     container_name: headscale
     ports:
       - "3478:3478/udp"
