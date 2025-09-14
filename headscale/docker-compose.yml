@@ -1,6 +1,6 @@
 services:
   headscale:
-    image: docker.io/headscale/headscale:sha-474ea236
+    image: docker.io/headscale/headscale:stable
     restart: unless-stopped
     container_name: headscale
     ports:
@@ -10,6 +10,8 @@ services:
       - ./lib:/var/lib/headscale
       - ./run:/var/run/headscale
     command: serve
+    labels:
+      com.centurylinklabs.watchtower.enable: "true"
 
 networks:
   default:
