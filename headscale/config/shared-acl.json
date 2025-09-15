@@ -1,17 +1,17 @@
 {
+  "tagOwners": {
+    "tag:servers": [
+      "group:admin"
+    ]
+  },
   "groups": {
     "group:admin": [
       "personal@"
     ],
     "group:internet": [
       "personal@"
-    ],
-    "group:devserver_ssh": [
-      "personal@",
-      "deepan@"
     ]
   },
-  "tagOwners": {},
   "hosts": {
     "devserver": "100.64.0.2"
   },
@@ -22,26 +22,16 @@
         "personal@"
       ],
       "dst": [
-        "devserver:2283",
         "personal@:*"
       ]
     },
     {
       "action": "accept",
       "src": [
-        "deepan@"
+        "parzival@"
       ],
       "dst": [
-        "deepan@:*"
-      ]
-    },
-    {
-      "action": "accept",
-      "src": [
-        "group:devserver_ssh"
-      ],
-      "dst": [
-        "devserver:22"
+        "parzival@:*"
       ]
     },
     {
@@ -52,19 +42,40 @@
       "dst": [
         "autogroup:internet:*"
       ]
-    }
-  ],
-  "ssh": [
+    },
     {
       "action": "accept",
       "src": [
         "group:admin"
       ],
       "dst": [
-        "*"
+        "tag:servers:*"
+      ]
+    }
+  ],
+  "ssh": [
+    {
+      "action": "accept",
+      "src": [
+        "personal@"
+      ],
+      "dst": [
+        "tag:servers"
       ],
       "users": [
-        "*"
+        "personal"
+      ]
+    },
+    {
+      "action": "accept",
+      "src": [
+        "parzival@"
+      ],
+      "dst": [
+        "tag:servers"
+      ],
+      "users": [
+        "parzival"
       ]
     }
   ]

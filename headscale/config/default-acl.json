@@ -1,0 +1,27 @@
+{
+  "acls": [
+    {
+      "action": "accept",
+      "src": [
+        "*"
+      ],
+      "dst": [
+        "*:*"
+      ]
+    }
+  ],
+  "ssh": [
+    {
+      "action": "accept",
+      "src": [
+        "personal@"
+      ],
+      "dst": [
+        "*"
+      ],
+      "users": [
+        "personal"
+      ]
+    }
+  ]
+}
