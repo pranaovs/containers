@@ -8,3 +8,6 @@
 # Un-ignore .gitignore files
 !.gitignore
 !*/.gitignore
+
+# Ignore repo
+minecraft-server-docker/
