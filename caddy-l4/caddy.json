@@ -132,7 +132,7 @@
                   "handler": "reverse_proxy",
                   "upstreams": [
                     {
-                      "dial": "shadowbox:42069"
+                      "dial": "shadowbox:30041"
                     }
                   ],
                   "transport": {
