@@ -2,7 +2,7 @@ services:
   shadowbox:
     image: quay.io/outline/shadowbox:stable
     container_name: shadowbox
-    restart: unless-stopped
+    restart: always
     ports:
       - "30041:30041/tcp"   # Management API
       - "443:443/udp"      # Access key port (UDP)
