@@ -1,0 +1,71 @@
+{
+  "groups": {
+    "group:admin": [
+      "personal@"
+    ],
+    "group:internet": [
+      "personal@"
+    ],
+    "group:devserver_ssh": [
+      "personal@",
+      "deepan@"
+    ]
+  },
+  "tagOwners": {},
+  "hosts": {
+    "devserver": "100.64.0.2"
+  },
+  "acls": [
+    {
+      "action": "accept",
+      "src": [
+        "personal@"
+      ],
+      "dst": [
+        "devserver:2283",
+        "personal@:*"
+      ]
+    },
+    {
+      "action": "accept",
+      "src": [
+        "deepan@"
+      ],
+      "dst": [
+        "deepan@:*"
+      ]
+    },
+    {
+      "action": "accept",
+      "src": [
+        "group:devserver_ssh"
+      ],
+      "dst": [
+        "devserver:22"
+      ]
+    },
+    {
+      "action": "accept",
+      "src": [
+        "group:internet"
+      ],
+      "dst": [
+        "autogroup:internet:*"
+      ]
+    }
+  ],
+  "ssh": [
+    {
+      "action": "accept",
+      "src": [
+        "group:admin"
+      ],
+      "dst": [
+        "*"
+      ],
+      "users": [
+        "*"
+      ]
+    }
+  ]
+}
