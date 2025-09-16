@@ -72,8 +72,6 @@ services:
 
 volumes:
   model-cache:
-  caddy_data:
-  caddy_config:
 
 networks:
   default:
