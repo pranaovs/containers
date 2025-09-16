@@ -23,7 +23,7 @@ services:
 
   db:
     image: postgres:17
-    restart: unless-stopped
+    restart: always
     environment:
       POSTGRES_USER: "wakapi"
       POSTGRES_DB: "wakapi"
