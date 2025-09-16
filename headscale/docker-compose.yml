@@ -8,10 +8,13 @@ services:
     volumes:
       - ./config:/etc/headscale
       - ./lib:/var/lib/headscale
-      - ./run:/var/run/headscale
+      - headscale_run:/var/run/headscale
     command: serve
     labels:
       com.centurylinklabs.watchtower.enable: "true"
+
+volumes:
+  headscale_run:
 
 networks:
   default:
