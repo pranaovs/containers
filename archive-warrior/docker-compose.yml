@@ -8,3 +8,11 @@ services:
     labels:
       com.centurylinklabs.watchtower.enable: "true"
     restart: unless-stopped
+    volumes:
+      - "./config.json:/home/warrior/projects/config.json"
+      - "warrior_data:/home/warrior/data"
+      - "warrior_projects:/home/warrior/projects"
+
+volumes:
+  warrior_data:
+  warrior_projects:
