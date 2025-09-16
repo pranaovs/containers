@@ -1,0 +1,5 @@
+:80
+    root * /mnt
+    file_server browse
+
+    respond /caddy/* 404

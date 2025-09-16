@@ -17,7 +17,8 @@
                       "headscale.pranaovs.me",
                       "photos.pranaovs.me",
                       "immich.pranaovs.me",
-                      "shadowsocksapi.pranaovs.me"
+                      "shadowsocksapi.pranaovs.me",
+                      "fileserver.pranaovs.me"
                     ]
                   }
                 }
@@ -103,6 +104,25 @@
               "match": [
                 {
                   "host": [
+                    "fileserver.pranaovs.me"
+                  ]
+                }
+              ],
+              "handle": [
+                {
+                  "handler": "reverse_proxy",
+                  "upstreams": [
+                    {
+                      "dial": "caddy_file_server:80"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "match": [
+                {
+                  "host": [
                     "photos.pranaovs.me",
                     "immich.pranaovs.me"
                   ]
@@ -158,7 +178,8 @@
               "headscale.pranaovs.me",
               "photos.pranaovs.me",
               "immich.pranaovs.me",
-              "shadowsocksapi.pranaovs.me"
+              "shadowsocksapi.pranaovs.me",
+              "fileserver.pranaovs.me"
             ]
           }
         ]
