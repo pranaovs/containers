@@ -1,4 +1,15 @@
 {
+  "acls": [
+    {
+      "action": "accept",
+      "src": [
+        "*"
+      ],
+      "dst": [
+        "*:*"
+      ]
+    }
+  ],
   "ssh": [
     {
       "action": "accept",
