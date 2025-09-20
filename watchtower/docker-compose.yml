@@ -8,3 +8,5 @@ services:
     command: --cleanup --label-enable --interval 3600
     labels:
       com.centurylinklabs.watchtower.enable: "true"
+    security_opt:
+      - label=type:spc_t
