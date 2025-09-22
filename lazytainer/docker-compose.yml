@@ -9,6 +9,8 @@ services:
       - 25565:25565
       - "19132:19132/udp"
       - "19133:19133/udp"
+      # StirlingPdf
+      - "30085:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
@@ -17,4 +19,7 @@ services:
       - "lazytainer.group.minecraft.ports=25565,19132,19133"
       - "lazytainer.group.minecraft.minPacketThreshold=2"
       - "lazytainer.group.minecraft.inactiveTimeout=600"
+      # StirlingPdf
+      - "lazytainer.group.stirlingpdf.ports=8080"
+      - "lazytainer.group.stirlingpdf.minPacketThreshold=2"
     restart: always
