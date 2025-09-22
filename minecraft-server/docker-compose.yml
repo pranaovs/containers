@@ -1,23 +1,4 @@
 services:
-  lazytainer:
-    container_name: lazytainer
-    image: ghcr.io/vmorganp/lazytainer:master
-    environment:
-      VERBOSE: false
-    ports:
-      - 25565:25565
-      - "19132:19132/udp"
-      - "19133:19133/udp"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    labels:
-      - "lazytainer.group.minecraft.sleepMethod=stop"
-      - "lazytainer.group.minecraft.ports=25565,19132,19133"
-      - "lazytainer.group.minecraft.minPacketThreshold=2"
-      - "lazytainer.group.minecraft.inactiveTimeout=600"
-      - "com.centurylinklabs.watchtower.enable=true"
-    restart: no
-
   mc:
     image: itzg/minecraft-server:latest
     container_name: "minecraft_server"
