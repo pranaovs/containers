@@ -17,6 +17,7 @@
                       "headscale.pranaovs.me",
                       "photos.pranaovs.me",
                       "immich.pranaovs.me",
+                      "pdftools.pranaovs.me",
                       "fileserver.pranaovs.me"
                     ]
                   }
@@ -103,6 +104,25 @@
               "match": [
                 {
                   "host": [
+                    "pdftools.pranaovs.me"
+                  ]
+                }
+              ],
+              "handle": [
+                {
+                  "handler": "reverse_proxy",
+                  "upstreams": [
+                    {
+                      "dial": "lazytainer_stirling_pdf:8080"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "match": [
+                {
+                  "host": [
                     "fileserver.pranaovs.me"
                   ]
                 }
@@ -152,6 +172,7 @@
               "headscale.pranaovs.me",
               "photos.pranaovs.me",
               "immich.pranaovs.me",
+              "pdftools.pranaovs.me",
               "fileserver.pranaovs.me"
             ]
           }

@@ -33,3 +33,8 @@ services:
     security_opt:
       - label=type:spc_t
     restart: always
+
+networks:
+  default:
+    name: caddy_net
+    external: true
