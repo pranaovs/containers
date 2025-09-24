@@ -43,7 +43,7 @@
                   "upstreams": [
                     {
                       "dial": [
-                        "shadowbox:443"
+                        "shadowsocks:443"
                       ]
                     }
                   ]
