@@ -16,7 +16,7 @@ services:
     restart: unless-stopped
 
   lazytainer:
-    container_name: lazytainer-stirling-pdf
+    container_name: lazytainer_stirling_pdf
     image: ghcr.io/vmorganp/lazytainer:master
     environment:
       VERBOSE: false
