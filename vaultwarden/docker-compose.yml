@@ -9,7 +9,25 @@ services:
       DOMAIN: "https://bitwarden.deepanalve.com"
       SIGNUPS_ALLOWED: false
     labels:
+      - "lazytainer.group=vaultwarden"
       - "com.centurylinklabs.watchtower.enable=true"
+
+  lazytainer:
+    container_name: lazytainer_vaultwarden
+    image: ghcr.io/vmorganp/lazytainer:master
+    environment:
+      VERBOSE: false
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      - "lazytainer.group.vaultwarden.ports=80"
+      - "lazytainer.group.vaultwarden.minPacketThreshold=2"
+      - "lazytainer.group.vaultwarden.inactiveTimeout=300"
+      - "lazytainer.group.vaultwarden.sleepMethod=stop"
+      - "com.centurylinklabs.watchtower.enable=true"
+    security_opt:
+      - label=type:spc_t
+    restart: always
 
 networks:
   default:

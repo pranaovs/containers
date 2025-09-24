@@ -74,7 +74,7 @@
                   "handler": "reverse_proxy",
                   "upstreams": [
                     {
-                      "dial": "vaultwarden:80"
+                      "dial": "lazytainer_vaultwarden:80"
                     }
                   ]
                 }
