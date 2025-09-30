@@ -2,6 +2,9 @@
   "groups": {
     "group:admin": [
       "personal@"
+    ],
+    "group:internet": [
+      "personal@"
     ]
   },
   "tagOwners": {
@@ -29,6 +32,15 @@
         "parzival@:*",
         "tag:server:22",
         "tag:server:30200-30399"
+      ]
+    },
+    {
+      "action": "accept",
+      "src": [
+        "group:internet"
+      ],
+      "dst": [
+        "autogroup:internet:*"
       ]
     }
   ],
