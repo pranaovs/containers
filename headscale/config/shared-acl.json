@@ -1,19 +1,13 @@
 {
-  "tagOwners": {
-    "tag:servers": [
-      "group:admin"
-    ]
-  },
   "groups": {
     "group:admin": [
       "personal@"
-    ],
-    "group:internet": [
-      "personal@"
     ]
   },
-  "hosts": {
-    "devserver": "100.64.0.2"
+  "tagOwners": {
+    "tag:server": [
+      "personal@"
+    ]
   },
   "acls": [
     {
@@ -22,7 +16,8 @@
         "personal@"
       ],
       "dst": [
-        "personal@:*"
+        "personal@:*",
+        "tag:server:*"
       ]
     },
     {
@@ -31,25 +26,9 @@
         "parzival@"
       ],
       "dst": [
-        "parzival@:*"
-      ]
-    },
-    {
-      "action": "accept",
-      "src": [
-        "group:internet"
-      ],
-      "dst": [
-        "autogroup:internet:*"
-      ]
-    },
-    {
-      "action": "accept",
-      "src": [
-        "group:admin"
-      ],
-      "dst": [
-        "tag:servers:*"
+        "parzival@:*",
+        "tag:server:22",
+        "tag:server:30200-30399"
       ]
     }
   ],
@@ -60,10 +39,11 @@
         "personal@"
       ],
       "dst": [
-        "tag:servers"
+        "*"
       ],
       "users": [
-        "personal"
+        "personal",
+        "root"
       ]
     },
     {
@@ -72,7 +52,7 @@
         "parzival@"
       ],
       "dst": [
-        "tag:servers"
+        "tag:server"
       ],
       "users": [
         "parzival"
