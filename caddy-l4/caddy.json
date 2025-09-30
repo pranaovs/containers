@@ -18,7 +18,8 @@
                       "photos.pranaovs.me",
                       "immich.pranaovs.me",
                       "pdftools.pranaovs.me",
-                      "fileserver.pranaovs.me"
+                      "fileserver.pranaovs.me",
+                      "n8n.deepanalve.dev"
                     ]
                   }
                 }
@@ -157,6 +158,25 @@
                   ]
                 }
               ]
+            },
+            {
+              "match": [
+                {
+                  "host": [
+                    "n8n.deepanalve.dev"
+                  ]
+                }
+              ],
+              "handle": [
+                {
+                  "handler": "reverse_proxy",
+                  "upstreams": [
+                    {
+                      "dial": "n8n:5678"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -173,7 +193,8 @@
               "photos.pranaovs.me",
               "immich.pranaovs.me",
               "pdftools.pranaovs.me",
-              "fileserver.pranaovs.me"
+              "fileserver.pranaovs.me",
+              "n8n.deepanalve.dev"
             ]
           }
         ]
