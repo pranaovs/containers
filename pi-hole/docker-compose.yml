@@ -15,8 +15,10 @@ services:
       FTLCONF_webserver_api_password: "" # Password not needed (not exposed)
       FTLCONF_dns_listeningMode: "all" # If using Docker's default `bridge` network setting the dns listening mode should be set to 'all'
       FTLCONF_dns_upstreams: "9.9.9.9;1.1.1.1;8.8.8.8;8.8.4.4"
+      FTLCONF_webserver_port: "30086o,[::]:30086o" # example that binds HTTP 30086 on IPv4 & IPv6
     volumes:
       - "./etc-pihole:/etc/pihole"
+    network_mode: "host"
     cap_add:
       - SYS_NICE
     restart: always
