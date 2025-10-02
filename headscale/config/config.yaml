@@ -282,7 +282,7 @@ dns:
   # List of DNS servers to expose to clients.
   nameservers:
     global:
-      - 100.64.0.6
+      - 100.64.0.2
       - 9.9.9.9
       - 1.1.1.1
       - 8.8.8.8
