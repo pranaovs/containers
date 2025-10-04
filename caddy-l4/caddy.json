@@ -18,7 +18,8 @@
                       "photos.pranaovs.me",
                       "immich.pranaovs.me",
                       "pdftools.pranaovs.me",
-                      "fileserver.pranaovs.me"
+                      "fileserver.pranaovs.me",
+                      "fmd.pranaovs.me"
                     ]
                   }
                 }
@@ -157,6 +158,25 @@
                   ]
                 }
               ]
+            },
+            {
+              "match": [
+                {
+                  "host": [
+                    "fmd.pranaovs.me"
+                  ]
+                }
+              ],
+              "handle": [
+                {
+                  "handler": "reverse_proxy",
+                  "upstreams": [
+                    {
+                      "dial": "fmd:8080"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -173,7 +193,8 @@
               "photos.pranaovs.me",
               "immich.pranaovs.me",
               "pdftools.pranaovs.me",
-              "fileserver.pranaovs.me"
+              "fileserver.pranaovs.me",
+              "fmd.pranaovs.me"
             ]
           }
         ]
