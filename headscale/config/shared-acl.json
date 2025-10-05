@@ -4,8 +4,12 @@
       "personal@"
     ],
     "group:internet": [
-      "personal@"
+      "personal@",
+      "neo@"
     ]
+  },
+  "hosts": {
+    "devbox": "100.64.0.1"
   },
   "tagOwners": {
     "tag:server": [
@@ -32,6 +36,16 @@
         "parzival@:*",
         "tag:server:22",
         "tag:server:30200-30399"
+      ]
+    },
+    {
+      "action": "accept",
+      "src": [
+        "neo@"
+      ],
+      "dst": [
+        "neo@:*",
+        "devbox:8096"
       ]
     },
     {
