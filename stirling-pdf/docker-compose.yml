@@ -12,7 +12,8 @@ services:
     labels:
       - "lazytainer.group=stirlingpdf"
       - "com.centurylinklabs.watchtower.enable=true"
-    network_mode: service:lazytainer
+    networks:
+      - stirling_net
     restart: unless-stopped
 
   lazytainer:
@@ -22,6 +23,8 @@ services:
       VERBOSE: false
     ports:
       - "30085:8080"
+    expose:
+      - "8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
@@ -32,9 +35,12 @@ services:
       - "com.centurylinklabs.watchtower.enable=true"
     security_opt:
       - label=type:spc_t
+    networks:
+      - stirling_net
     restart: always
 
 networks:
-  default:
-    name: caddy_net
-    external: true
+  stirling_net:
+    name: stirling_net
+    driver: bridge
+    internal: true
