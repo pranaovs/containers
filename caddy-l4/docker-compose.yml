@@ -12,13 +12,29 @@ services:
       - ./caddy.json:/etc/caddy/caddy.json:ro
       - caddy_data:/data
       - caddy_config:/config
+    networks:
+      - internal_net
+      - headscale_net
+      - immich_net
+      - fmd_net
+      - stirling_net
+      - shadowsocks_net
     restart: always
+
+networks:
+  internal_net:
+    driver: bridge
+  headscale_net:
+    external: true
+  immich_net:
+    external: true
+  fmd_net:
+    external: true
+  stirling_net:
+    external: true
+  shadowsocks_net:
+    external: true
 
 volumes:
   caddy_data:
   caddy_config:
-
-networks:
-  default:
-    name: caddy_net
-    external: true

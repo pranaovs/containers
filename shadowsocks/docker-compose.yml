@@ -7,6 +7,8 @@ services:
       - "30042:80/tcp" # Management API
       - "443:443/udp" # Access key port (UDP)
       # - "${SB_KEYS_PORT}:${SB_KEYS_PORT}/tcp"   # Access key port (TCP)
+    expose:
+      - "443"
     environment:
       - SB_API_PORT=80
       - SB_STATE_DIR=/data
@@ -17,8 +19,13 @@ services:
       - ./data:/data
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
+    networks:
+      - "internal_net"
+      - "shadowsocks_net"
 
 networks:
-  default:
-    name: caddy_net
+  internal_net:
+    driver: bridge
+  shadowsocks_net:
+    name: shadowsocks_net
     external: true

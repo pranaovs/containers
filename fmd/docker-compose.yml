@@ -4,15 +4,21 @@ services:
     image: registry.gitlab.com/fmd-foss/fmd-server:latest
     # build: https://gitlab.com/fmd-foss/fmd-server.git#v0.12.0
     container_name: fmd
+    expose:
+      - "8080"
     user: "1000:1000"
     volumes:
       - "./data/db:/var/lib/fmd-server/db/"
       - "./data/config.yml:/etc/fmd-server/config.yml"
     environment:
       FMD_REGISTATIONTOKEN: ${REGISTRATIONTOKEN}
+    networks:
+      - "internal_net"
+      - "fmd_net"
     restart: always
 
 networks:
-  default:
-    name: caddy_net
+  internal_net:
+    driver: bridge
+  fmd_net:
     external: true

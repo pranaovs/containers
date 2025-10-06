@@ -24,10 +24,15 @@ services:
       - .env
     ports:
       - "30081:2283"
+    expose:
+      - "2283"
     depends_on:
       - database
       - redis
     restart: always
+    networks:
+      - internal_net
+      - immich_net
     healthcheck:
       disable: false
 
@@ -44,6 +49,8 @@ services:
     env_file:
       - .env
     restart: unless-stopped
+    networks:
+      - internal_net
     healthcheck:
       disable: false
 
@@ -52,6 +59,8 @@ services:
     image: docker.io/valkey/valkey:8-bookworm@sha256:a137a2b60aca1a75130022d6bb96af423fefae4eb55faf395732db3544803280
     healthcheck:
       test: redis-cli ping || exit 1
+    networks:
+      - internal_net
     restart: always
 
   database:
@@ -61,20 +70,22 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_DB: ${DB_DATABASE_NAME}
-      POSTGRES_INITDB_ARGS: '--data-checksums'
+      POSTGRES_INITDB_ARGS: "--data-checksums"
       # Uncomment the DB_STORAGE_TYPE: 'HDD' var if your database isn't stored on SSDs
       # DB_STORAGE_TYPE: 'HDD'
     volumes:
       # Do not edit the next line. If you want to change the database storage location on your system, edit the value of DB_DATA_LOCATION in the .env file
       - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
     shm_size: 128mb
+    networks:
+      - internal_net
     restart: always
 
 volumes:
   model-cache:
 
 networks:
-  default:
-    name: caddy_net
+  internal_net:
+    driver: bridge
+  immich_net:
     external: true
-
