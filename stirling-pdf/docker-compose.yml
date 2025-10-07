@@ -29,8 +29,8 @@ services:
     labels:
       - "lazytainer.group.stirlingpdf.ports=8080"
       - "lazytainer.group.stirlingpdf.minPacketThreshold=2"
-      - "lazytainer.group.stirlingpdf.inactiveTimeout=300"
-      - "lazytainer.group.stirlingpdf.sleepMethod=pause"
+      - "lazytainer.group.stirlingpdf.inactiveTimeout=900"
+      - "lazytainer.group.stirlingpdf.sleepMethod=stop"
       - "com.centurylinklabs.watchtower.enable=true"
     security_opt:
       - label=type:spc_t
