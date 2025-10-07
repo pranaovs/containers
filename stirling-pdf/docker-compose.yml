@@ -43,5 +43,4 @@ networks:
   internal_net:
     driver: bridge
   stirling_net:
-    name: stirling_net
     external: true
