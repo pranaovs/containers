@@ -3,6 +3,10 @@ services:
     image: vaultwarden/server:latest
     container_name: vaultwarden
     restart: always
+    ports:
+      - "30087:80"
+    expose:
+      - "80"
     volumes:
       - ./vw-data/:/data/
     environment:
