@@ -6,12 +6,18 @@ services:
     volumes:
       - ./vw-data/:/data/
     environment:
-      DOMAIN: "https://bitwarden.deepanalve.com"
+      DOMAIN: "https://vaultwarden.pranaovs.me"
       SIGNUPS_ALLOWED: false
+    env_file:
+      - .env
+    networks:
+      - internal_net
+      - vaultwarden_net
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
 
 networks:
-  default:
-    name: caddy_net
+  internal_net:
+    driver: bridge
+  vaultwarden_net:
     external: true

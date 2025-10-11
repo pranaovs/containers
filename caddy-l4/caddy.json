@@ -12,8 +12,8 @@
                 {
                   "tls": {
                     "sni": [
-                      "vaultwarden.deepanalve.dev",
-                      "bitwarden.deepanalve.dev",
+                      "vaultwarden.pranaovs.me",
+                      "bitwarden.pranaovs.me",
                       "headscale.pranaovs.me",
                       "photos.pranaovs.me",
                       "immich.pranaovs.me",
@@ -66,8 +66,8 @@
               "match": [
                 {
                   "host": [
-                    "vaultwarden.deepanalve.dev",
-                    "bitwarden.deepanalve.dev"
+                    "vaultwarden.pranaovs.me",
+                    "bitwarden.pranaovs.me"
                   ]
                 }
               ],
@@ -187,8 +187,8 @@
         "policies": [
           {
             "subjects": [
-              "vaultwarden.deepanalve.dev",
-              "bitwarden.deepanalve.dev",
+              "vaultwarden.pranaovs.me",
+              "bitwarden.pranaovs.me",
               "headscale.pranaovs.me",
               "photos.pranaovs.me",
               "immich.pranaovs.me",

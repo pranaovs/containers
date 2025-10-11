@@ -19,6 +19,7 @@ services:
       - fmd_net
       - stirling_net
       - shadowsocks_net
+      - vaultwarden_net
     restart: always
 
 networks:
@@ -33,6 +34,8 @@ networks:
   stirling_net:
     external: true
   shadowsocks_net:
+    external: true
+  vaultwarden_net:
     external: true
 
 volumes:
