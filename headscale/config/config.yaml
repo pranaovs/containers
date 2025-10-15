@@ -310,14 +310,6 @@ dns:
   # so far only A and AAAA records are supported (on the tailscale side)
   # See: docs/ref/dns.md
   extra_records:
-    [
-      { name: "headscale.pranaovs.me", type: "A", value: "46.62.204.87" },
-      {
-        name: "headscale.pranaovs.me",
-        type: "AAAA",
-        value: "2a01:4f9:c013:dfce::1",
-      },
-    ]
   #   - name: "grafana.myvpn.example.com"
   #     type: "A"
   #     value: "100.64.0.3"
