@@ -71,18 +71,6 @@
         "personal",
         "root"
       ]
-    },
-    {
-      "action": "accept",
-      "src": [
-        "parzival@"
-      ],
-      "dst": [
-        "tag:server"
-      ],
-      "users": [
-        "parzival"
-      ]
     }
   ]
 }
