@@ -24,7 +24,8 @@
       ],
       "dst": [
         "personal@:*",
-        "tag:server:*"
+        "tag:server:*",
+        "alt@:*"
       ]
     },
     {
