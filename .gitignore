@@ -9,5 +9,8 @@
 !.gitignore
 !*/.gitignore
 
+# Un-ignore archived
+!/archived/*
+
 # Ignore repo
 minecraft-server-docker/

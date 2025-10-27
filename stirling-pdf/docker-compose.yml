@@ -22,25 +22,29 @@ services:
       VERBOSE: false
     ports:
       - "30085:8080"
-    expose:
-      - "8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+    security_opt:
+      - label=type:spc_t
     labels:
+      # Lazytainer
       - "lazytainer.group.stirlingpdf.ports=8080"
       - "lazytainer.group.stirlingpdf.minPacketThreshold=2"
       - "lazytainer.group.stirlingpdf.inactiveTimeout=900"
       - "lazytainer.group.stirlingpdf.sleepMethod=stop"
+      # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
-    security_opt:
-      - label=type:spc_t
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.routers.pdftools.rule=Host(`pdftools.pranaovs.me`) || Host(`pdf.pranaovs.me`) || Host(`stirling.pranaovs.me`)"
+      - "traefik.http.services.pdftools.loadbalancer.server.port=8080"
+      - "traefik.http.routers.pdftools.entrypoints=websecure"
+      - "traefik.http.routers.pdftools.tls=true"
+      - "traefik.http.routers.pdftools.tls.certresolver=le"
     networks:
-      - internal_net
-      - stirling_net
+      - traefik_net
     restart: always
 
 networks:
-  internal_net:
-    driver: bridge
-  stirling_net:
+  traefik_net:
     external: true

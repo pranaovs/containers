@@ -1,0 +1,24 @@
+services:
+  caddy_l4:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: caddy_l4
+    command: ["caddy", "run", "--config", "/etc/caddy/caddy.json"]
+    ports:
+      - "80:80"
+      - "443:443/tcp"
+    volumes:
+      - ./caddy.json:/etc/caddy/caddy.json:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    restart: unless-stopped
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  default:
+    name: caddy_net
+    external: true
