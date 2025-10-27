@@ -11,8 +11,8 @@ services:
       - vaultwarden_net
     ports:
       - 80:80 # HTTP entryPoints
-      - 443:443 # HTTPS entryPoints
-      - 8080:8080 # Dashbaord WebGui
+      - 443:443/tcp # HTTPS entryPoints
+      - 30800:8080 # Dashboard WebGui
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro # Docker socket
       - ./traefik.yml:/traefik.yml:ro
