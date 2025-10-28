@@ -8,7 +8,6 @@ services:
       - label=type:spc_t
     environment:
       - TZ=Asia/Kolkata
-      - vaultwarden_net
     ports:
       - 80:80 # HTTP entryPoints
       - 443:443/tcp # HTTPS entryPoints
