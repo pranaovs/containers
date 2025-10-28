@@ -26,6 +26,7 @@ certificatesResolvers:
   le:
     acme:
       email: agfqytxahsmg@use.startmail.com
+      storage: /letsencrypt/acme.json
       httpChallenge:
         entryPoint: web
       tlsChallenge: {}

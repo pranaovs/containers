@@ -16,13 +16,10 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro # Docker socket
       - ./traefik.yml:/traefik.yml:ro
       - letsencrypt:/letsencrypt
-      - traefik:/certs
     networks:
       - traefik_net
 
 volumes:
-  traefik:
-    name: traefik
   letsencrypt:
     name: letsencrypt
 
