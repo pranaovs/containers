@@ -1,0 +1,8 @@
+[auth]
+type = htpasswd
+
+[rights]
+type = authenticated
+
+[logging]
+level = info
