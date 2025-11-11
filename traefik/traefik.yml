@@ -19,8 +19,8 @@ serversTransport:
 
 providers:
   docker:
-    endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
+    endpoint: "unix:///var/run/docker.sock"
 
 certificatesResolvers:
   le:
@@ -29,3 +29,13 @@ certificatesResolvers:
       storage: /letsencrypt/acme.json
       httpChallenge:
         entryPoint: web
+
+log:
+  level: INFO # can be DEBUG, INFO, WARN, ERROR
+  format: common # or json
+  filePath: "" # empty means stdout
+
+accessLog:
+  format: common # or json
+  bufferingSize: 0 # disable buffering, send directly to stdout
+
