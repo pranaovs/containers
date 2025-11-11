@@ -39,8 +39,8 @@ services:
       - "traefik.http.routers.immich.tls=true"
       - "traefik.http.routers.immich.tls.certresolver=le"
     networks:
-      - default
       - traefik_net
+      - default
 
   immich-machine-learning:
     container_name: immich_machine_learning
