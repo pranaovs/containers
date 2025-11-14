@@ -34,13 +34,14 @@ services:
       # Traefik
       - "traefik.enable=true"
       - "traefik.http.routers.immich.rule=Host(`immich.pranaovs.me`) || Host(`photos.pranaovs.me`)"
+      - "traefik.docker.network=traefik_net"
       - "traefik.http.services.immich.loadbalancer.server.port=2283"
       - "traefik.http.routers.immich.entrypoints=websecure"
       - "traefik.http.routers.immich.tls=true"
       - "traefik.http.routers.immich.tls.certresolver=le"
     networks:
-      - traefik_net
       - default
+      - traefik_net
 
   immich-machine-learning:
     container_name: immich_machine_learning
