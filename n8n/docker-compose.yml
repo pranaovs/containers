@@ -7,13 +7,23 @@ services:
     environment:
       - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
       - N8N_PORT=5678
+      # For tailscale access
       - N8N_SECURE_COOKIE=false
       - N8N_RUNNERS_ENABLED=true
       - NODE_ENV=production
       - TZ=Asia/Kolkata
+      # Reverse proxy trusts
       - GENERIC_TIMEZONE=Asia/Kolkata
+      - N8N_AUTH_TRUST_PROXY=true
+      # Set hostnames
+      - N8N_TRUSTED_PROXIES=0.0.0.0/0
+      - N8N_HOST=n8n.pranavs.me
+      - N8N_PROTOCOL=https
+      - WEBHOOK_URL=https://n8n.pranaovs.me/
+      - N8N_PROXY_HOPS=1
+    env_file: ".env"
     volumes:
-      - ./n8n_data:/home/node/.n8n
+      - ./n8n_data:/root/.n8n
     user: root
     labels:
       # Traefik
