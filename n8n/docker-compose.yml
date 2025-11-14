@@ -16,7 +16,7 @@ services:
     labels:
       # Traefik
       - "traefik.enable=true"
-      - "traefik.http.routers.n8n.rule=Host(`n8n.pranaovs.me`)"
+      - "traefik.http.routers.n8n.rule=Host(`n8n.pranaovs.me`) || Host(`n8n.deepanalve.dev`)"
       - "traefik.http.services.n8n.loadbalancer.server.port=5678"
       - "traefik.http.routers.n8n.entrypoints=websecure"
       - "traefik.http.routers.n8n.tls=true"
