@@ -15,8 +15,8 @@ services:
       WAKAPI_WARM_CACHES: false
       WAKAPI_INSECURE_COOKIES: true
       WAKAPI_ALLOW_SIGNUP: false
-      WAKAPI_MAIL_ENABLED: false
       WAKAPI_DISABLE_FRONTPAGE: true
+    env_file: ".env"
 
     labels:
       com.centurylinklabs.watchtower.enable: "true"
