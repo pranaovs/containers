@@ -19,6 +19,9 @@ services:
       - "traefik.http.routers.fmd.entrypoints=websecure"
       - "traefik.http.routers.fmd.tls=true"
       - "traefik.http.routers.fmd.tls.certresolver=le"
+      # AutoKuma (uptime-kuma)
+      - "kuma.fmd.http.name=FMD"
+      - "kuma.fmd.http.url=https://fmd.pranaovs.me"
     networks:
       - traefik_net
 

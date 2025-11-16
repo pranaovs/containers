@@ -23,6 +23,9 @@ services:
       - "traefik.http.routers.vaultwarden.entrypoints=websecure"
       - "traefik.http.routers.vaultwarden.tls=true"
       - "traefik.http.routers.vaultwarden.tls.certresolver=le"
+      # AutoKuma (uptime-kuma)
+      - "kuma.vaultwarden.http.name=Vaultwarden"
+      - "kuma.vaultwarden.http.url=https://vaultwarden.pranaovs.me"
     networks:
       - traefik_net
 

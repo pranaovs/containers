@@ -15,6 +15,9 @@ services:
       - "traefik.http.routers.bentopdf.entrypoints=websecure"
       - "traefik.http.routers.bentopdf.tls=true"
       - "traefik.http.routers.bentopdf.tls.certresolver=le"
+      # AutoKuma (uptime-kuma)
+      - "kuma.bentopdf.http.name=BentoPDF"
+      - "kuma.bentopdf.http.url=https://pdftools.pranaovs.me"
     networks:
       - traefik_net
 

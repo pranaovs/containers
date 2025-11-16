@@ -39,6 +39,9 @@ services:
       - "traefik.http.routers.immich.entrypoints=websecure"
       - "traefik.http.routers.immich.tls=true"
       - "traefik.http.routers.immich.tls.certresolver=le"
+      # AutoKuma (uptime-kuma)
+      - "kuma.immich.http.name=Immich"
+      - "kuma.immich.http.url=https://immich.pranaovs.me"
     networks:
       - default
       - traefik_net

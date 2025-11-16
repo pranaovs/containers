@@ -18,6 +18,9 @@ services:
       - "traefik.http.routers.headscale.entrypoints=websecure"
       - "traefik.http.routers.headscale.tls=true"
       - "traefik.http.routers.headscale.tls.certresolver=le"
+      # AutoKuma (uptime-kuma)
+      - "kuma.headscale.http.name=Headscale"
+      - "kuma.headscale.http.url=https://headscale.pranaovs.me"
     networks:
       - traefik_net
 
