@@ -9,7 +9,7 @@ services:
       - label=type:spc_t
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./data:/app/data
+      - ./data/uptime_kuma:/app/data
     labels:
       # Traefik
       - "traefik.enable=true"
@@ -37,7 +37,7 @@ services:
 
   autokuma:
     image: ghcr.io/bigboot/autokuma:latest
-    restart: unless-stopped
+    restart: always
     environment:
       AUTOKUMA__KUMA__URL: http://uptime_kuma:3001
     env_file: ".env"
@@ -45,7 +45,7 @@ services:
       - label=type:spc_t
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./data:/data
+      - ./data/autokuma:/data
     labels:
       # AutoKuma docker setup
       - "kuma.local.docker_host.name=Docker socket"
