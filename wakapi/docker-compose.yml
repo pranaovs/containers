@@ -37,7 +37,7 @@ services:
       - "kuma.wakapi_http_2.http.name=Wakapi #2"
       - "kuma.wakapi_http_2.http.url=https://wakatime.pranaovs.me"
       - "kuma.wakapi_http_2.http.parent_name=wakapi_grp"
-      - "kuma.wakapi_container.docker.name=wakapi (container)"
+      - "kuma.wakapi_container.docker.name=wakapi"
       - "kuma.wakapi_container.docker.docker_container=wakapi-wakapi-1"
       - "kuma.wakapi_container.docker.docker_host_name=local"
       - "kuma.wakapi_container.docker.parent_name=wakapi_grp"
@@ -56,7 +56,7 @@ services:
       - ./data:/var/lib/postgresql/data
     labels:
       # AutoKuma (uptime-kuma)
-      - "kuma.wakapi_db_container.docker.name=wakapi_db (container)"
+      - "kuma.wakapi_db_container.docker.name=wakapi_db"
       - "kuma.wakapi_db_container.docker.docker_container=wakapi-db-1"
       - "kuma.wakapi_db_container.docker.docker_host_name=local"
       - "kuma.wakapi_db_container.docker.parent_name=wakapi_grp"

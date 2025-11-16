@@ -24,7 +24,7 @@ services:
       - "kuma.fmd_http.http.name=FMD #1"
       - "kuma.fmd_http.http.url=https://fmd.pranaovs.me"
       - "kuma.fmd_http.http.parent_name=fmd_grp"
-      - "kuma.fmd_container.docker.name=fmd (container)"
+      - "kuma.fmd_container.docker.name=fmd"
       - "kuma.fmd_container.docker.docker_container=fmd"
       - "kuma.fmd_container.docker.docker_host_name=local"
       - "kuma.fmd_container.docker.parent_name=fmd_grp"

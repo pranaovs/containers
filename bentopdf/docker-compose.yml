@@ -26,7 +26,7 @@ services:
       - "kuma.bentopdf_http_3.http.name=BentoPDF #3"
       - "kuma.bentopdf_http_3.http.url=https://bentopdf.pranaovs.me"
       - "kuma.bentopdf_http_3.http.parent_name=bentopdf_grp"
-      - "kuma.bentopdf_container.docker.name=Bentopdf (container)"
+      - "kuma.bentopdf_container.docker.name=bentopdf"
       - "kuma.bentopdf_container.docker.docker_container=bentopdf"
       - "kuma.bentopdf_container.docker.docker_host_name=local"
       - "kuma.bentopdf_container.docker.parent_name=bentopdf_grp"
