@@ -1,0 +1,23 @@
+services:
+  bentopdf:
+    image: bentopdf/bentopdf-simple:latest
+    container_name: bentopdf
+    ports:
+      - "30085:8080"
+    restart: always
+    labels:
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.routers.bentopdf.rule=Host(`pdftools.pranaovs.me`) || Host(`pdf.pranaovs.me`) || Host(`bentopdf.pranaovs.me`)"
+      - "traefik.http.services.bentopdf.loadbalancer.server.port=8080"
+      - "traefik.http.routers.bentopdf.entrypoints=websecure"
+      - "traefik.http.routers.bentopdf.tls=true"
+      - "traefik.http.routers.bentopdf.tls.certresolver=le"
+    networks:
+      - traefik_net
+
+networks:
+  traefik_net:
+    external: true
