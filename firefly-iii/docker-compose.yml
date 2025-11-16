@@ -14,7 +14,7 @@ services:
     labels:
       # AutoKuma (uptime-kuma)
       - "kuma.firefly_grp.group.name=Firefly III"
-      - "kuma.firefly_container.docker.name=Firefly III App"
+      - "kuma.firefly_container.docker.name=Firefly III Container"
       - "kuma.firefly_container.docker.docker_container=firefly_iii"
       - "kuma.firefly_container.docker.docker_host_name=local"
       - "kuma.firefly_container.docker.parent_name=firefly_grp"
@@ -28,7 +28,7 @@ services:
       - ./data/db:/var/lib/mysql
     labels:
       # AutoKuma (uptime-kuma)
-      - "kuma.firefly_db_container.docker.name=Firefly III Database"
+      - "kuma.firefly_db_container.docker.name=Firefly III Database Container"
       - "kuma.firefly_db_container.docker.docker_container=firefly_iii_db"
       - "kuma.firefly_db_container.docker.docker_host_name=local"
       - "kuma.firefly_db_container.docker.parent_name=firefly_grp"
@@ -51,7 +51,7 @@ services:
       - app
     labels:
       # AutoKuma (uptime-kuma)
-      - "kuma.firefly_cron_container.docker.name=Firefly III Cron"
+      - "kuma.firefly_cron_container.docker.name=Firefly III Cron Container"
       - "kuma.firefly_cron_container.docker.docker_container=firefly_iii_cron"
       - "kuma.firefly_cron_container.docker.docker_host_name=local"
       - "kuma.firefly_cron_container.docker.parent_name=firefly_grp"
