@@ -33,6 +33,18 @@ services:
       - "traefik.http.routers.n8n.entrypoints=websecure"
       - "traefik.http.routers.n8n.tls=true"
       - "traefik.http.routers.n8n.tls.certresolver=le"
+      # AutoKuma (uptime-kuma)
+      - "kuma.n8n_grp.group.name=n8n"
+      - "kuma.n8n_http_1.http.name=n8n HTTP #1"
+      - "kuma.n8n_http_1.http.url=https://n8n.pranaovs.me"
+      - "kuma.n8n_http_1.http.parent_name=n8n_grp"
+      - "kuma.n8n_http_2.http.name=n8n HTTP #2"
+      - "kuma.n8n_http_2.http.url=https://n8n.deepanalve.dev"
+      - "kuma.n8n_http_2.http.parent_name=n8n_grp"
+      - "kuma.n8n_container.docker.name=n8n Container"
+      - "kuma.n8n_container.docker.docker_container=n8n-n8n-1"
+      - "kuma.n8n_container.docker.docker_host_name=local"
+      - "kuma.n8n_container.docker.parent_name=n8n_grp"
     networks:
       - traefik_net
 

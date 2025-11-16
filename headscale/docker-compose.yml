@@ -18,6 +18,15 @@ services:
       - "traefik.http.routers.headscale.entrypoints=websecure"
       - "traefik.http.routers.headscale.tls=true"
       - "traefik.http.routers.headscale.tls.certresolver=le"
+      # AutoKuma (uptime-kuma)
+      - "kuma.headscale_grp.group.name=Headscale"
+      - "kuma.headscale_http.http.name=Headscale HTTP"
+      - "kuma.headscale_http.http.url=https://headscale.pranaovs.me/health"
+      - "kuma.headscale_http.http.parent_name=headscale_grp"
+      - "kuma.headscale_container.docker.name=Headscale Container"
+      - "kuma.headscale_container.docker.docker_container=headscale"
+      - "kuma.headscale_container.docker.docker_host_name=local"
+      - "kuma.headscale_container.docker.parent_name=headscale_grp"
     networks:
       - traefik_net
 

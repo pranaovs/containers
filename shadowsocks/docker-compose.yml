@@ -23,6 +23,12 @@ services:
       - "traefik.tcp.routers.shadowsocks.entrypoints=websecure"
       - "traefik.tcp.services.shadowsocks.loadbalancer.server.port=443"
       - "traefik.tcp.routers.shadowsocks.priority=1" # Lowest priority
+      # AutoKuma (uptime-kuma)
+      # - "kuma.shadowsocks_grp.group.name=Shadowsocks"
+      - "kuma.shadowsocks_container.docker.name=Shadowsocks"
+      - "kuma.shadowsocks_container.docker.docker_container=shadowsocks"
+      - "kuma.shadowsocks_container.docker.docker_host_name=local"
+      # - "kuma.shadowsocks_container.docker.parent_name=shadowsocks_grp"
     networks:
       - traefik_net
 

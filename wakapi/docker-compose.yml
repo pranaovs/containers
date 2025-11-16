@@ -30,8 +30,17 @@ services:
       - "traefik.http.routers.wakapi.tls=true"
       - "traefik.http.routers.wakapi.tls.certresolver=le"
       # AutoKuma (uptime-kuma)
-      - "kuma.wakapi.http.name=Wakapi"
-      - "kuma.wakapi.http.url=https://wakapi.pranaovs.me"
+      - "kuma.wakapi_grp.group.name=Wakapi"
+      - "kuma.wakapi_http_1.http.name=Wakapi HTTP #1"
+      - "kuma.wakapi_http_1.http.url=https://wakapi.pranaovs.me"
+      - "kuma.wakapi_http_1.http.parent_name=wakapi_grp"
+      - "kuma.wakapi_http_2.http.name=Wakapi HTTP #2"
+      - "kuma.wakapi_http_2.http.url=https://wakatime.pranaovs.me"
+      - "kuma.wakapi_http_2.http.parent_name=wakapi_grp"
+      - "kuma.wakapi_container.docker.name=Wakapi Container"
+      - "kuma.wakapi_container.docker.docker_container=wakapi-wakapi-1"
+      - "kuma.wakapi_container.docker.docker_host_name=local"
+      - "kuma.wakapi_container.docker.parent_name=wakapi_grp"
     networks:
       - default
       - traefik_net
@@ -45,6 +54,12 @@ services:
       POSTGRES_PASSWORD: ${WAKAPI_DB_PASSWORD}
     volumes:
       - ./data:/var/lib/postgresql/data
+    labels:
+      # AutoKuma (uptime-kuma)
+      - "kuma.wakapi_db_container.docker.name=Wakapi Database"
+      - "kuma.wakapi_db_container.docker.docker_container=wakapi-db-1"
+      - "kuma.wakapi_db_container.docker.docker_host_name=local"
+      - "kuma.wakapi_db_container.docker.parent_name=wakapi_grp"
 
 networks:
   traefik_net:

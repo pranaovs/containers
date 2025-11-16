@@ -6,7 +6,13 @@ services:
     ports:
       - "30082:8001"
     labels:
-      com.centurylinklabs.watchtower.enable: "true"
+      - "com.centurylinklabs.watchtower.enable=true"
+      # AutoKuma (uptime-kuma)
+      # - "kuma.archiveteam_grp.group.name=Archive Team Warrior"
+      - "kuma.archiveteam_container.docker.name=Archive Team Warrior"
+      - "kuma.archiveteam_container.docker.docker_container=archiveTeamWarrior"
+      - "kuma.archiveteam_container.docker.docker_host_name=local"
+      # - "kuma.archiveteam_container.docker.parent_name=archiveteam_grp"
     restart: unless-stopped
     volumes:
       - "./config.json:/home/warrior/projects/config.json"
