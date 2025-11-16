@@ -31,10 +31,10 @@ services:
       - "traefik.http.routers.wakapi.tls.certresolver=le"
       # AutoKuma (uptime-kuma)
       - "kuma.wakapi_grp.group.name=Wakapi"
-      - "kuma.wakapi_http_1.http.name=Wakapi HTTP #1"
+      - "kuma.wakapi_http_1.http.name=Wakapi (wakapi.pranaovs.me)"
       - "kuma.wakapi_http_1.http.url=https://wakapi.pranaovs.me"
       - "kuma.wakapi_http_1.http.parent_name=wakapi_grp"
-      - "kuma.wakapi_http_2.http.name=Wakapi HTTP #2"
+      - "kuma.wakapi_http_2.http.name=Wakapi (wakatime.pranaovs.me)"
       - "kuma.wakapi_http_2.http.url=https://wakatime.pranaovs.me"
       - "kuma.wakapi_http_2.http.parent_name=wakapi_grp"
       - "kuma.wakapi_container.docker.name=Wakapi Container"

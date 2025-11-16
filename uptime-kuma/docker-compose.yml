@@ -21,10 +21,10 @@ services:
       - "traefik.http.routers.uptime_kuma.tls.certresolver=le"
       # AutoKuma (uptime-kuma)
       - "kuma.uptime_kuma_grp.group.name=Uptime Kuma"
-      - "kuma.uptime_kuma_http_1.http.name=Uptime Kuma HTTP #1"
+      - "kuma.uptime_kuma_http_1.http.name=Uptime Kuma (status.pranaovs.me)"
       - "kuma.uptime_kuma_http_1.http.url=https://status.pranaovs.me"
       - "kuma.uptime_kuma_http_1.http.parent_name=uptime_kuma_grp"
-      - "kuma.uptime_kuma_http_2.http.name=Uptime Kuma HTTP #2"
+      - "kuma.uptime_kuma_http_2.http.name=Uptime Kuma (uptime.pranaovs.me)"
       - "kuma.uptime_kuma_http_2.http.url=https://uptime.pranaovs.me"
       - "kuma.uptime_kuma_http_2.http.parent_name=uptime_kuma_grp"
       - "kuma.uptime_kuma_container.docker.name=Uptime Kuma Container"

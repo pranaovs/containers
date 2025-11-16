@@ -41,10 +41,10 @@ services:
       - "traefik.http.routers.immich.tls.certresolver=le"
       # AutoKuma (uptime-kuma)
       - "kuma.immich_grp.group.name=Immich"
-      - "kuma.immich_http_1.http.name=Immich HTTP #1"
+      - "kuma.immich_http_1.http.name=Immich (immich.pranaovs.me)"
       - "kuma.immich_http_1.http.url=https://immich.pranaovs.me"
       - "kuma.immich_http_1.http.parent_name=immich_grp"
-      - "kuma.immich_http_2.http.name=Immich HTTP #2"
+      - "kuma.immich_http_2.http.name=Immich (photos.pranaovs.me)"
       - "kuma.immich_http_2.http.url=https://photos.pranaovs.me"
       - "kuma.immich_http_2.http.parent_name=immich_grp"
       - "kuma.immich_server_container.docker.name=Immich Server"
