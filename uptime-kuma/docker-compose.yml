@@ -53,7 +53,7 @@ services:
       - "kuma.local.docker_host.path=/var/run/docker.sock"
       # AutoKuma (uptime-kuma)
       - "kuma.autokuma_container.docker.name=AutoKuma Container"
-      - "kuma.autokuma_container.docker.docker_container=autokuma"
+      - "kuma.autokuma_container.docker.docker_container=uptime-kuma-autokuma-1"
       - "kuma.autokuma_container.docker.docker_host_name=local"
       - "kuma.autokuma_container.docker.parent_name=uptime_kuma_grp"
 
