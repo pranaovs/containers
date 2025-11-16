@@ -8,3 +8,10 @@ services:
       - ./config:/etc/radicale:ro
       - ./data:/var/lib/radicale
     restart: always
+    labels:
+      # AutoKuma (uptime-kuma)
+      - "kuma.radicale.group.name=Radicale"
+      - "kuma.radicale.docker.name=radicale (container)"
+      - "kuma.radicale.docker.docker_container=radicale-radicale-1"
+      - "kuma.radicale.docker.docker_host_name=local"
+      - "kuma.radicale.docker.parent_name=radicale.group"

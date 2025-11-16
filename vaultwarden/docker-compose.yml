@@ -24,8 +24,20 @@ services:
       - "traefik.http.routers.vaultwarden.tls=true"
       - "traefik.http.routers.vaultwarden.tls.certresolver=le"
       # AutoKuma (uptime-kuma)
-      - "kuma.vaultwarden.http.name=Vaultwarden"
-      - "kuma.vaultwarden.http.url=https://vaultwarden.pranaovs.me"
+      - "kuma.vaultwarden.group.name=Vaultwarden"
+      - "kuma.vaultwarden.http.0.name=Vaultwarden (vaultwarden.pranaovs.me)"
+      - "kuma.vaultwarden.http.0.url=https://vaultwarden.pranaovs.me"
+      - "kuma.vaultwarden.http.0.parent_name=vaultwarden.group"
+      - "kuma.vaultwarden.http.1.name=Vaultwarden (bitwarden.pranaovs.me)"
+      - "kuma.vaultwarden.http.1.url=https://bitwarden.pranaovs.me"
+      - "kuma.vaultwarden.http.1.parent_name=vaultwarden.group"
+      - "kuma.vaultwarden.http.2.name=Vaultwarden (passwords.pranaovs.me)"
+      - "kuma.vaultwarden.http.2.url=https://passwords.pranaovs.me"
+      - "kuma.vaultwarden.http.2.parent_name=vaultwarden.group"
+      - "kuma.vaultwarden.docker.name=vaultwarden (container)"
+      - "kuma.vaultwarden.docker.docker_container=vaultwarden"
+      - "kuma.vaultwarden.docker.docker_host_name=local"
+      - "kuma.vaultwarden.docker.parent_name=vaultwarden.group"
     networks:
       - traefik_net
 
