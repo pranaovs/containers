@@ -29,6 +29,9 @@ services:
       - "traefik.http.routers.wakapi.entrypoints=websecure"
       - "traefik.http.routers.wakapi.tls=true"
       - "traefik.http.routers.wakapi.tls.certresolver=le"
+      # AutoKuma (uptime-kuma)
+      - "kuma.wakapi.http.name=Wakapi"
+      - "kuma.wakapi.http.url=https://wakapi.pranaovs.me"
     networks:
       - default
       - traefik_net
