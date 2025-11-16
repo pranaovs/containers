@@ -20,9 +20,6 @@ services:
       - "traefik.http.routers.uptime_kuma.tls=true"
       - "traefik.http.routers.uptime_kuma.tls.certresolver=le"
       # AutoKuma (uptime-kuma)
-      - "kuma.local.docker_host.name=Docker socket"
-      - "kuma.local.docker_host.connection_type=socket"
-      - "kuma.local.docker_host.path=/var/run/docker.sock"
       - "kuma.uptime_kuma_grp.group.name=Uptime Kuma"
       - "kuma.uptime_kuma_http_1.http.name=Uptime Kuma HTTP #1"
       - "kuma.uptime_kuma_http_1.http.url=https://status.pranaovs.me"
@@ -50,6 +47,10 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./data:/data
     labels:
+      # AutoKuma docker setup
+      - "kuma.local.docker_host.name=Docker socket"
+      - "kuma.local.docker_host.connection_type=socket"
+      - "kuma.local.docker_host.path=/var/run/docker.sock"
       # AutoKuma (uptime-kuma)
       - "kuma.autokuma_container.docker.name=AutoKuma Container"
       - "kuma.autokuma_container.docker.docker_container=autokuma"

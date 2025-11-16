@@ -20,7 +20,7 @@ services:
       - "traefik.http.routers.headscale.tls.certresolver=le"
       # AutoKuma (uptime-kuma)
       - "kuma.headscale_grp.group.name=Headscale"
-      - "kuma.headscale_http.http.name=Headscale HTTP #1"
+      - "kuma.headscale_http.http.name=Headscale HTTP"
       - "kuma.headscale_http.http.url=https://headscale.pranaovs.me"
       - "kuma.headscale_http.http.parent_name=headscale_grp"
       - "kuma.headscale_container.docker.name=Headscale Container"
