@@ -13,11 +13,11 @@ services:
       - db
     labels:
       # AutoKuma (uptime-kuma)
-      - "kuma.firefly.group.name=Firefly III"
-      - "kuma.firefly.docker.name=firefly_iii (container)"
-      - "kuma.firefly.docker.docker_container=firefly_iii"
-      - "kuma.firefly.docker.docker_host_name=local"
-      - "kuma.firefly.docker.parent_name=firefly.group"
+      - "kuma.firefly_grp.group.name=Firefly III"
+      - "kuma.firefly_container.docker.name=firefly_iii (container)"
+      - "kuma.firefly_container.docker.docker_container=firefly_iii"
+      - "kuma.firefly_container.docker.docker_host_name=local"
+      - "kuma.firefly_container.docker.parent_name=firefly_grp"
   db:
     image: mariadb:lts
     hostname: db
@@ -28,10 +28,10 @@ services:
       - ./data/db:/var/lib/mysql
     labels:
       # AutoKuma (uptime-kuma)
-      - "kuma.firefly_db.docker.name=firefly_iii_db (container)"
-      - "kuma.firefly_db.docker.docker_container=firefly_iii_db"
-      - "kuma.firefly_db.docker.docker_host_name=local"
-      - "kuma.firefly_db.docker.parent_name=firefly.group"
+      - "kuma.firefly_db_container.docker.name=firefly_iii_db (container)"
+      - "kuma.firefly_db_container.docker.docker_container=firefly_iii_db"
+      - "kuma.firefly_db_container.docker.docker_host_name=local"
+      - "kuma.firefly_db_container.docker.parent_name=firefly_grp"
   cron:
     #
     # To make this work, set STATIC_CRON_TOKEN in your .env file or as an environment variable
@@ -51,7 +51,7 @@ services:
       - app
     labels:
       # AutoKuma (uptime-kuma)
-      - "kuma.firefly_cron.docker.name=firefly_iii_cron (container)"
-      - "kuma.firefly_cron.docker.docker_container=firefly_iii_cron"
-      - "kuma.firefly_cron.docker.docker_host_name=local"
-      - "kuma.firefly_cron.docker.parent_name=firefly.group"
+      - "kuma.firefly_cron_container.docker.name=firefly_iii_cron (container)"
+      - "kuma.firefly_cron_container.docker.docker_container=firefly_iii_cron"
+      - "kuma.firefly_cron_container.docker.docker_host_name=local"
+      - "kuma.firefly_cron_container.docker.parent_name=firefly_grp"

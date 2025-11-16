@@ -20,14 +20,14 @@ services:
       - "traefik.http.routers.fmd.tls=true"
       - "traefik.http.routers.fmd.tls.certresolver=le"
       # AutoKuma (uptime-kuma)
-      - "kuma.fmd.group.name=FMD"
-      - "kuma.fmd.http.name=FMD (fmd.pranaovs.me)"
-      - "kuma.fmd.http.url=https://fmd.pranaovs.me"
-      - "kuma.fmd.http.parent_name=fmd.group"
-      - "kuma.fmd.docker.name=fmd (container)"
-      - "kuma.fmd.docker.docker_container=fmd"
-      - "kuma.fmd.docker.docker_host_name=local"
-      - "kuma.fmd.docker.parent_name=fmd.group"
+      - "kuma.fmd_grp.group.name=FMD"
+      - "kuma.fmd_http.http.name=FMD (fmd.pranaovs.me)"
+      - "kuma.fmd_http.http.url=https://fmd.pranaovs.me"
+      - "kuma.fmd_http.http.parent_name=fmd_grp"
+      - "kuma.fmd_container.docker.name=fmd (container)"
+      - "kuma.fmd_container.docker.docker_container=fmd"
+      - "kuma.fmd_container.docker.docker_host_name=local"
+      - "kuma.fmd_container.docker.parent_name=fmd_grp"
     networks:
       - traefik_net
 

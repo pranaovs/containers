@@ -20,19 +20,19 @@ services:
       - "traefik.http.routers.uptime_kuma.tls=true"
       - "traefik.http.routers.uptime_kuma.tls.certresolver=le"
       # AutoKuma (uptime-kuma)
-      - "kuma.__docker_host__.local.connection_type=socket"
-      - "kuma.__docker_host__.local.path=/var/run/docker.sock"
-      - "kuma.uptime_kuma.group.name=Uptime Kuma"
-      - "kuma.uptime_kuma.http.0.name=Uptime Kuma (status.pranaovs.me)"
-      - "kuma.uptime_kuma.http.0.url=https://status.pranaovs.me"
-      - "kuma.uptime_kuma.http.0.parent_name=uptime_kuma.group"
-      - "kuma.uptime_kuma.http.1.name=Uptime Kuma (uptime.pranaovs.me)"
-      - "kuma.uptime_kuma.http.1.url=https://uptime.pranaovs.me"
-      - "kuma.uptime_kuma.http.1.parent_name=uptime_kuma.group"
-      - "kuma.uptime_kuma.docker.name=uptime_kuma (container)"
-      - "kuma.uptime_kuma.docker.docker_container=uptime_kuma"
-      - "kuma.uptime_kuma.docker.docker_host_name=local"
-      - "kuma.uptime_kuma.docker.parent_name=uptime_kuma.group"
+      - "kuma.__docker_host__.local.docker_host.connection_type=socket"
+      - "kuma.__docker_host__.local.docker_host.path=/var/run/docker.sock"
+      - "kuma.uptime_kuma_grp.group.name=Uptime Kuma"
+      - "kuma.uptime_kuma_http_1.http.name=Uptime Kuma (status.pranaovs.me)"
+      - "kuma.uptime_kuma_http_1.http.url=https://status.pranaovs.me"
+      - "kuma.uptime_kuma_http_1.http.parent_name=uptime_kuma_grp"
+      - "kuma.uptime_kuma_http_2.http.name=Uptime Kuma (uptime.pranaovs.me)"
+      - "kuma.uptime_kuma_http_2.http.url=https://uptime.pranaovs.me"
+      - "kuma.uptime_kuma_http_2.http.parent_name=uptime_kuma_grp"
+      - "kuma.uptime_kuma_container.docker.name=uptime_kuma (container)"
+      - "kuma.uptime_kuma_container.docker.docker_container=uptime_kuma"
+      - "kuma.uptime_kuma_container.docker.docker_host_name=local"
+      - "kuma.uptime_kuma_container.docker.parent_name=uptime_kuma_grp"
     networks:
       - default
       - traefik_net
@@ -50,10 +50,10 @@ services:
       - ./data:/data
     labels:
       # AutoKuma (uptime-kuma)
-      - "kuma.autokuma.docker.name=autokuma (container)"
-      - "kuma.autokuma.docker.docker_container=autokuma"
-      - "kuma.autokuma.docker.docker_host_name=local"
-      - "kuma.autokuma.docker.parent_name=uptime_kuma.group"
+      - "kuma.autokuma_container.docker.name=autokuma (container)"
+      - "kuma.autokuma_container.docker.docker_container=autokuma"
+      - "kuma.autokuma_container.docker.docker_host_name=local"
+      - "kuma.autokuma_container.docker.parent_name=uptime_kuma_grp"
 
 networks:
   traefik_net:

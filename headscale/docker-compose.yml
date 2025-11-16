@@ -19,14 +19,14 @@ services:
       - "traefik.http.routers.headscale.tls=true"
       - "traefik.http.routers.headscale.tls.certresolver=le"
       # AutoKuma (uptime-kuma)
-      - "kuma.headscale.group.name=Headscale"
-      - "kuma.headscale.http.name=Headscale (headscale.pranaovs.me)"
-      - "kuma.headscale.http.url=https://headscale.pranaovs.me"
-      - "kuma.headscale.http.parent_name=headscale.group"
-      - "kuma.headscale.docker.name=headscale (container)"
-      - "kuma.headscale.docker.docker_container=headscale"
-      - "kuma.headscale.docker.docker_host_name=local"
-      - "kuma.headscale.docker.parent_name=headscale.group"
+      - "kuma.headscale_grp.group.name=Headscale"
+      - "kuma.headscale_http.http.name=Headscale (headscale.pranaovs.me)"
+      - "kuma.headscale_http.http.url=https://headscale.pranaovs.me"
+      - "kuma.headscale_http.http.parent_name=headscale_grp"
+      - "kuma.headscale_container.docker.name=headscale (container)"
+      - "kuma.headscale_container.docker.docker_container=headscale"
+      - "kuma.headscale_container.docker.docker_host_name=local"
+      - "kuma.headscale_container.docker.parent_name=headscale_grp"
     networks:
       - traefik_net
 

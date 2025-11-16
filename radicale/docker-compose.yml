@@ -10,8 +10,8 @@ services:
     restart: always
     labels:
       # AutoKuma (uptime-kuma)
-      - "kuma.radicale.group.name=Radicale"
-      - "kuma.radicale.docker.name=radicale (container)"
-      - "kuma.radicale.docker.docker_container=radicale-radicale-1"
-      - "kuma.radicale.docker.docker_host_name=local"
-      - "kuma.radicale.docker.parent_name=radicale.group"
+      - "kuma.radicale_grp.group.name=Radicale"
+      - "kuma.radicale_container.docker.name=radicale (container)"
+      - "kuma.radicale_container.docker.docker_container=radicale-radicale-1"
+      - "kuma.radicale_container.docker.docker_host_name=local"
+      - "kuma.radicale_container.docker.parent_name=radicale_grp"

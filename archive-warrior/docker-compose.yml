@@ -8,11 +8,11 @@ services:
     labels:
       com.centurylinklabs.watchtower.enable: "true"
       # AutoKuma (uptime-kuma)
-      - "kuma.archiveteam.group.name=Archive Team Warrior"
-      - "kuma.archiveteam.docker.name=archiveTeamWarrior (container)"
-      - "kuma.archiveteam.docker.docker_container=archiveTeamWarrior"
-      - "kuma.archiveteam.docker.docker_host_name=local"
-      - "kuma.archiveteam.docker.parent_name=archiveteam.group"
+      - "kuma.archiveteam_grp.group.name=Archive Team Warrior"
+      - "kuma.archiveteam_container.docker.name=archiveTeamWarrior (container)"
+      - "kuma.archiveteam_container.docker.docker_container=archiveTeamWarrior"
+      - "kuma.archiveteam_container.docker.docker_host_name=local"
+      - "kuma.archiveteam_container.docker.parent_name=archiveteam_grp"
     restart: unless-stopped
     volumes:
       - "./config.json:/home/warrior/projects/config.json"

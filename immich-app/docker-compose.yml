@@ -40,17 +40,17 @@ services:
       - "traefik.http.routers.immich.tls=true"
       - "traefik.http.routers.immich.tls.certresolver=le"
       # AutoKuma (uptime-kuma)
-      - "kuma.immich.group.name=Immich"
-      - "kuma.immich.http.0.name=Immich (immich.pranaovs.me)"
-      - "kuma.immich.http.0.url=https://immich.pranaovs.me"
-      - "kuma.immich.http.0.parent_name=immich.group"
-      - "kuma.immich.http.1.name=Immich (photos.pranaovs.me)"
-      - "kuma.immich.http.1.url=https://photos.pranaovs.me"
-      - "kuma.immich.http.1.parent_name=immich.group"
-      - "kuma.immich.docker.name=immich_server (container)"
-      - "kuma.immich.docker.docker_container=immich_server"
-      - "kuma.immich.docker.docker_host_name=local"
-      - "kuma.immich.docker.parent_name=immich.group"
+      - "kuma.immich_grp.group.name=Immich"
+      - "kuma.immich_http_1.http.name=Immich (immich.pranaovs.me)"
+      - "kuma.immich_http_1.http.url=https://immich.pranaovs.me"
+      - "kuma.immich_http_1.http.parent_name=immich_grp"
+      - "kuma.immich_http_2.http.name=Immich (photos.pranaovs.me)"
+      - "kuma.immich_http_2.http.url=https://photos.pranaovs.me"
+      - "kuma.immich_http_2.http.parent_name=immich_grp"
+      - "kuma.immich_server_container.docker.name=immich_server (container)"
+      - "kuma.immich_server_container.docker.docker_container=immich_server"
+      - "kuma.immich_server_container.docker.docker_host_name=local"
+      - "kuma.immich_server_container.docker.parent_name=immich_grp"
     networks:
       - default
       - traefik_net
@@ -72,10 +72,10 @@ services:
       disable: false
     labels:
       # AutoKuma (uptime-kuma)
-      - "kuma.immich_ml.docker.name=immich_machine_learning (container)"
-      - "kuma.immich_ml.docker.docker_container=immich_machine_learning"
-      - "kuma.immich_ml.docker.docker_host_name=local"
-      - "kuma.immich_ml.docker.parent_name=immich.group"
+      - "kuma.immich_ml_container.docker.name=immich_machine_learning (container)"
+      - "kuma.immich_ml_container.docker.docker_container=immich_machine_learning"
+      - "kuma.immich_ml_container.docker.docker_host_name=local"
+      - "kuma.immich_ml_container.docker.parent_name=immich_grp"
 
   redis:
     container_name: immich_redis
@@ -85,10 +85,10 @@ services:
     restart: always
     labels:
       # AutoKuma (uptime-kuma)
-      - "kuma.immich_redis.docker.name=immich_redis (container)"
-      - "kuma.immich_redis.docker.docker_container=immich_redis"
-      - "kuma.immich_redis.docker.docker_host_name=local"
-      - "kuma.immich_redis.docker.parent_name=immich.group"
+      - "kuma.immich_redis_container.docker.name=immich_redis (container)"
+      - "kuma.immich_redis_container.docker.docker_container=immich_redis"
+      - "kuma.immich_redis_container.docker.docker_host_name=local"
+      - "kuma.immich_redis_container.docker.parent_name=immich_grp"
 
   database:
     container_name: immich_postgres
@@ -107,10 +107,10 @@ services:
     restart: always
     labels:
       # AutoKuma (uptime-kuma)
-      - "kuma.immich_postgres.docker.name=immich_postgres (container)"
-      - "kuma.immich_postgres.docker.docker_container=immich_postgres"
-      - "kuma.immich_postgres.docker.docker_host_name=local"
-      - "kuma.immich_postgres.docker.parent_name=immich.group"
+      - "kuma.immich_postgres_container.docker.name=immich_postgres (container)"
+      - "kuma.immich_postgres_container.docker.docker_container=immich_postgres"
+      - "kuma.immich_postgres_container.docker.docker_host_name=local"
+      - "kuma.immich_postgres_container.docker.parent_name=immich_grp"
 
 volumes:
   model-cache:
