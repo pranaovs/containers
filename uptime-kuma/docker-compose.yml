@@ -20,6 +20,7 @@ services:
       - "traefik.http.routers.uptime_kuma.tls=true"
       - "traefik.http.routers.uptime_kuma.tls.certresolver=le"
       # AutoKuma (uptime-kuma)
+      - "kuma.local.docker_host.name=Docker socket"
       - "kuma.local.docker_host.connection_type=socket"
       - "kuma.local.docker_host.path=/var/run/docker.sock"
       - "kuma.uptime_kuma_grp.group.name=Uptime Kuma"
