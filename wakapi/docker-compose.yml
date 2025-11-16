@@ -5,6 +5,7 @@ services:
     ports:
       - "30084:3000"
     environment:
+      ENVIRONMENT: "prod"
       WAKAPI_DB_TYPE: "postgres"
       WAKAPI_DB_NAME: "wakapi"
       WAKAPI_DB_USER: "wakapi"
@@ -12,14 +13,25 @@ services:
       WAKAPI_PASSWORD_SALT: ${WAKAPI_PASSWORD_SALT}
       WAKAPI_DB_HOST: "db"
       WAKAPI_DB_PORT: "5432"
+      WAKAPI_PUBLIC_URL: "https://wakapi.pranaovs.me"
+      WAKAPI_LEADERBOARD_REQUIRE_AUTH: true
       WAKAPI_WARM_CACHES: false
       WAKAPI_INSECURE_COOKIES: true
       WAKAPI_ALLOW_SIGNUP: false
       WAKAPI_DISABLE_FRONTPAGE: true
     env_file: ".env"
-
     labels:
-      com.centurylinklabs.watchtower.enable: "true"
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.routers.wakapi.rule=Host(`wakapi.pranaovs.me`) || Host(`wakatime.pranaovs.me`)"
+      - "traefik.docker.network=traefik_net"
+      - "traefik.http.services.wakapi.loadbalancer.server.port=3000"
+      - "traefik.http.routers.wakapi.entrypoints=websecure"
+      - "traefik.http.routers.wakapi.tls=true"
+      - "traefik.http.routers.wakapi.tls.certresolver=le"
+    networks:
+      - default
+      - traefik_net
 
   db:
     image: postgres:17
@@ -30,3 +42,7 @@ services:
       POSTGRES_PASSWORD: ${WAKAPI_DB_PASSWORD}
     volumes:
       - ./data:/var/lib/postgresql/data
+
+networks:
+  traefik_net:
+    external: true
