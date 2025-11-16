@@ -23,7 +23,7 @@ services:
       - "kuma.headscale_http.http.name=Headscale #1"
       - "kuma.headscale_http.http.url=https://headscale.pranaovs.me"
       - "kuma.headscale_http.http.parent_name=headscale_grp"
-      - "kuma.headscale_container.docker.name=headscale"
+      - "kuma.headscale_container.docker.name=Headscale Container"
       - "kuma.headscale_container.docker.docker_container=headscale"
       - "kuma.headscale_container.docker.docker_host_name=local"
       - "kuma.headscale_container.docker.parent_name=headscale_grp"

@@ -47,7 +47,7 @@ services:
       - "kuma.immich_http_2.http.name=Immich #2"
       - "kuma.immich_http_2.http.url=https://photos.pranaovs.me"
       - "kuma.immich_http_2.http.parent_name=immich_grp"
-      - "kuma.immich_server_container.docker.name=immich_server"
+      - "kuma.immich_server_container.docker.name=Immich Server"
       - "kuma.immich_server_container.docker.docker_container=immich_server"
       - "kuma.immich_server_container.docker.docker_host_name=local"
       - "kuma.immich_server_container.docker.parent_name=immich_grp"
@@ -72,7 +72,7 @@ services:
       disable: false
     labels:
       # AutoKuma (uptime-kuma)
-      - "kuma.immich_ml_container.docker.name=immich_machine_learning"
+      - "kuma.immich_ml_container.docker.name=Immich Machine Learning"
       - "kuma.immich_ml_container.docker.docker_container=immich_machine_learning"
       - "kuma.immich_ml_container.docker.docker_host_name=local"
       - "kuma.immich_ml_container.docker.parent_name=immich_grp"
@@ -85,7 +85,7 @@ services:
     restart: always
     labels:
       # AutoKuma (uptime-kuma)
-      - "kuma.immich_redis_container.docker.name=immich_redis"
+      - "kuma.immich_redis_container.docker.name=Immich Redis"
       - "kuma.immich_redis_container.docker.docker_container=immich_redis"
       - "kuma.immich_redis_container.docker.docker_host_name=local"
       - "kuma.immich_redis_container.docker.parent_name=immich_grp"
@@ -107,7 +107,7 @@ services:
     restart: always
     labels:
       # AutoKuma (uptime-kuma)
-      - "kuma.immich_postgres_container.docker.name=immich_postgres"
+      - "kuma.immich_postgres_container.docker.name=Immich Postgres"
       - "kuma.immich_postgres_container.docker.docker_container=immich_postgres"
       - "kuma.immich_postgres_container.docker.docker_host_name=local"
       - "kuma.immich_postgres_container.docker.parent_name=immich_grp"
