@@ -25,6 +25,8 @@ services:
       - "kuma.traefik_container.docker.docker_container=traefik"
       - "kuma.traefik_container.docker.docker_host_name=local"
       - "kuma.traefik_container.docker.parent_name=traefik_grp"
+    command:
+      - "--certificatesresolvers.le.acme.email=${TRAEFIK_ACME_EMAIL}"
 
 volumes:
   letsencrypt:
