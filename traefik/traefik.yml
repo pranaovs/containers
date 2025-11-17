@@ -1,3 +1,6 @@
+global:
+  sendAnonymousUsage: true
+
 api:
   dashboard: true
   insecure: true
