@@ -7,6 +7,8 @@ services:
       - "30042:80/tcp" # Management API
       - "443:443/udp" # Access key port (UDP)
       # - "${SB_KEYS_PORT}:${SB_KEYS_PORT}/tcp"   # Access key port (TCP)
+    expose:
+      - "9090"
     environment:
       - SB_API_PORT=80
       - SB_STATE_DIR=/data
@@ -29,9 +31,14 @@ services:
       - "kuma.shadowsocks_container.docker.docker_container=shadowsocks"
       - "kuma.shadowsocks_container.docker.docker_host_name=local"
       - "kuma.shadowsocks_container.docker.parent_name=shadowsocks_grp"
+      # Prometheus
+      - "prometheus-scrape.enabled:true"
     networks:
       - traefik_net
+      - metrics_net
 
 networks:
   traefik_net:
+    external: true
+  metrics_net:
     external: true
