@@ -5,6 +5,8 @@ services:
     container_name: headscale
     ports:
       - "3478:3478/udp"
+    expose:
+      - "9090"
     volumes:
       - ./config:/etc/headscale
       - ./lib:/var/lib/headscale
@@ -27,12 +29,18 @@ services:
       - "kuma.headscale_container.docker.docker_container=headscale"
       - "kuma.headscale_container.docker.docker_host_name=local"
       - "kuma.headscale_container.docker.parent_name=headscale_grp"
+      # Prometheus
+      - "prometheus-scrape.enabled=true"
+      - "prometheus-scrape.job_name=Headscale"
     networks:
       - traefik_net
+      - metrics_net
 
 volumes:
   headscale_run:
 
 networks:
   traefik_net:
+    external: true
+  metrics_net:
     external: true
