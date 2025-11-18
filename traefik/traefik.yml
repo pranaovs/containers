@@ -41,3 +41,8 @@ accessLog:
   format: common # or json
   bufferingSize: 0 # disable buffering, send directly to stdout
 
+experimental:
+  plugins:
+    crowdsec-bouncer-traefik-plugin:
+      moduleName: "github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin"
+      version: "v1.4.6"
