@@ -16,6 +16,8 @@ entryPoints:
           scheme: https
   websecure:
     address: ":443"
+  metrics:
+    address: ":9090"
 
 serversTransport:
   insecureSkipVerify: true
@@ -36,6 +38,13 @@ log:
   level: INFO # can be DEBUG, INFO, WARN, ERROR
   format: common # or json
   filePath: "" # empty means stdout
+
+metrics:
+  prometheus:
+    entryPoint: metrics
+    addEntryPointsLabels: true
+    addRoutersLabels: true
+    addServicesLabels: true
 
 accessLog:
   format: common # or json
