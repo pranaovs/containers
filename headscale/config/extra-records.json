@@ -1,0 +1,12 @@
+[
+  {
+    "name": "vaultwarden.devserver.ts.net",
+    "type": "A",
+    "value": "100.64.0.2"
+  },
+  {
+    "name": "wakapi.devserver.ts.net",
+    "type": "A",
+    "value": "100.64.0.2"
+  }
+]
