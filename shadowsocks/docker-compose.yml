@@ -16,7 +16,7 @@ services:
     volumes:
       - ./data:/data
     expose:
-      - "9090"
+      - "9091"
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
       # Traefik
@@ -36,18 +36,17 @@ services:
       - metrics_net
 
   shadowsocks-metrics-proxy:
-    image: nginx:alpine
+    image: alpine/socat:latest
     container_name: shadowsocks-metrics-proxy
     restart: always
     network_mode: "service:shadowsocks"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    command: "TCP-LISTEN:9091,fork,reuseaddr TCP:127.0.0.1:9090"
     depends_on:
       - shadowsocks
     labels:
       # Prometheus
       - "prometheus-scrape.enabled=true"
-      - "prometheus-scrape.port=9090"
+      - "prometheus-scrape.port=9091"
       - "prometheus-scrape.job_name=shadowsocks"
 
 networks:
