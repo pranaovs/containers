@@ -4,6 +4,8 @@ services:
     restart: unless-stopped
     ports:
       - "30088:5678"
+    expose:
+      - "5678"
     environment:
       - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
       - N8N_PORT=5678
@@ -21,6 +23,14 @@ services:
       - N8N_PROTOCOL=https
       - WEBHOOK_URL=https://n8n.pranaovs.me/
       - N8N_PROXY_HOPS=1
+      # Metrics
+      - N8N_METRICS=true
+      - N8N_METRICS_INCLUDE_DEFAULT_METRICS=true
+      - N8N_METRICS_INCLUDE_WORKFLOW_ID_LABEL=true
+      - N8N_METRICS_INCLUDE_NODE_TYPE_LABEL=true
+      - N8N_METRICS_INCLUDE_API_ENDPOINTS=true
+      - N8N_METRICS_INCLUDE_API_METHOD_LABEL=true
+      - N8N_METRICS_INCLUDE_API_STATUS_CODE_LABEL=true
     env_file: ".env"
     volumes:
       - ./n8n_data:/root/.n8n
@@ -52,9 +62,16 @@ services:
       - "kuma.n8n_container.docker.docker_container=n8n-n8n-1"
       - "kuma.n8n_container.docker.docker_host_name=local"
       - "kuma.n8n_container.docker.parent_name=n8n_grp"
+      # Prometheus
+      - "prometheus-scrape.enabled=true"
+      - "prometheus-scrape.job_name=n8n"
+      - "prometheus-scrape.port=5678"
     networks:
       - traefik_net
+      - metrics_net
 
 networks:
   traefik_net:
+    external: true
+  metrics_net:
     external: true
