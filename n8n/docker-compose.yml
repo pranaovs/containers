@@ -43,6 +43,7 @@ services:
       - "traefik.http.routers.n8n.entrypoints=websecure"
       - "traefik.http.routers.n8n.tls=true"
       - "traefik.http.routers.n8n.tls.certresolver=le"
+      # Traefik deny /metrics endpoint
       - "traefik.http.routers.n8n-metrics.rule=(Host(`n8n.pranaovs.me`) || Host(`n8n.deepanalve.dev`)) && PathPrefix(`/metrics`)"
       - "traefik.http.routers.n8n-metrics.priority=2000"
       - "traefik.http.routers.n8n-metrics.entrypoints=websecure"
