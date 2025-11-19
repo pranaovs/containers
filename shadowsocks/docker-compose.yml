@@ -32,7 +32,7 @@ services:
       - "kuma.shadowsocks_container.docker.docker_host_name=local"
       - "kuma.shadowsocks_container.docker.parent_name=shadowsocks_grp"
       # Prometheus
-      - "prometheus-scrape.enabled:true"
+      - "prometheus-scrape.enabled=true"
     networks:
       - traefik_net
       - metrics_net
