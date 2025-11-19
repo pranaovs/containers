@@ -7,8 +7,6 @@ services:
       - "30042:80/tcp" # Management API
       - "443:443/udp" # Access key port (UDP)
       # - "${SB_KEYS_PORT}:${SB_KEYS_PORT}/tcp"   # Access key port (TCP)
-    expose:
-      - "9090"
     environment:
       - SB_API_PORT=80
       - SB_STATE_DIR=/data
@@ -17,6 +15,8 @@ services:
       - SB_PRIVATE_KEY_FILE=/data/shadowbox-selfsigned.key
     volumes:
       - ./data:/data
+    expose:
+      - "9090"
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
       # Traefik
@@ -31,11 +31,24 @@ services:
       - "kuma.shadowsocks_container.docker.docker_container=shadowsocks"
       - "kuma.shadowsocks_container.docker.docker_host_name=local"
       - "kuma.shadowsocks_container.docker.parent_name=shadowsocks_grp"
-      # Prometheus
-      - "prometheus-scrape.enabled=true"
     networks:
       - traefik_net
       - metrics_net
+
+  shadowsocks-metrics-proxy:
+    image: nginx:alpine
+    container_name: shadowsocks-metrics-proxy
+    restart: always
+    network_mode: "service:shadowsocks"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - shadowsocks
+    labels:
+      # Prometheus
+      - "prometheus-scrape.enabled=true"
+      - "prometheus-scrape.port=9090"
+      - "prometheus-scrape.job_name=shadowsocks"
 
 networks:
   traefik_net:
