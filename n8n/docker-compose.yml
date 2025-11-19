@@ -19,7 +19,7 @@ services:
       - N8N_AUTH_TRUST_PROXY=true
       # Set hostnames
       - N8N_TRUSTED_PROXIES=0.0.0.0/0
-      - N8N_HOST=n8n.pranavs.me
+      - N8N_HOST=n8n.pranaovs.me
       - N8N_PROTOCOL=https
       - WEBHOOK_URL=https://n8n.pranaovs.me/
       - N8N_PROXY_HOPS=1
