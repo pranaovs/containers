@@ -42,6 +42,28 @@ services:
       - "kuma.prometheus_docker_sd_container.docker.docker_host_name=local"
       - "kuma.prometheus_docker_sd_container.docker.parent_name=metrics_grp"
 
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    depends_on:
+      - prometheus
+    restart: always
+    ports:
+      - "30092:3000"
+    user: root
+    volumes:
+      - "./data/grafana:/var/lib/grafana"
+      # - "./config/grafana:/etc/grafana"
+    labels:
+      # AutoKuma (uptime-kuma)
+      - "kuma.metrics_grp.group.name=Metrics"
+      - "kuma.grafana_container.docker.name=Grafana Container"
+      - "kuma.grafana_container.docker.docker_container=grafana"
+      - "kuma.grafana_container.docker.docker_host_name=local"
+      - "kuma.grafana_container.docker.parent_name=metrics_grp"
+    networks:
+      - metrics_net
+
 volumes:
   prometheus-docker-sd:
 
