@@ -16,7 +16,7 @@ services:
     volumes:
       - ./data:/data
     expose:
-      - "9091"
+      - "9099"
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
       # Traefik
@@ -40,7 +40,7 @@ services:
     container_name: shadowsocks_metrics_proxy
     restart: always
     network_mode: "service:shadowsocks"
-    command: "TCP-LISTEN:9091,fork,reuseaddr TCP:127.0.0.1:9090"
+    command: "TCP-LISTEN:9099,fork,reuseaddr TCP:127.0.0.1:9092"
     depends_on:
       - shadowsocks
     labels:
@@ -52,7 +52,7 @@ services:
       - "kuma.shadowsocks_proxy_container.docker.parent_name=shadowsocks_grp"
       # Prometheus
       - "prometheus-scrape.enabled=true"
-      - "prometheus-scrape.port=9091"
+      - "prometheus-scrape.port=9099"
       - "prometheus-scrape.job_name=Shadowsocks"
 
 networks:
