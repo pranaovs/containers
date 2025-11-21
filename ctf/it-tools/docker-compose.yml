@@ -1,0 +1,35 @@
+services:
+  web:
+    image: ghcr.io/corentinth/it-tools:latest
+    container_name: ittools
+    restart: no
+    expose:
+      - "80"
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.routers.ittools.rule=Host(`it-tools.pranaovs.me`) || Host(`ittools.pranaovs.me`)"
+      - "traefik.docker.network=traefik_net"
+      - "traefik.http.services.ittools.loadbalancer.server.port=80"
+      - "traefik.http.routers.ittools.entrypoints=websecure"
+      - "traefik.http.routers.ittools.tls=true"
+      - "traefik.http.routers.ittools.tls.certresolver=le"
+      # AutoKuma (uptime-kuma)
+      - "kuma.ittools_grp.group.name=IT-Tools"
+      - "kuma.ittools_grp.group.parent_name=ctf_grp"
+      - "kuma.ittools_http_1.http.name=IT-Tools (it-tools.pranaovs.me)"
+      - "kuma.ittools_http_1.http.url=https://it-tools.pranaovs.me"
+      - "kuma.ittools_http_1.http.parent_name=ittools_grp"
+      - "kuma.ittools_http_2.http.name=IT-Tools (ittools.pranaovs.me)"
+      - "kuma.ittools_http_2.http.url=https://ittools.pranaovs.me"
+      - "kuma.ittools_http_2.http.parent_name=ittools_grp"
+      - "kuma.ittools_container.docker.name=IT-Tools Container"
+      - "kuma.ittools_container.docker.docker_container=ittools"
+      - "kuma.ittools_container.docker.docker_host_name=local"
+      - "kuma.ittools_container.docker.parent_name=ittools_grp"
+    networks:
+      - traefik_net
+
+networks:
+  traefik_net:
+    external: true
