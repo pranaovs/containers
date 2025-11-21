@@ -8,12 +8,3 @@
 # Un-ignore .gitignore files
 !.gitignore
 !*/.gitignore
-
-# Un-ignore archived
-!/archived/*
-
-# Ignore repo
-minecraft-server-docker/
-
-# Un-ignore entire ctf/ directory (Handling this logic again inside ctf/.gitignore)
-!/ctf/*
