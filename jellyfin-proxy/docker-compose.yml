@@ -1,0 +1,25 @@
+services:
+  jellyfin:
+    image: alpine/socat:latest
+    container_name: jellyfin_proxy
+    restart: always
+    command: "TCP-LISTEN:8080,fork,reuseaddr TCP:devbox:8096"
+    expose:
+      - "8080"
+    extra_hosts:
+      - "devbox:100.64.0.1"
+    networks:
+      - traefik_net
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.routers.jellyfin_proxy.rule=Host(`jellyfin.pranaovs.me`) || Host(`anime.pranaovs.me`)"
+      - "traefik.docker.network=traefik_net"
+      - "traefik.http.services.jellyfin_proxy.loadbalancer.server.port=8080"
+      - "traefik.http.routers.jellyfin_proxy.entrypoints=websecure"
+      - "traefik.http.routers.jellyfin_proxy.tls=true"
+      - "traefik.http.routers.jellyfin_proxy.tls.certresolver=le"
+
+networks:
+  traefik_net:
+    external: true
