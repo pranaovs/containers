@@ -1,0 +1,38 @@
+services:
+  speedtest:
+    container_name: speedtest
+    image: ghcr.io/librespeed/speedtest:latest
+    restart: always
+    ports: "30093:8080"
+    environment:
+      MODE: standalone
+      PASSWORD: "${SPEEDTEST_PASSWORD}"
+      IPINFO_APIKEY: "${SPEEDTEST_IPINFO_APIKEY}"
+      DISTANCE: "km"
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.routers.speedtest.rule=Host(`speedtest.pranaovs.me`) || Host(`speed.pranaovs.me`)"
+      - "traefik.docker.network=traefik_net"
+      - "traefik.http.services.speedtest.loadbalancer.server.port=8080"
+      - "traefik.http.routers.speedtest.entrypoints=websecure"
+      - "traefik.http.routers.speedtest.tls=true"
+      - "traefik.http.routers.speedtest.tls.certresolver=le"
+      # AutoKuma (uptime-kuma)
+      - "kuma.speedtest_grp.group.name=Speedtest"
+      - "kuma.speedtest_http_1.http.name=Speedtest (speedtest.pranaovs.me)"
+      - "kuma.speedtest_http_1.http.url=https://speedtest.pranaovs.me"
+      - "kuma.speedtest_http_1.http.parent_name=speedtest_grp"
+      - "kuma.speedtest_http_2.http.name=Speedtest (speed.pranaovs.me)"
+      - "kuma.speedtest_http_2.http.url=https://speed.pranaovs.me"
+      - "kuma.speedtest_http_2.http.parent_name=speedtest_grp"
+      - "kuma.speedtest_container.docker.name=Speedtest Container"
+      - "kuma.speedtest_container.docker.docker_container=speedtest"
+      - "kuma.speedtest_container.docker.docker_host_name=local"
+      - "kuma.speedtest_container.docker.parent_name=speedtest_grp"
+    networks:
+      - traefik_net
+
+networks:
+  traefik_net:
+    external: true
