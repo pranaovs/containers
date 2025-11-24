@@ -6,10 +6,16 @@
     "group:internet": [
       "personal@",
       "neo@"
+    ],
+    "group:jellyfin": [
+      "personal@",
+      "neo@",
+      "sasvat@"
     ]
   },
   "hosts": {
-    "devbox": "100.64.0.1"
+    "devbox": "100.64.0.1",
+    "devserver": "100.64.0.2"
   },
   "tagOwners": {
     "tag:server": [
@@ -45,8 +51,7 @@
         "neo@"
       ],
       "dst": [
-        "neo@:*",
-        "devbox:8096"
+        "neo@:*"
       ]
     },
     {
@@ -55,8 +60,7 @@
         "sasvat@"
       ],
       "dst": [
-        "sasvat@:*",
-        "devbox:8096"
+        "sasvat@:*"
       ]
     },
     {
@@ -66,6 +70,16 @@
       ],
       "dst": [
         "autogroup:internet:*"
+      ]
+    },
+    {
+      "action": "accept",
+      "src": [
+        "group:jellyfin"
+      ],
+      "dst": [
+        "devbox:8096",
+        "devserver:30096"
       ]
     }
   ],
