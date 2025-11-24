@@ -52,6 +52,16 @@
     {
       "action": "accept",
       "src": [
+        "sasvat@"
+      ],
+      "dst": [
+        "sasvat@:*",
+        "devbox:8096"
+      ]
+    },
+    {
+      "action": "accept",
+      "src": [
         "group:internet"
       ],
       "dst": [
