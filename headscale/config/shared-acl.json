@@ -75,7 +75,8 @@
     {
       "action": "accept",
       "src": [
-        "group:jellyfin"
+        "group:jellyfin",
+        "tag:server"
       ],
       "dst": [
         "devbox:8096",
