@@ -19,6 +19,20 @@ services:
       - "traefik.http.routers.jellyfin_proxy.entrypoints=websecure"
       - "traefik.http.routers.jellyfin_proxy.tls=true"
       - "traefik.http.routers.jellyfin_proxy.tls.certresolver=le"
+      # AutoKuma (uptime-kuma)
+      - "kuma.jellyfinproxy_grp.group.name=Jellyfin Proxy"
+      - "kuma.jellyfinproxy_http_1.http.name=Jellyfin Proxy (jellyfin.pranaovs.me)"
+      - "kuma.jellyfinproxy_http_1.http.url=https://jellyfin.pranaovs.me"
+      - "kuma.jellyfinproxy_http_1.http.interval=3600"
+      - "kuma.jellyfinproxy_http_1.http.parent_name=jellyfinproxy_grp"
+      - "kuma.jellyfinproxy_http_2.http.name=Jellyfin Proxy (anime.pranaovs.me)"
+      - "kuma.jellyfinproxy_http_2.http.url=https://anime.pranaovs.me"
+      - "kuma.jellyfinproxy_http_2.http.interval=3600"
+      - "kuma.jellyfinproxy_http_2.http.parent_name=jellyfinproxy_grp"
+      - "kuma.jellyfinproxy_container.docker.name=Jellyfin Proxy Container"
+      - "kuma.jellyfinproxy_container.docker.docker_container=jellyfin_proxy"
+      - "kuma.jellyfinproxy_container.docker.docker_host_name=local"
+      - "kuma.jellyfinproxy_container.docker.parent_name=jellyfinproxy_grp"
 
 networks:
   traefik_net:
