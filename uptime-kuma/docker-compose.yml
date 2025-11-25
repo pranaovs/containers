@@ -58,6 +58,16 @@ services:
       - "kuma.autokuma_container.docker.parent_name=uptime_kuma_grp"
       # Group for CTF Tools
       - "kuma.ctf_grp.group.name=CTF"
+      # DNS Monitor
+      - "kuma.dns_grp.group.name=DNS"
+      - "kuma.dns_a.dns.name=pranaovs.me A"
+      - "kuma.dns_a.dns.hostname=pranaovs.me"
+      - "kuma.dns_a.dns.parent_name=dns_grp"
+      - "kuma.dns_a.dns.dns_resolve_type=A"
+      - "kuma.dns_aaaa.dns.name=pranaovs.me AAAA"
+      - "kuma.dns_aaaa.dns.hostname=pranaovs.me"
+      - "kuma.dns_aaaa.dns.dns_resolve_type=AAAA"
+      - "kuma.dns_aaaa.dns.parent_name=dns_grp"
 
 networks:
   traefik_net:
