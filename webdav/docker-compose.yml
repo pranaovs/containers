@@ -1,0 +1,10 @@
+services:
+  webdav:
+    image: "ghcr.io/hacdias/webdav:latest"
+    ports:
+      - "30094:6065"
+    volumes:
+      - ./data:/data
+      - ./config:/config
+    env_file: .env
+    command: ["-c", "/config/config.yml"]
