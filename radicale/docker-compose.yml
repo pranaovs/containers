@@ -2,6 +2,7 @@ services:
   radicale:
     image: ghcr.io/kozea/radicale:latest
     user: root
+    container_name: radicale
     ports:
       - "30089:5232"
     volumes:
@@ -12,6 +13,6 @@ services:
       # AutoKuma (uptime-kuma)
       - "kuma.radicale_grp.group.name=Radicale"
       - "kuma.radicale_container.docker.name=Radicale Container"
-      - "kuma.radicale_container.docker.docker_container=radicale-radicale-1"
+      - "kuma.radicale_container.docker.docker_container=radicale"
       - "kuma.radicale_container.docker.docker_host_name=local"
       - "kuma.radicale_container.docker.parent_name=radicale_grp"
