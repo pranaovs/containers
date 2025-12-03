@@ -1,0 +1,56 @@
+services:
+  backend:
+    image: ghcr.io/deepan-alve/stacked-backend:latest
+    container_name: stacked-backend
+    restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DB_PATH=/data/movies.db
+      - SUPABASE_DB_HOST=${SUPABASE_DB_HOST}
+      - SUPABASE_DB_PORT=5432
+      - SUPABASE_DB_NAME=postgres
+      - SUPABASE_DB_USER=postgres
+      - SUPABASE_DB_PASSWORD=${SUPABASE_DB_PASSWORD}
+      - BACKUP_INTERVAL_HOURS=6
+    volumes:
+      - ./data:/data
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://localhost:3000/api/health",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  frontend:
+    image: ghcr.io/deepan-alve/stacked-frontend:latest
+    restart: unless-stopped
+    container_name: stacked-frontend
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+      - "traefik.enable=true"
+      - "traefik.http.routers.stacked-frontend.rule=Host(`stacked.deepanalve.dev`)"
+      - "traefik.docker.network=traefik_net"
+      - "traefik.http.services.stacked-frontend.loadbalancer.server.port=80"
+      - "traefik.http.routers.stacked-frontend.entrypoints=websecure"
+      - "traefik.http.routers.stacked-frontend.tls=true"
+      - "traefik.http.routers.stacked-frontend.tls.certresolver=le"
+    healthcheck:
+      test: ["CMD", "curl", "-q", "http://localhost:80"]
+    networks:
+      - default
+      - traefik_net
+
+networks:
+  traefik_net:
+    external: true
