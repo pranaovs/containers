@@ -18,7 +18,7 @@ services:
     expose:
       - "9091"
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+      # - "com.centurylinklabs.watchtower.enable=true"
       # Traefik
       - "traefik.enable=true"
       - "traefik.tcp.routers.shadowsocks.rule=HostSNI(`*`)"

@@ -15,7 +15,7 @@ services:
     env_file:
       - .env
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
+      # - "com.centurylinklabs.watchtower.enable=true"
       # Traefik
       - "traefik.enable=true"
       - "traefik.http.routers.vaultwarden.rule=Host(`vaultwarden.pranaovs.me`) || Host(`bitwarden.pranaovs.me`) || Host(`passwords.pranaovs.me`)"

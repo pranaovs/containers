@@ -7,7 +7,7 @@ services:
     restart: always
     labels:
       # Watchtower
-      - "com.centurylinklabs.watchtower.enable=true"
+      # - "com.centurylinklabs.watchtower.enable=true"
       # Traefik
       - "traefik.enable=true"
       - "traefik.http.routers.bentopdf.rule=Host(`pdftools.pranaovs.me`) || Host(`pdf.pranaovs.me`) || Host(`bentopdf.pranaovs.me`)"
