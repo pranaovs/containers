@@ -16,7 +16,7 @@ services:
     volumes:
       - ./data:/data
     expose:
-      - "9099"
+      - "9091"
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
       # Traefik
@@ -33,30 +33,7 @@ services:
       - "kuma.shadowsocks_container.docker.parent_name=shadowsocks_grp"
     networks:
       - traefik_net
-      - metrics_net
-
-  shadowsocks-metrics-proxy:
-    image: alpine/socat:latest
-    container_name: shadowsocks_metrics_proxy
-    restart: always
-    network_mode: "service:shadowsocks"
-    command: "TCP-LISTEN:9099,fork,reuseaddr TCP:127.0.0.1:9092"
-    depends_on:
-      - shadowsocks
-    labels:
-      # AutoKuma (uptime-kuma)
-      - "kuma.shadowsocks_grp.group.name=Shadowsocks"
-      - "kuma.shadowsocks_proxy_container.docker.name=Shadowsocks Metrics Proxy Container"
-      - "kuma.shadowsocks_proxy_container.docker.docker_container=shadowsocks_metrics_proxy"
-      - "kuma.shadowsocks_proxy_container.docker.docker_host_name=local"
-      - "kuma.shadowsocks_proxy_container.docker.parent_name=shadowsocks_grp"
-      # Prometheus
-      - "prometheus-scrape.enabled=true"
-      - "prometheus-scrape.port=9099"
-      - "prometheus-scrape.job_name=Shadowsocks"
 
 networks:
   traefik_net:
-    external: true
-  metrics_net:
     external: true
