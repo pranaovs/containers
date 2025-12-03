@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    command: --cleanup --label-enable --interval 3600
+    command: --cleanup --label-enable --interval 300
     # labels:
     # com.centurylinklabs.watchtower.enable: "true"
     security_opt:
