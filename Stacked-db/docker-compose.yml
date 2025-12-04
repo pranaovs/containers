@@ -5,6 +5,12 @@ services:
     restart: unless-stopped
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
+      # AutoKuma (uptime-kuma)
+      - "kuma.stacked_grp.group.name=Stacked DB"
+      - "kuma.stacked_container.docker.name=Stacked DB Backend Container"
+      - "kuma.stacked_container.docker.docker_container=stacked-backend"
+      - "kuma.stacked_container.docker.docker_host_name=local"
+      - "kuma.stacked_container.docker.parent_name=stacked_grp"
     env_file: .env
     volumes:
       - ./data:/data
@@ -37,6 +43,15 @@ services:
       - "traefik.http.routers.stacked-frontend.entrypoints=websecure"
       - "traefik.http.routers.stacked-frontend.tls=true"
       - "traefik.http.routers.stacked-frontend.tls.certresolver=le"
+      # Autokuma
+      - "kuma.stacked_grp.group.name=Stacked DB"
+      - "kuma.stacked_http_1.http.name=Stacked DB (stacked.deepanalve.dev)"
+      - "kuma.stacked_http_1.http.url=https://stacked.deepanalve.dev"
+      - "kuma.stacked_http_1.http.parent_name=stacked_grp"
+      - "kuma.stacked_container.docker.name=Stacked DB Frontend Container"
+      - "kuma.stacked_container.docker.docker_container=stacked-frontend"
+      - "kuma.stacked_container.docker.docker_host_name=local"
+      - "kuma.stacked_container.docker.parent_name=stacked_grp"
     healthcheck:
       test: ["CMD", "curl", "-q", "http://localhost:80"]
     networks:

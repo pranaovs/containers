@@ -10,3 +10,10 @@ services:
     # com.centurylinklabs.watchtower.enable: "true"
     security_opt:
       - label=type:spc_t
+    labels:
+      # AutoKuma (uptime-kuma)
+      - "kuma.watchtower_grp.group.name=Watchtower"
+      - "kuma.watchtower_container.docker.name=Watchtower Container"
+      - "kuma.watchtower_container.docker.docker_container=watchtower"
+      - "kuma.watchtower_container.docker.docker_host_name=local"
+      - "kuma.watchtower_container.docker.parent_name=watchtower_grp"
