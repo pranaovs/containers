@@ -18,7 +18,7 @@ services:
     labels:
       # Traefik
       - "traefik.enable=true"
-      - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.pranaovs.me`) || Host(`anime.pranaovs.me)`"
+      - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.pranaovs.me`) || Host(`anime.pranaovs.me`)"
       - "traefik.docker.network=traefik_net"
       - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
       - "traefik.http.routers.jellyfin.entrypoints=websecure"
@@ -51,7 +51,7 @@ services:
     labels:
       # Traefik
       - "traefik.enable=true"
-      - "traefik.http.routers.jellyfin_proxy.rule=Host(`proxy.jellyfin.pranaovs.me`) || Host(`proxy-jellyfin.pranaovs.me`) || Host(`proxy.anime.pranaovs.me)` || Host(`proxy-anime.pranaovs.me)`"
+      - "traefik.http.routers.jellyfin_proxy.rule=Host(`proxy.jellyfin.pranaovs.me`) || Host(`proxy-jellyfin.pranaovs.me`) || Host(`proxy.anime.pranaovs.me`) || Host(`proxy-anime.pranaovs.me`)"
       - "traefik.docker.network=traefik_net"
       - "traefik.http.services.jellyfin_proxy.loadbalancer.server.port=8080"
       - "traefik.http.routers.jellyfin_proxy.entrypoints=websecure"
