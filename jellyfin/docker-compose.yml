@@ -5,10 +5,11 @@ services:
     expose:
       - "8096"
     volumes:
-      - ./data:/config
-      - /var/cache/jellyfin:/cache
+      - /home/personal/jellyfin/config:/config:Z
+      - /var/cache/jellyfin:/cache:Z
       - type: bind
-        source: /home/personal/Videos/Anime:/media/anime
+        source: /home/personal/Videos/Anime
+        target: /media/anime
         read_only: true
     environment:
       - JELLYFIN_PublishedServerUrl=https://jellyfin.pranaovs.me
