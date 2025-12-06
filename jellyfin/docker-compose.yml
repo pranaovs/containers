@@ -1,4 +1,41 @@
 services:
+  jellyfin:
+    image: "jellyfin/jellyfin:latest"
+    container_name: jellyfin
+    expose:
+      - "8096"
+    volumes:
+      - ./data:/config
+      - /var/cache/jellyfin:/cache
+      - type: bind
+        source: /home/personal/Videos/Anime:/media/anime
+        read_only: true
+    environment:
+      - JELLYFIN_PublishedServerUrl=https://jellyfin.pranaovs.me
+    networks:
+      - traefik_net
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.pranaovs.me`) || Host(`anime.pranaovs.me)`"
+      - "traefik.docker.network=traefik_net"
+      - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
+      - "traefik.http.routers.jellyfin.entrypoints=websecure"
+      - "traefik.http.routers.jellyfin.tls=true"
+      - "traefik.http.routers.jellyfin.tls.certresolver=le"
+      # AutoKuma (uptime-kuma)
+      - "kuma.jellyfin_grp.group.name=Jellyfin"
+      - "kuma.jellyfin_http_1.http.name=Jellyfin (jellyfin.pranaovs.me)"
+      - "kuma.jellyfin_http_1.http.url=https://jellyfin.pranaovs.me"
+      - "kuma.jellyfin_http_1.http.parent_name=jellyfin_grp"
+      - "kuma.jellyfin_http_2.http.name=Jellyfin (anime.pranaovs.me)"
+      - "kuma.jellyfin_http_2.http.url=https://anime.pranaovs.me"
+      - "kuma.jellyfin_http_2.http.parent_name=jellyfin_grp"
+      - "kuma.jellyfin_container.docker.name=Jellyfin Container"
+      - "kuma.jellyfin_container.docker.docker_container=jellyfin"
+      - "kuma.jellyfin_container.docker.docker_host_name=local"
+      - "kuma.jellyfin_container.docker.parent_name=jellyfin_grp"
+
   jellyfin-proxy:
     image: alpine/socat:latest
     container_name: jellyfin_proxy
