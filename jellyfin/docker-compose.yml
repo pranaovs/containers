@@ -11,6 +11,8 @@ services:
         source: /home/personal/Videos/Anime
         target: /media/anime
         read_only: true
+        bind:
+          selinux: z
     environment:
       - JELLYFIN_PublishedServerUrl=https://jellyfin.pranaovs.me
     networks:
