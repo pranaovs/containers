@@ -28,7 +28,6 @@ services:
       - "kuma.bentopdf_container.docker.docker_container=bentopdf"
       - "kuma.bentopdf_container.docker.docker_host_name=local"
       - "kuma.bentopdf_container.docker.parent_name=bentopdf_grp"
-      - "headnscale.subdomain=lmao|meow"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
     networks:
