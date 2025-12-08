@@ -16,3 +16,5 @@ services:
       - "kuma.radicale_container.docker.docker_container=radicale"
       - "kuma.radicale_container.docker.docker_host_name=local"
       - "kuma.radicale_container.docker.parent_name=radicale_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"

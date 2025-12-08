@@ -18,7 +18,6 @@ services:
     expose:
       - "9091"
     labels:
-      # - "com.centurylinklabs.watchtower.enable=true"
       # Traefik
       - "traefik.enable=true"
       - "traefik.tcp.routers.shadowsocks.rule=HostSNI(`*`)"
@@ -31,6 +30,8 @@ services:
       - "kuma.shadowsocks_container.docker.docker_container=shadowsocks"
       - "kuma.shadowsocks_container.docker.docker_host_name=local"
       - "kuma.shadowsocks_container.docker.parent_name=shadowsocks_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
     networks:
       - traefik_net
 

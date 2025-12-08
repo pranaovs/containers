@@ -51,6 +51,8 @@ services:
       - "kuma.immich_server_container.docker.docker_container=immich_server"
       - "kuma.immich_server_container.docker.docker_host_name=local"
       - "kuma.immich_server_container.docker.parent_name=immich_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
     networks:
       - default
       - traefik_net
@@ -76,6 +78,8 @@ services:
       - "kuma.immich_ml_container.docker.docker_container=immich_machine_learning"
       - "kuma.immich_ml_container.docker.docker_host_name=local"
       - "kuma.immich_ml_container.docker.parent_name=immich_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
 
   redis:
     container_name: immich_redis

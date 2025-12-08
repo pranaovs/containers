@@ -38,6 +38,8 @@ services:
       - "kuma.jellyfin_container.docker.docker_container=jellyfin"
       - "kuma.jellyfin_container.docker.docker_host_name=local"
       - "kuma.jellyfin_container.docker.parent_name=jellyfin_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
 
   jellyfin-proxy:
     image: alpine/socat:latest
@@ -81,6 +83,8 @@ services:
       - "kuma.jellyfinproxy_container.docker.docker_container=jellyfin_proxy"
       - "kuma.jellyfinproxy_container.docker.docker_host_name=local"
       - "kuma.jellyfinproxy_container.docker.parent_name=jellyfinproxy_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
 
 networks:
   traefik_net:

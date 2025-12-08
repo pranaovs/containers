@@ -27,6 +27,8 @@ services:
       - "kuma.headscale_container.docker.docker_container=headscale"
       - "kuma.headscale_container.docker.docker_host_name=local"
       - "kuma.headscale_container.docker.parent_name=headscale_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
     networks:
       - traefik_net
 

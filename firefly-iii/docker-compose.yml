@@ -18,6 +18,8 @@ services:
       - "kuma.firefly_container.docker.docker_container=firefly_iii"
       - "kuma.firefly_container.docker.docker_host_name=local"
       - "kuma.firefly_container.docker.parent_name=firefly_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
   db:
     image: mariadb:lts
     hostname: db
@@ -32,6 +34,9 @@ services:
       - "kuma.firefly_db_container.docker.docker_container=firefly_iii_db"
       - "kuma.firefly_db_container.docker.docker_host_name=local"
       - "kuma.firefly_db_container.docker.parent_name=firefly_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+
   cron:
     #
     # To make this work, set STATIC_CRON_TOKEN in your .env file or as an environment variable
@@ -55,3 +60,5 @@ services:
       - "kuma.firefly_cron_container.docker.docker_container=firefly_iii_cron"
       - "kuma.firefly_cron_container.docker.docker_host_name=local"
       - "kuma.firefly_cron_container.docker.parent_name=firefly_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"

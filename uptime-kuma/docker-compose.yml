@@ -31,6 +31,8 @@ services:
       - "kuma.uptime_kuma_container.docker.docker_container=uptime_kuma"
       - "kuma.uptime_kuma_container.docker.docker_host_name=local"
       - "kuma.uptime_kuma_container.docker.parent_name=uptime_kuma_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
     networks:
       - default
       - traefik_net

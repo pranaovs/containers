@@ -25,6 +25,8 @@ services:
       - "kuma.traefik_container.docker.docker_container=traefik"
       - "kuma.traefik_container.docker.docker_host_name=local"
       - "kuma.traefik_container.docker.parent_name=traefik_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
     command:
       - "--certificatesresolvers.le.acme.email=${TRAEFIK_ACME_EMAIL}"
 

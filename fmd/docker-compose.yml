@@ -28,6 +28,8 @@ services:
       - "kuma.fmd_container.docker.docker_container=fmd"
       - "kuma.fmd_container.docker.docker_host_name=local"
       - "kuma.fmd_container.docker.parent_name=fmd_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
     networks:
       - traefik_net
 

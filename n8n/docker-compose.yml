@@ -45,6 +45,8 @@ services:
       - "kuma.n8n_container.docker.docker_container=n8n-n8n-1"
       - "kuma.n8n_container.docker.docker_host_name=local"
       - "kuma.n8n_container.docker.parent_name=n8n_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
     networks:
       - traefik_net
 

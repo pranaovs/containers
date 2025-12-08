@@ -17,3 +17,5 @@ services:
       - "kuma.webdav_container.docker.docker_container=webdav"
       - "kuma.webdav_container.docker.docker_host_name=local"
       - "kuma.webdav_container.docker.parent_name=webdav_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"

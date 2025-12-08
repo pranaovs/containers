@@ -15,7 +15,6 @@ services:
     env_file:
       - .env
     labels:
-      # - "com.centurylinklabs.watchtower.enable=true"
       # Traefik
       - "traefik.enable=true"
       - "traefik.http.routers.vaultwarden.rule=Host(`vaultwarden.pranaovs.me`) || Host(`bitwarden.pranaovs.me`) || Host(`passwords.pranaovs.me`)"
@@ -38,6 +37,8 @@ services:
       - "kuma.vaultwarden_container.docker.docker_container=vaultwarden"
       - "kuma.vaultwarden_container.docker.docker_host_name=local"
       - "kuma.vaultwarden_container.docker.parent_name=vaultwarden_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
     networks:
       - traefik_net
 

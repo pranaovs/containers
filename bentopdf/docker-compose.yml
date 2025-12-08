@@ -6,8 +6,6 @@ services:
       - "30085:8080"
     restart: always
     labels:
-      # Watchtower
-      # - "com.centurylinklabs.watchtower.enable=true"
       # Traefik
       - "traefik.enable=true"
       - "traefik.http.routers.bentopdf.rule=Host(`pdftools.pranaovs.me`) || Host(`pdf.pranaovs.me`) || Host(`bentopdf.pranaovs.me`)"
@@ -30,6 +28,9 @@ services:
       - "kuma.bentopdf_container.docker.docker_container=bentopdf"
       - "kuma.bentopdf_container.docker.docker_host_name=local"
       - "kuma.bentopdf_container.docker.parent_name=bentopdf_grp"
+      - "headnscale.subdomain=lmao|meow"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
     networks:
       - traefik_net
 

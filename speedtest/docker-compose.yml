@@ -30,6 +30,8 @@ services:
       - "kuma.speedtest_container.docker.docker_container=speedtest"
       - "kuma.speedtest_container.docker.docker_host_name=local"
       - "kuma.speedtest_container.docker.parent_name=speedtest_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
     networks:
       - traefik_net
 

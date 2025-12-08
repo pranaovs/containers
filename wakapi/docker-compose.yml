@@ -41,6 +41,8 @@ services:
       - "kuma.wakapi_container.docker.docker_container=wakapi-wakapi-1"
       - "kuma.wakapi_container.docker.docker_host_name=local"
       - "kuma.wakapi_container.docker.parent_name=wakapi_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
     networks:
       - default
       - traefik_net
@@ -60,6 +62,8 @@ services:
       - "kuma.wakapi_db_container.docker.docker_container=wakapi-db-1"
       - "kuma.wakapi_db_container.docker.docker_host_name=local"
       - "kuma.wakapi_db_container.docker.parent_name=wakapi_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
 
 networks:
   traefik_net:
