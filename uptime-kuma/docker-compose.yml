@@ -20,7 +20,7 @@ services:
       - "traefik.http.routers.uptimekuma-https.service=uptimekuma"
 
       - "traefik.http.routers.uptimekuma-ts.rule=Host(`status.devserver.ts.net`) || Host(`uptime.devserver.ts.net`) || Host(`status.devserver`) || Host(`uptime.devserver`)"
-      - "headnscale.subdomain=immich|photos"
+      - "headnscale.subdomain=status|uptime"
       - "traefik.http.routers.uptimekuma-ts.entrypoints=web"
       - "traefik.http.routers.uptimekuma-ts.service=uptimekuma"
 
