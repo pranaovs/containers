@@ -42,12 +42,28 @@ services:
       - ./dns:/data
     environment:
       - HEADNSCALE_JSON_PATH=/data/extra_records.json
+      - HEADNSCALE_HOSTS_PATH=/data/hosts.txt
       - HEADNSCALE_NODE_HOSTNAME=devserver
       - HEADNSCALE_NODE_IP=100.64.0.2
       - HEADNSCALE_NODE_IP6=fd7a:115c:a1e0::2
       - HEADNSCALE_NO_BASE_DOMAIN=true
     security_opt:
       - label=type:spc_t
+    labels:
+      # AutoKuma (uptime-kuma)
+      - "kuma.headnscale_container.docker.name=Headnscale Container"
+      - "kuma.headnscale_container.docker.docker_container=headnscale"
+      - "kuma.headnscale_container.docker.docker_host_name=local"
+      - "kuma.headnscale_container.docker.parent_name=headscale_grp"
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik-ts.rule=(Host(`devserver.ts.net`) || Host(`traefik.devserver.ts.net`) || Host(`devserver`) || Host(`traefik.devserver`)) && (Path(`/hosts`) || Path(`/hosts.txt`))"
+      - "headnscale.subdomain=traefik"
+      - "traefik.http.routers.traefik-ts.entrypoints=web"
+      - "traefik.http.routers.traefik-ts.priority=1000"
+      - "traefik.http.routers.traefik-ts.service=traefik"
+      - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+      - "traefik.docker.network=traefik_net"
 
 volumes:
   headscale_run:
