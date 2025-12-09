@@ -30,6 +30,7 @@ services:
       # Traefik
       - "traefik.enable=true"
       - "traefik.http.routers.traefik-ts.rule=Host(`devserver.ts.net`) || Host(`traefik.devserver.ts.net`) || Host(`devserver`) || Host(`traefik.devserver`)"
+      - "headnscale.subdomain=traefik"
       - "traefik.http.routers.traefik-ts.entrypoints=web"
       - "traefik.http.routers.traefik-ts.service=traefik"
       - "traefik.http.services.traefik.loadbalancer.server.port=8080"
