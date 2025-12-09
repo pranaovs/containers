@@ -59,7 +59,7 @@ services:
       - "kuma.headnscale_container.docker.parent_name=headscale_grp"
       # Traefik
       - "traefik.enable=true"
-      - "traefik.http.routers.headnscale-ts.rule=(Host(`devserver.ts.net`) || Host(`traefik.devserver.ts.net`) || Host(`devserver`) || Host(`traefik.devserver`)) && (Path(`/hosts`) || Path(`/hosts.txt`))"
+      - "traefik.http.routers.headnscale-ts.rule=(Host(`devserver.ts.net`) || Host(`devserver`)) && (Path(`/hosts`) || Path(`/hosts.txt`))"
       - "headnscale.subdomain=traefik"
       - "traefik.http.routers.headnscale-ts.entrypoints=web"
       - "traefik.http.routers.headnscale-ts.priority=1000"
