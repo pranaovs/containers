@@ -27,6 +27,14 @@ services:
       - "kuma.traefik_container.docker.parent_name=traefik_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik-ts.rule=Host(`devserver.ts.net`) || Host(`traefik.devserver.ts.net`) || Host(`devserver`) || Host(`traefik.devserver`)"
+      - "traefik.http.routers.traefik-ts.entrypoints=web"
+      - "traefik.http.routers.traefik-ts.service=traefik"
+      - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+      - "traefik.docker.network=traefik_net"
+
     command:
       - "--certificatesresolvers.le.acme.email=${TRAEFIK_ACME_EMAIL}"
 
