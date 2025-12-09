@@ -40,6 +40,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./dns:/data
+    expose:
+      - "8080"
     environment:
       - HEADNSCALE_JSON_PATH=/data/extra_records.json
       - HEADNSCALE_HOSTS_PATH=/data/hosts.txt
@@ -57,13 +59,16 @@ services:
       - "kuma.headnscale_container.docker.parent_name=headscale_grp"
       # Traefik
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik-ts.rule=(Host(`devserver.ts.net`) || Host(`traefik.devserver.ts.net`) || Host(`devserver`) || Host(`traefik.devserver`)) && (Path(`/hosts`) || Path(`/hosts.txt`))"
+      - "traefik.http.routers.headnscale-ts.rule=(Host(`devserver.ts.net`) || Host(`traefik.devserver.ts.net`) || Host(`devserver`) || Host(`traefik.devserver`)) && (Path(`/hosts`) || Path(`/hosts.txt`))"
       - "headnscale.subdomain=traefik"
-      - "traefik.http.routers.traefik-ts.entrypoints=web"
-      - "traefik.http.routers.traefik-ts.priority=1000"
-      - "traefik.http.routers.traefik-ts.service=traefik"
-      - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+      - "traefik.http.routers.headnscale-ts.entrypoints=web"
+      - "traefik.http.routers.headnscale-ts.priority=1000"
+      - "traefik.http.routers.headnscale-ts.service=headnscale"
+      - "traefik.http.services.headnscale.loadbalancer.server.port=8080"
       - "traefik.docker.network=traefik_net"
+
+    networks:
+      - traefik_net
 
 volumes:
   headscale_run:
