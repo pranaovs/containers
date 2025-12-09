@@ -21,6 +21,7 @@ services:
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
       # Traefik
+      - "traefik.enable=true"
       - "traefik.http.routers.firefly-ts.rule=Host(`firefly.devserver.ts.net`) || Host(`expenses.devserver.ts.net`) || Host(`firefly.devserver`) || Host(`expenses.devserver`)"
       - "headnscale.subdomain=firefly|expenses"
       - "traefik.http.routers.firefly-ts.entrypoints=web"
@@ -73,3 +74,7 @@ services:
       - "kuma.firefly_cron_container.docker.parent_name=firefly_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+
+networks:
+  traefik_net:
+    external: true
