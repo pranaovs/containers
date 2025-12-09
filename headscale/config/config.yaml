@@ -319,7 +319,7 @@ dns:
   #
   # Alternatively, extra DNS records can be loaded from a JSON file.
   # Headscale processes this file on each change.
-  # extra_records_path: /var/lib/headscale/extra-records.json
+  extra_records_path: /dns/extra_records.json
 
 # Unix socket used for the CLI to connect without authentication
 # Note: for production you will want to set this to something like:

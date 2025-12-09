@@ -8,6 +8,7 @@ services:
     volumes:
       - ./config:/etc/headscale
       - ./lib:/var/lib/headscale
+      - ./dns:/dns
       - headscale_run:/var/run/headscale
     command: serve
     labels:
@@ -31,6 +32,22 @@ services:
       - "com.centurylinklabs.watchtower.enable=true"
     networks:
       - traefik_net
+
+  headnscale:
+    image: ghcr.io/pranaovs/headnscale:latest
+    container_name: headnscale
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./dns:/data
+    environment:
+      - HEADNSCALE_JSON_PATH=/data/extra_records.json
+      - HEADNSCALE_NODE_HOSTNAME=devserver
+      - HEADNSCALE_NODE_IP=100.64.0.2
+      - HEADNSCALE_NODE_IP6=fd7a:115c:a1e0::2
+      - HEADNSCALE_NO_BASE_DOMAIN=true
+    security_opt:
+      - label=type:spc_t
 
 volumes:
   headscale_run:

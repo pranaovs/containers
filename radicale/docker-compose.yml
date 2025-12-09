@@ -18,3 +18,18 @@ services:
       - "kuma.radicale_container.docker.parent_name=radicale_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.routers.radicale-ts.rule=Host(`radicale.devserver.ts.net`) || Host(`caldav.devserver.ts.net`) || Host(`carddav.devserver.ts.net`) || Host(`contacts.devserver.ts.net`) || Host(`calendar.devserver.ts.net`) || Host(`radicale.devserver`) || Host(`caldav.devserver`) || Host(`carddav.devserver`) || Host(`contacts.devserver`) || Host(`calendar.devserver`)"
+      - "headnscale.subdomain=radicale|caldav|carddav|contacts|calendar"
+      - "traefik.http.routers.radicale-ts.entrypoints=web"
+      - "traefik.http.routers.radicale-ts.service=radicale"
+      - "traefik.http.services.radicale.loadbalancer.server.port=5232"
+      - "traefik.docker.network=traefik_net"
+
+    networks:
+      - traefik_net
+
+networks:
+  traefik_net:
+    external: true
