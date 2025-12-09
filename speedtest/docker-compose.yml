@@ -12,12 +12,19 @@ services:
     labels:
       # Traefik
       - "traefik.enable=true"
-      - "traefik.http.routers.speedtest.rule=Host(`speedtest.pranaovs.me`) || Host(`speed.pranaovs.me`)"
-      - "traefik.docker.network=traefik_net"
+      - "traefik.http.routers.speedtest-https.rule=Host(`speedtest.pranaovs.me`) || Host(`speed.pranaovs.me`)"
+      - "traefik.http.routers.speedtest-https.entrypoints=websecure"
+      - "traefik.http.routers.speedtest-https.tls=true"
+      - "traefik.http.routers.speedtest-https.tls.certresolver=le"
+      - "traefik.http.routers.speedtest-https.service=speedtest"
+
+      - "traefik.http.routers.speedtest-ts.rule=Host(`speedtest.devserver.ts.net`) || Host(`speed.devserver.ts.net`) || Host(`speedtest.devserver`) || Host(`speed.devserver`)"
+      - "headnscale.subdomain=speedtest|photos"
+      - "traefik.http.routers.speedtest-ts.entrypoints=web"
+      - "traefik.http.routers.speedtest-ts.service=speedtest"
+
       - "traefik.http.services.speedtest.loadbalancer.server.port=8080"
-      - "traefik.http.routers.speedtest.entrypoints=websecure"
-      - "traefik.http.routers.speedtest.tls=true"
-      - "traefik.http.routers.speedtest.tls.certresolver=le"
+      - "traefik.docker.network=traefik_net"
       # AutoKuma (uptime-kuma)
       - "kuma.speedtest_grp.group.name=Speedtest"
       - "kuma.speedtest_http_1.http.name=Speedtest (speedtest.pranaovs.me)"

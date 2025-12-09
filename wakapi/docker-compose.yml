@@ -23,12 +23,19 @@ services:
     labels:
       # Traefik
       - "traefik.enable=true"
-      - "traefik.http.routers.wakapi.rule=Host(`wakapi.pranaovs.me`) || Host(`wakatime.pranaovs.me`)"
-      - "traefik.docker.network=traefik_net"
+      - "traefik.http.routers.wakapi-https.rule=Host(`wakapi.pranaovs.me`) || Host(`wakatime.pranaovs.me`)"
+      - "traefik.http.routers.wakapi-https.entrypoints=websecure"
+      - "traefik.http.routers.wakapi-https.tls=true"
+      - "traefik.http.routers.wakapi-https.tls.certresolver=le"
+      - "traefik.http.routers.wakapi-https.service=wakapi"
+
+      - "traefik.http.routers.wakapi-ts.rule=Host(`wakapi.devserver.ts.net`) || Host(`wakatime.devserver.ts.net`) || Host(`wakapi.devserver`) || Host(`wakatime.devserver`)"
+      - "headnscale.subdomain=wakapi|wakatime"
+      - "traefik.http.routers.wakapi-ts.entrypoints=web"
+      - "traefik.http.routers.wakapi-ts.service=wakapi"
+
       - "traefik.http.services.wakapi.loadbalancer.server.port=3000"
-      - "traefik.http.routers.wakapi.entrypoints=websecure"
-      - "traefik.http.routers.wakapi.tls=true"
-      - "traefik.http.routers.wakapi.tls.certresolver=le"
+      - "traefik.docker.network=traefik_net"
       # AutoKuma (uptime-kuma)
       - "kuma.wakapi_grp.group.name=Wakapi"
       - "kuma.wakapi_http_1.http.name=Wakapi (wakapi.pranaovs.me)"

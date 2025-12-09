@@ -13,10 +13,12 @@ services:
       - "traefik.http.routers.bentopdf-https.tls=true"
       - "traefik.http.routers.bentopdf-https.tls.certresolver=le"
       - "traefik.http.routers.bentopdf-https.service=bentopdf"
+
       - "traefik.http.routers.bentopdf-ts.rule=Host(`pdftools.devserver.ts.net`) || Host(`pdf.devserver.ts.net`) || Host(`bentopdf.devserver.ts.net`) || Host(`pdftools.devserver`) || Host(`pdf.devserver`) || Host(`bentopdf.devserver`)"
       - "headnscale.subdomain=pdftools|pdf|bentopdf"
       - "traefik.http.routers.bentopdf-ts.entrypoints=web"
       - "traefik.http.routers.bentopdf-ts.service=bentopdf"
+
       - "traefik.http.services.bentopdf.loadbalancer.server.port=8080"
       - "traefik.docker.network=traefik_net"
       # AutoKuma (uptime-kuma)

@@ -21,6 +21,7 @@ services:
       - "traefik.http.services.archivewarrior-ts.loadbalancer.server.port=8001"
       - "traefik.http.routers.archivewarrior-ts.entrypoints=web"
       - "traefik.docker.network=traefik_net"
+
     restart: unless-stopped
     volumes:
       - "./config.json:/home/warrior/projects/config.json"
