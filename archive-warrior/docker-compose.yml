@@ -14,12 +14,25 @@ services:
       - "kuma.archiveteam_container.docker.parent_name=archiveteam_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.routers.archivewarrior-ts.rule=Host(`archiver.devserver.ts.net`) || Host(`archivewarrior.devserver.ts.net`)"
+      - "headnscale.subdomain=archiver|archivewarrior"
+      - "traefik.http.services.archivewarrior-ts.loadbalancer.server.port=8001"
+      - "traefik.http.routers.archivewarrior-ts.entrypoints=web"
+      - "traefik.docker.network=traefik_net"
     restart: unless-stopped
     volumes:
       - "./config.json:/home/warrior/projects/config.json"
       - "warrior_data:/home/warrior/data"
       - "warrior_projects:/home/warrior/projects"
+    networks:
+      - traefik_net
 
 volumes:
   warrior_data:
   warrior_projects:
+
+networks:
+  traefik_net:
+    external: true

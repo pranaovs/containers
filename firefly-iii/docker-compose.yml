@@ -20,6 +20,17 @@ services:
       - "kuma.firefly_container.docker.parent_name=firefly_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Traefik
+      - "traefik.http.routers.firefly-ts.rule=Host(`firefly.devserver.ts.net`) || Host(`expenses.devserver.ts.net`) || Host(`firefly.devserver`) || Host(`expenses.devserver`)"
+      - "headnscale.subdomain=firefly|expenses"
+      - "traefik.http.routers.firefly-ts.entrypoints=web"
+      - "traefik.http.routers.firefly-ts.service=firefly"
+      - "traefik.http.services.firefly.loadbalancer.server.port=8080"
+      - "traefik.docker.network=traefik_net"
+    networks:
+      - traefik_net
+      - default
+
   db:
     image: mariadb:lts
     hostname: db
