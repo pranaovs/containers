@@ -36,11 +36,6 @@ services:
       - "traefik.http.routers.traefik-ts.service=traefik"
       - "traefik.http.services.traefik.loadbalancer.server.port=8080"
       - "traefik.docker.network=traefik_net"
-      # Crowdsec
-      - "traefik.http.middlewares.crowdsec.plugin.crowdsec-bouncer.enabled=true"
-      - "traefik.http.middlewares.crowdsec.plugin.crowdsec-bouncer.crowdsecappsecenabled=false"
-      - "traefik.http.middlewares.crowdsec.plugin.crowdsec-bouncer.crowdseclapikey=${CROWDSEC_LAPI_KEY}"
-
     command:
       - "--certificatesresolvers.le.acme.email=${TRAEFIK_ACME_EMAIL}"
 
@@ -61,6 +56,10 @@ services:
       - crowdsec-data:/var/lib/crowdsec/data/
     labels:
       - "traefik.enable=false"
+      # Traefik Middleware definition
+      - "traefik.http.middlewares.crowdsec.plugin.crowdsec-bouncer.enabled=true"
+      - "traefik.http.middlewares.crowdsec.plugin.crowdsec-bouncer.crowdsecappsecenabled=false"
+      - "traefik.http.middlewares.crowdsec.plugin.crowdsec-bouncer.crowdseclapikey=${CROWDSEC_LAPI_KEY}"
     networks:
       - traefik_net
 
