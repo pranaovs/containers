@@ -8,6 +8,7 @@ services:
     labels:
       # AutoKuma (uptime-kuma)
       - "kuma.archiveteam_grp.group.name=Archive Team Warrior"
+      - 'kuma.archiveteam_grp.group.notification_name_list=["ntfy"]'
       - "kuma.archiveteam_container.docker.name=Archive Team Warrior Container"
       - "kuma.archiveteam_container.docker.docker_container=archiveTeamWarrior"
       - "kuma.archiveteam_container.docker.docker_host_name=local"

@@ -13,6 +13,7 @@ services:
     labels:
       # AutoKuma (uptime-kuma)
       - "kuma.webdav_grp.group.name=WebDAV"
+      - 'kuma.webdav_grp.group.notification_name_list=["ntfy"]'
       - "kuma.webdav_container.docker.name=WebDAV Container"
       - "kuma.webdav_container.docker.docker_container=webdav"
       - "kuma.webdav_container.docker.docker_host_name=local"

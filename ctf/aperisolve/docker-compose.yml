@@ -26,6 +26,7 @@ services:
       - "traefik.http.routers.aperisolve.entrypoints=websecure"
       # AutoKuma (uptime-kuma)
       - "kuma.aperisolve_grp.group.name=Aperisolve"
+      - 'kuma.aperisolve_grp.group.notification_name_list=["ntfy"]'
       - "kuma.aperisolve_grp.group.parent_name=ctf_grp"
       - "kuma.aperisolve_http.http.name=Aperisolve HTTP"
       - "kuma.aperisolve_http.http.url=https://aperisolve.pranaovs.me"

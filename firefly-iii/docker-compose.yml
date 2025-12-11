@@ -14,6 +14,7 @@ services:
     labels:
       # AutoKuma (uptime-kuma)
       - "kuma.firefly_grp.group.name=Firefly III"
+      - 'kuma.firefly_grp.group.notification_name_list=["ntfy"]'
       - "kuma.firefly_container.docker.name=Firefly III Container"
       - "kuma.firefly_container.docker.docker_container=firefly_iii"
       - "kuma.firefly_container.docker.docker_host_name=local"

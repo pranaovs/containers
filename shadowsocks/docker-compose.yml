@@ -26,6 +26,7 @@ services:
       - "traefik.tcp.routers.shadowsocks.priority=1" # Lowest priority
       # AutoKuma (uptime-kuma)
       - "kuma.shadowsocks_grp.group.name=Shadowsocks"
+      - 'kuma.shadowsocks_grp.group.notification_name_list=["ntfy"]'
       - "kuma.shadowsocks_container.docker.name=Shadowsocks Container"
       - "kuma.shadowsocks_container.docker.docker_container=shadowsocks"
       - "kuma.shadowsocks_container.docker.docker_host_name=local"

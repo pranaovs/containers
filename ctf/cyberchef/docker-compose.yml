@@ -14,6 +14,7 @@ services:
       - "traefik.http.routers.cyberchef.entrypoints=websecure"
       # AutoKuma (uptime-kuma)
       - "kuma.cyberchef_grp.group.name=Cyberchef"
+      - 'kuma.cyberchef_grp.group.notification_name_list=["ntfy"]'
       - "kuma.cyberchef_grp.group.parent_name=ctf_grp"
       - "kuma.cyberchef_http.http.name=Cyberchef HTTP"
       - "kuma.cyberchef_http.http.url=https://cyberchef.pranaovs.me"

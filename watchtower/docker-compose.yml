@@ -11,6 +11,7 @@ services:
     labels:
       # AutoKuma (uptime-kuma)
       - "kuma.watchtower_grp.group.name=Watchtower"
+      - 'kuma.watchtower_grp.group.notification_name_list=["ntfy"]'
       - "kuma.watchtower_container.docker.name=Watchtower Container"
       - "kuma.watchtower_container.docker.docker_container=watchtower"
       - "kuma.watchtower_container.docker.docker_host_name=local"
