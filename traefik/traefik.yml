@@ -4,7 +4,7 @@ global:
 api:
   dashboard: true
   insecure: true
-  debug: false
+  debug: true
 
 entryPoints:
   web:
@@ -34,5 +34,11 @@ log:
 
 accessLog:
   format: common # or json
-  bufferingSize: 0 # disable buffering, send directly to stdout
+  # bufferingSize: 0 # disable buffering, send directly to stdout
+  filePath: /var/log/traefik/access.log
 
+experimental:
+  plugins:
+    crowdsec-bouncer:
+      moduleName: "github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin"
+      version: "v1.4.7"
