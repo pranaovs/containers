@@ -63,6 +63,10 @@ services:
       - "kuma.local.docker_host.name=Docker socket"
       - "kuma.local.docker_host.connection_type=socket"
       - "kuma.local.docker_host.path=/var/run/docker.sock"
+      # Notifications
+      - kuma.ntfy.notification.name=ntfy Notifications
+      - kuma.ntfy.notification.active=true
+      - kuma.ntfy.notification.config={"isDefault":false,"name":"ntfy","ntfyAuthenticationMethod":"accessToken","ntfyPriority":5,"ntfyPriorityDown":5,"ntfyaccesstoken":"${AUTOKUMA_NTFY_ACCESS_TOKEN}","ntfyserverurl":"http://ntfy","ntfytopic":"${AUTOKUMA_NTFY_TOPIC}","type":"ntfy"}
       # AutoKuma (uptime-kuma)
       - "kuma.autokuma_container.docker.name=AutoKuma Container"
       - "kuma.autokuma_container.docker.docker_container=autokuma"
@@ -73,7 +77,6 @@ services:
       # DNS Monitor
       - "kuma.dns_grp.group.name=DNS"
       - 'kuma.dns_grp.group.notification_name_list=["ntfy"]'
-      - 'kuma.dns_grp.dns.notification_name_list=["ntfy"]'
       - "kuma.dns_a.dns.name=pranaovs.me A"
       - "kuma.dns_a.dns.hostname=pranaovs.me"
       - "kuma.dns_a.dns.parent_name=dns_grp"
@@ -82,10 +85,6 @@ services:
       - "kuma.dns_aaaa.dns.hostname=pranaovs.me"
       - "kuma.dns_aaaa.dns.dns_resolve_type=AAAA"
       - "kuma.dns_aaaa.dns.parent_name=dns_grp"
-      # Notifications
-      - kuma.ntfy.notification.name=ntfy Notifications
-      - kuma.ntfy.notification.active=true
-      - kuma.ntfy.notification.config={"isDefault":false,"name":"ntfy","ntfyAuthenticationMethod":"accessToken","ntfyPriority":5,"ntfyPriorityDown":5,"ntfyaccesstoken":"${AUTOKUMA_NTFY_ACCESS_TOKEN}","ntfyserverurl":"http://ntfy","ntfytopic":"${AUTOKUMA_NTFY_TOPIC}","type":"ntfy"}
 
 networks:
   traefik_net:
