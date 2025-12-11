@@ -42,8 +42,6 @@ services:
       - "traefik.docker.network=traefik_net"
       - "traefik.http.services.stacked-frontend.loadbalancer.server.port=80"
       - "traefik.http.routers.stacked-frontend.entrypoints=websecure"
-      - "traefik.http.routers.stacked-frontend.tls=true"
-      - "traefik.http.routers.stacked-frontend.tls.certresolver=le"
       # Autokuma
       - "kuma.stacked_grp.group.name=Stacked DB"
       - "kuma.stacked_http_1.http.name=Stacked DB (stacked.deepanalve.dev)"

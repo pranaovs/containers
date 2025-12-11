@@ -36,8 +36,6 @@ services:
       - "traefik.http.routers.immich-https.rule=Host(`immich.pranaovs.me`) || Host(`photos.pranaovs.me`)"
       - "traefik.http.routers.immich-https.entrypoints=websecure"
       - "traefik.http.routers.immich-https.service=immich"
-      - "traefik.http.routers.immich-https.tls=true"
-      - "traefik.http.routers.immich-https.tls.certresolver=le"
 
       - "traefik.http.routers.immich-ts.rule=Host(`immich.devserver.ts.net`) || Host(`photos.devserver.ts.net`) || Host(`immich.devserver`) || Host(`photos.devserver`)"
       - "headnscale.subdomain=immich|photos"

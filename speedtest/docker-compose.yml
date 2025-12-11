@@ -14,8 +14,6 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.speedtest-https.rule=Host(`speedtest.pranaovs.me`) || Host(`speed.pranaovs.me`)"
       - "traefik.http.routers.speedtest-https.entrypoints=websecure"
-      - "traefik.http.routers.speedtest-https.tls=true"
-      - "traefik.http.routers.speedtest-https.tls.certresolver=le"
       - "traefik.http.routers.speedtest-https.service=speedtest"
 
       - "traefik.http.routers.speedtest-ts.rule=Host(`speedtest.devserver.ts.net`) || Host(`speed.devserver.ts.net`) || Host(`speedtest.devserver`) || Host(`speed.devserver`)"
