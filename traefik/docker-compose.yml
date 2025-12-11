@@ -79,26 +79,23 @@ services:
     volumes:
       - ./anubis.yaml:/policy.yaml
     environment:
-      # Telling Anubis, where to listen for Traefik
       - BIND=:8080
       # Telling Anubis to do redirect — ensure there is a space after '='
       - "TARGET= "
-      # Specifies which domains Anubis is allowed to redirect to.
       - REDIRECT_DOMAINS=*.pranaovs.me,*.deepanalve.dev
-      # Should be the full external URL for Anubis (including scheme)
       - PUBLIC_URL=https://anubis.pranaovs.me
-      # Should match your domain for proper cookie scoping
       - COOKIE_DOMAIN=pranaovs.me
       - POLICY_FNAME=/policy.yaml
     networks:
       - traefik_net
 
     labels:
-      - traefik.enable=true # Enabling Traefik
-      - traefik.http.routers.anubis-https.rule=Host(`anubis.pranaovs.me`) # Only Matching Requests for example.com
-      - traefik.http.routers.anubis-https.entrypoints=websecure # Listen on HTTPS
-      - traefik.http.routers.anubis-https.service=anubis # Telling Traefik to use the above specified port
-      - traefik.http.services.anubis.loadbalancer.server.port=8080 # Telling Traefik where to receive requests
+      - traefik.enable=true
+      - traefik.http.routers.anubis-https.rule=Host(`anubis.pranaovs.me`)
+      - traefik.http.routers.anubis-https.entrypoints=websecure
+      - traefik.http.routers.anubis-https.service=anubis
+
+      - traefik.http.services.anubis.loadbalancer.server.port=8080
       - traefik.docker.network=traefik_net
 
   whoami:
@@ -107,12 +104,18 @@ services:
     networks:
       - traefik_net
     labels:
-      - traefik.enable=true # Enabling Traefik
-      - traefik.http.routers.whoami-https.rule=Host(`whoami.pranaovs.me`) # Only Matching Requests for example.com
-      - traefik.http.routers.whoami-https.entrypoints=websecure # Listening on the exclusive Anubis Network
+      - traefik.enable=true
+      - traefik.http.routers.whoami-https.rule=Host(`whoami.pranaovs.me`)
+      - traefik.http.routers.whoami-https.entrypoints=websecure
       - traefik.http.routers.whoami-https.middlewares=anubis@docker
-      - traefik.http.routers.whoami-https.service=whoami # Telling Traefik to use the above specified port
-      - traefik.http.services.whoami.loadbalancer.server.port=80 # Telling Traefik where to receive requests
+      - traefik.http.routers.whoami-https.service=whoami
+
+      - "traefik.http.routers.whoami-ts.rule=Host(`whoami.devserver.ts.net`) || Host(`whoami.devserver.ts.net`)"
+      - traefik.http.routers.whoami-ts.entrypoints=web
+      - traefik.http.routers.whoami-ts.service=whoami
+
+      - traefik.docker.network=traefik_net
+      - traefik.http.services.whoami.loadbalancer.server.port=80
 
 volumes:
   letsencrypt:
