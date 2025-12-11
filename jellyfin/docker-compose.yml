@@ -22,7 +22,6 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.jellyfin-https.rule=Host(`jellyfin.pranaovs.me`) || Host(`anime.pranaovs.me`)"
       - "traefik.http.routers.jellyfin-https.entrypoints=websecure"
-      - "traefik.http.routers.jellyfin-https.middlewares=anubis@docker"
       - "traefik.http.routers.jellyfin-https.service=jellyfin"
 
       - "traefik.http.routers.jellyfin-ts.rule=Host(`jellyfin.devserver.ts.net`) || Host(`anime.devserver.ts.net`) || Host(`jellyfin.devserver`) || Host(`anime.devserver`)"
@@ -65,7 +64,6 @@ services:
       - "traefik.docker.network=traefik_net"
       - "traefik.http.services.jellyfin_proxy.loadbalancer.server.port=8080"
       - "traefik.http.routers.jellyfin_proxy.entrypoints=websecure"
-      - "traefik.http.routers.jellyfin_proxy.middlewares=anubis@docker"
       # AutoKuma (uptime-kuma)
       - "kuma.jellyfinproxy_grp.group.name=Jellyfin Proxy"
       - "kuma.jellyfinproxy_http_1.http.name=Jellyfin Proxy (proxy.jellyfin.pranaovs.me)"

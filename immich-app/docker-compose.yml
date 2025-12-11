@@ -35,7 +35,6 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.immich-https.rule=Host(`immich.pranaovs.me`) || Host(`photos.pranaovs.me`)"
       - "traefik.http.routers.immich-https.entrypoints=websecure"
-      - "traefik.http.routers.immich-https.middlewares=anubis@docker"
       - "traefik.http.routers.immich-https.service=immich"
 
       - "traefik.http.routers.immich-ts.rule=Host(`immich.devserver.ts.net`) || Host(`photos.devserver.ts.net`) || Host(`immich.devserver`) || Host(`photos.devserver`)"

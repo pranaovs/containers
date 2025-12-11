@@ -17,7 +17,6 @@ services:
       - "traefik.http.routers.fmd.rule=Host(`fmd.pranaovs.me`)"
       - "traefik.http.services.fmd.loadbalancer.server.port=8080"
       - "traefik.http.routers.fmd.entrypoints=websecure"
-      - "traefik.http.routers.fmd.middlewares=anubis@docker"
       # AutoKuma (uptime-kuma)
       - "kuma.fmd_grp.group.name=FMD"
       - "kuma.fmd_http.http.name=FMD HTTP"
