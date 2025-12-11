@@ -19,6 +19,9 @@ services:
       - logs:/var/log/traefik # For crowdsec
     networks:
       - traefik_net
+    command:
+      - "--certificatesresolvers.le.acme.email=${TRAEFIK_ACME_EMAIL}"
+
     labels:
       # AutoKuma (uptime-kuma)
       - "kuma.traefik_grp.group.name=Traefik"
@@ -40,9 +43,8 @@ services:
       - "traefik.http.middlewares.crowdsec.plugin.crowdsec-bouncer.enabled=true"
       - "traefik.http.middlewares.crowdsec.plugin.crowdsec-bouncer.crowdsecappsecenabled=false"
       - "traefik.http.middlewares.crowdsec.plugin.crowdsec-bouncer.crowdseclapikey=${CROWDSEC_LAPI_KEY}"
-
-    command:
-      - "--certificatesresolvers.le.acme.email=${TRAEFIK_ACME_EMAIL}"
+      # Anubis
+      - traefik.http.middlewares.anubis.forwardauth.address=http://anubis:8080/.within.website/x/cmd/anubis/api/check
 
   crowdsec:
     image: crowdsecurity/crowdsec:latest
@@ -54,9 +56,12 @@ services:
       COLLECTIONS: crowdsecurity/traefik crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules
       CUSTOM_HOSTNAME: crowdsec
       BOUNCER_KEY_TRAEFIK: ${CROWDSEC_LAPI_KEY}"
-
+    networks:
+      - traefik_net
+    depends_on:
+      - traefik
     volumes:
-      - ./config:/etc/crowdsec
+      - ./config/crowdsec/:/etc/crowdsec
       - logs:/var/log/traefik:ro
       - crowdsec-data:/var/lib/crowdsec/data/
     labels:
@@ -66,8 +71,48 @@ services:
       - "kuma.traefik_container.docker.docker_host_name=local"
       - "kuma.traefik_container.docker.parent_name=traefik_grp"
 
+  anubis:
+    image: ghcr.io/techarohq/anubis:main
+    container_name: anubis
+    expose:
+      - "8080"
+    volumes:
+      - ./anubis.yaml:/policy.yaml
+    environment:
+      # Telling Anubis, where to listen for Traefik
+      - BIND=:8080
+      # Telling Anubis to do redirect — ensure there is a space after '='
+      - "TARGET= "
+      # Specifies which domains Anubis is allowed to redirect to.
+      - REDIRECT_DOMAINS=*.pranaovs.me,*.deepanalve.dev
+      # Should be the full external URL for Anubis (including scheme)
+      - PUBLIC_URL=https://anubis.pranaovs.me
+      # Should match your domain for proper cookie scoping
+      - COOKIE_DOMAIN=pranaovs.me
+      - POLICY_FNAME=/policy.yaml
     networks:
       - traefik_net
+
+    labels:
+      - traefik.enable=true # Enabling Traefik
+      - traefik.http.routers.anubis-https.rule=Host(`anubis.pranaovs.me`) # Only Matching Requests for example.com
+      - traefik.http.routers.anubis-https.entrypoints=websecure # Listen on HTTPS
+      - traefik.http.routers.anubis-https.service=anubis # Telling Traefik to use the above specified port
+      - traefik.http.services.anubis.loadbalancer.server.port=8080 # Telling Traefik where to receive requests
+      - traefik.docker.network=traefik_net
+
+  whoami:
+    image: traefik/whoami:latest
+    container_name: whoami
+    networks:
+      - traefik_net
+    labels:
+      - traefik.enable=true # Enabling Traefik
+      - traefik.http.routers.whoami-https.rule=Host(`whoami.pranaovs.me`) # Only Matching Requests for example.com
+      - traefik.http.routers.whoami-https.entrypoints=websecure # Listening on the exclusive Anubis Network
+      - traefik.http.routers.whoami-https.middlewares=anubis@docker
+      - traefik.http.routers.whoami-https.service=whoami # Telling Traefik to use the above specified port
+      - traefik.http.services.whoami.loadbalancer.server.port=80 # Telling Traefik where to receive requests
 
 volumes:
   letsencrypt:
@@ -75,6 +120,7 @@ volumes:
   logs:
     name: traefik_logs
   crowdsec-data:
+  anubis_data:
 
 networks:
   traefik_net:
