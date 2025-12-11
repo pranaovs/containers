@@ -26,6 +26,7 @@ services:
       - "traefik.docker.network=traefik_net"
       # AutoKuma (uptime-kuma)
       - "kuma.uptime_kuma_grp.group.name=Uptime Kuma"
+      - 'kuma.uptime_kuma_grp.group.notification_name_list=["ntfy"]'
       - "kuma.uptime_kuma_http_1.http.name=Uptime Kuma (status.pranaovs.me)"
       - "kuma.uptime_kuma_http_1.http.url=https://status.pranaovs.me"
       - "kuma.uptime_kuma_http_1.http.parent_name=uptime_kuma_grp"
@@ -71,6 +72,7 @@ services:
       - "kuma.ctf_grp.group.name=CTF"
       # DNS Monitor
       - "kuma.dns_grp.group.name=DNS"
+      - 'kuma.dns_grp.group.notification_name_list=["ntfy"]'
       - 'kuma.dns_grp.dns.notification_name_list=["ntfy"]'
       - "kuma.dns_a.dns.name=pranaovs.me A"
       - "kuma.dns_a.dns.hostname=pranaovs.me"

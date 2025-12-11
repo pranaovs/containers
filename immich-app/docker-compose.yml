@@ -46,6 +46,7 @@ services:
       - "traefik.docker.network=traefik_net"
       # AutoKuma (uptime-kuma)
       - "kuma.immich_grp.group.name=Immich"
+      - 'kuma.immich_grp.group.notification_name_list=["ntfy"]'
       - "kuma.immich_http_1.http.name=Immich (immich.pranaovs.me)"
       - "kuma.immich_http_1.http.url=https://immich.pranaovs.me"
       - "kuma.immich_http_1.http.parent_name=immich_grp"

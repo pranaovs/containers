@@ -25,6 +25,7 @@ services:
       - "traefik.docker.network=traefik_net"
       # AutoKuma (uptime-kuma)
       - "kuma.speedtest_grp.group.name=Speedtest"
+      - 'kuma.speedtest_grp.group.notification_name_list=["ntfy"]'
       - "kuma.speedtest_http_1.http.name=Speedtest (speedtest.pranaovs.me)"
       - "kuma.speedtest_http_1.http.url=https://speedtest.pranaovs.me"
       - "kuma.speedtest_http_1.http.parent_name=speedtest_grp"

@@ -6,6 +6,7 @@ services:
     labels:
       # AutoKuma (uptime-kuma)
       - "kuma.stacked_grp.group.name=Stacked DB"
+      - 'kuma.stacked_grp.group.notification_name_list=["ntfy"]'
       - "kuma.stacked_backend_container.docker.name=Stacked DB Backend Container"
       - "kuma.stacked_backend_container.docker.docker_container=stacked-backend"
       - "kuma.stacked_backend_container.docker.docker_host_name=local"
@@ -43,7 +44,6 @@ services:
       - "traefik.http.services.stacked-frontend.loadbalancer.server.port=80"
       - "traefik.http.routers.stacked-frontend.entrypoints=websecure"
       # Autokuma
-      - "kuma.stacked_grp.group.name=Stacked DB"
       - "kuma.stacked_http_1.http.name=Stacked DB (stacked.deepanalve.dev)"
       - "kuma.stacked_http_1.http.url=https://stacked.deepanalve.dev"
       - "kuma.stacked_http_1.http.parent_name=stacked_grp"

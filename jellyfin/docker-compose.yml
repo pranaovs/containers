@@ -33,6 +33,7 @@ services:
       - "traefik.docker.network=traefik_net"
       # AutoKuma (uptime-kuma)
       - "kuma.jellyfin_grp.group.name=Jellyfin"
+      - 'kuma.jellyfin_grp.group.notification_name_list=["ntfy"]'
       - "kuma.jellyfin_http_1.http.name=Jellyfin (jellyfin.pranaovs.me)"
       - "kuma.jellyfin_http_1.http.url=https://jellyfin.pranaovs.me"
       - "kuma.jellyfin_http_1.http.parent_name=jellyfin_grp"

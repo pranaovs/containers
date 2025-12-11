@@ -14,6 +14,7 @@ services:
       - "traefik.http.routers.ittools.entrypoints=websecure"
       # AutoKuma (uptime-kuma)
       - "kuma.ittools_grp.group.name=IT-Tools"
+      - 'kuma.ittools_grp.group.notification_name_list=["ntfy"]'
       - "kuma.ittools_grp.group.parent_name=ctf_grp"
       - "kuma.ittools_http_1.http.name=IT-Tools (it-tools.pranaovs.me)"
       - "kuma.ittools_http_1.http.url=https://it-tools.pranaovs.me"

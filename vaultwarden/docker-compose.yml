@@ -22,6 +22,7 @@ services:
       - "traefik.http.routers.vaultwarden.entrypoints=websecure"
       # AutoKuma (uptime-kuma)
       - "kuma.vaultwarden_grp.group.name=Vaultwarden"
+      - 'kuma.vaultwarden_grp.group.notification_name_list=["ntfy"]'
       - "kuma.vaultwarden_http_1.http.name=Vaultwarden (vaultwarden.pranaovs.me)"
       - "kuma.vaultwarden_http_1.http.url=https://vaultwarden.pranaovs.me"
       - "kuma.vaultwarden_http_1.http.parent_name=vaultwarden_grp"

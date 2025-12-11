@@ -21,6 +21,7 @@ services:
       - "traefik.docker.network=traefik_net"
       # AutoKuma (uptime-kuma)
       - "kuma.bentopdf_grp.group.name=BentoPDF"
+      - 'kuma.bentopdf_grp.group.notification_name_list=["ntfy"]'
       - "kuma.bentopdf_http_1.http.name=BentoPDF (pdftools.pranaovs.me)"
       - "kuma.bentopdf_http_1.http.url=https://pdftools.pranaovs.me"
       - "kuma.bentopdf_http_1.http.parent_name=bentopdf_grp"

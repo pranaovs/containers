@@ -25,6 +25,7 @@ services:
     labels:
       # AutoKuma (uptime-kuma)
       - "kuma.traefik_grp.group.name=Traefik"
+      - 'kuma.traefik_grp.group.notification_name_list=["ntfy"]'
       - "kuma.traefik_container.docker.name=Traefik Container"
       - "kuma.traefik_container.docker.docker_container=traefik"
       - "kuma.traefik_container.docker.docker_host_name=local"

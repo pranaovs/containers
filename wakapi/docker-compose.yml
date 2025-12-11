@@ -36,6 +36,7 @@ services:
       - "traefik.docker.network=traefik_net"
       # AutoKuma (uptime-kuma)
       - "kuma.wakapi_grp.group.name=Wakapi"
+      - 'kuma.wakapi_grp.group.notification_name_list=["ntfy"]'
       - "kuma.wakapi_http_1.http.name=Wakapi (wakapi.pranaovs.me)"
       - "kuma.wakapi_http_1.http.url=https://wakapi.pranaovs.me"
       - "kuma.wakapi_http_1.http.parent_name=wakapi_grp"

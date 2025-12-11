@@ -19,6 +19,7 @@ services:
       - "traefik.http.routers.fmd.entrypoints=websecure"
       # AutoKuma (uptime-kuma)
       - "kuma.fmd_grp.group.name=FMD"
+      - 'kuma.fmd_grp.group.notification_name_list=["ntfy"]'
       - "kuma.fmd_http.http.name=FMD HTTP"
       - "kuma.fmd_http.http.url=https://fmd.pranaovs.me"
       - "kuma.fmd_http.http.parent_name=fmd_grp"

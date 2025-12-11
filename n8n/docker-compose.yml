@@ -33,6 +33,7 @@ services:
       - "traefik.http.routers.n8n.entrypoints=websecure"
       # AutoKuma (uptime-kuma)
       - "kuma.n8n_grp.group.name=n8n"
+      - 'kuma.n8n_grp.group.notification_name_list=["ntfy"]'
       - "kuma.n8n_http_1.http.name=n8n (n8n.pranaovs.me)"
       - "kuma.n8n_http_1.http.url=https://n8n.pranaovs.me"
       - "kuma.n8n_http_1.http.parent_name=n8n_grp"
