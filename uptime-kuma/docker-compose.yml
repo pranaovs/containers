@@ -79,6 +79,9 @@ services:
       - "kuma.dns_aaaa.dns.hostname=pranaovs.me"
       - "kuma.dns_aaaa.dns.dns_resolve_type=AAAA"
       - "kuma.dns_aaaa.dns.parent_name=dns_grp"
+      - kuma.ntfy.notification.name=ntfy
+      - kuma.ntfy.notification.active=true
+      - 'kuma.ntfy.notification.config={"isDefault":false,"name":"ntfy","ntfyAuthenticationMethod":"accessToken","ntfyPriority":5,"ntfyPriorityDown":5,"ntfyaccesstoken":"${AUTOKUMA_NTFY_ACCESS_TOKEN}","ntfyserverurl":"http://ntfy","ntfytopic":"${AUTOKUMA_NTFY_TOPIC}","type":"ntfy"}'
 
 networks:
   traefik_net:
