@@ -110,7 +110,8 @@ services:
       - traefik.http.routers.whoami-https.middlewares=anubis@docker
       - traefik.http.routers.whoami-https.service=whoami
 
-      - "traefik.http.routers.whoami-ts.rule=Host(`whoami.devserver.ts.net`) || Host(`whoami.devserver.ts.net`)"
+      - traefik.http.routers.whoami-ts.rule=Host(`whoami.devserver.ts.net`) || Host(`whoami.devserver.ts.net`)
+      - headnscale.subdomain=whoami
       - traefik.http.routers.whoami-ts.entrypoints=web
       - traefik.http.routers.whoami-ts.service=whoami
 
