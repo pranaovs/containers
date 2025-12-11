@@ -252,7 +252,7 @@ manager-interval: "1h"
 # - enable-reservations allows users to reserve topics (if their tier allows it)
 #
 # enable-signup: false
-enable-login: false
+enable-login: true
 require-login: true
 enable-reservations: true
 #
