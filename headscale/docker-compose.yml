@@ -17,6 +17,7 @@ services:
       - "traefik.http.routers.headscale.rule=Host(`headscale.pranaovs.me`)"
       - "traefik.http.services.headscale.loadbalancer.server.port=8080"
       - "traefik.http.routers.headscale.entrypoints=websecure"
+      - "traefik.http.routers.headscale.middlewares=anubis@docker"
       # AutoKuma (uptime-kuma)
       - "kuma.headscale_grp.group.name=Headscale"
       - "kuma.headscale_http.http.name=Headscale HTTP"

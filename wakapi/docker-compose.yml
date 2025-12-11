@@ -25,6 +25,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.wakapi-https.rule=Host(`wakapi.pranaovs.me`) || Host(`wakatime.pranaovs.me`)"
       - "traefik.http.routers.wakapi-https.entrypoints=websecure"
+      - "traefik.http.routers.wakapi-https.middlewares=anubis@docker"
       - "traefik.http.routers.wakapi-https.service=wakapi"
 
       - "traefik.http.routers.wakapi-ts.rule=Host(`wakapi.devserver.ts.net`) || Host(`wakatime.devserver.ts.net`) || Host(`wakapi.devserver`) || Host(`wakatime.devserver`)"

@@ -15,6 +15,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.uptimekuma-https.rule=Host(`status.pranaovs.me`) || Host(`uptime.pranaovs.me`)"
       - "traefik.http.routers.uptimekuma-https.entrypoints=websecure"
+      - "traefik.http.routers.uptimekuma-https.middlewares=anubis@docker"
       - "traefik.http.routers.uptimekuma-https.service=uptimekuma"
 
       - "traefik.http.routers.uptimekuma-ts.rule=Host(`status.devserver.ts.net`) || Host(`uptime.devserver.ts.net`) || Host(`status.devserver`) || Host(`uptime.devserver`)"

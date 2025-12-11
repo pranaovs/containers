@@ -20,6 +20,7 @@ services:
       - "traefik.http.routers.vaultwarden.rule=Host(`vaultwarden.pranaovs.me`) || Host(`bitwarden.pranaovs.me`) || Host(`passwords.pranaovs.me`)"
       - "traefik.http.services.vaultwarden.loadbalancer.server.port=80"
       - "traefik.http.routers.vaultwarden.entrypoints=websecure"
+      - "traefik.http.routers.vaultwarden.middlewares=anubis@docker"
       # AutoKuma (uptime-kuma)
       - "kuma.vaultwarden_grp.group.name=Vaultwarden"
       - "kuma.vaultwarden_http_1.http.name=Vaultwarden (vaultwarden.pranaovs.me)"

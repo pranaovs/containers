@@ -31,6 +31,7 @@ services:
       - "traefik.http.routers.n8n.rule=Host(`n8n.pranaovs.me`) || Host(`n8n.deepanalve.dev`)"
       - "traefik.http.services.n8n.loadbalancer.server.port=5678"
       - "traefik.http.routers.n8n.entrypoints=websecure"
+      - "traefik.http.routers.n8n.middlewares=anubis@docker"
       # AutoKuma (uptime-kuma)
       - "kuma.n8n_grp.group.name=n8n"
       - "kuma.n8n_http_1.http.name=n8n (n8n.pranaovs.me)"

@@ -10,6 +10,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.bentopdf-https.rule=Host(`pdftools.pranaovs.me`) || Host(`pdf.pranaovs.me`) || Host(`bentopdf.pranaovs.me`)"
       - "traefik.http.routers.bentopdf-https.entrypoints=websecure"
+      - "traefik.http.routers.bentopdf-https.middlewares=anubis@docker"
       - "traefik.http.routers.bentopdf-https.service=bentopdf"
 
       - "traefik.http.routers.bentopdf-ts.rule=Host(`pdftools.devserver.ts.net`) || Host(`pdf.devserver.ts.net`) || Host(`bentopdf.devserver.ts.net`) || Host(`pdftools.devserver`) || Host(`pdf.devserver`) || Host(`bentopdf.devserver`)"
