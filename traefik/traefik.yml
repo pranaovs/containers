@@ -11,6 +11,9 @@ entryPoints:
     address: ":80"
   websecure:
     address: ":443"
+    http:
+      middlewares:
+        - crowdsec@docker
 
 serversTransport:
   insecureSkipVerify: true
