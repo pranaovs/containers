@@ -66,10 +66,10 @@ services:
       - crowdsec-data:/var/lib/crowdsec/data/
     labels:
       # Autokuma
-      - "kuma.traefik_container.docker.name=Crowdsec Container"
-      - "kuma.traefik_container.docker.docker_container=crowdsec"
-      - "kuma.traefik_container.docker.docker_host_name=local"
-      - "kuma.traefik_container.docker.parent_name=traefik_grp"
+      - "kuma.crowdsec_container.docker.name=Crowdsec Container"
+      - "kuma.crowdsec_container.docker.docker_container=crowdsec"
+      - "kuma.crowdsec_container.docker.docker_host_name=local"
+      - "kuma.crowdsec_container.docker.parent_name=traefik_grp"
 
   anubis:
     image: ghcr.io/techarohq/anubis:main
@@ -90,6 +90,13 @@ services:
       - traefik_net
 
     labels:
+      # Autokuma
+      - "kuma.anubis_container.docker.name=Anubis Container"
+      - "kuma.anubis_container.docker.docker_container=anubis"
+      - "kuma.anubis_container.docker.docker_host_name=local"
+      - "kuma.anubis_container.docker.parent_name=traefik_grp"
+
+      # Traefik
       - traefik.enable=true
       - traefik.http.routers.anubis-https.rule=Host(`anubis.pranaovs.me`)
       - traefik.http.routers.anubis-https.entrypoints=websecure
@@ -104,6 +111,13 @@ services:
     networks:
       - traefik_net
     labels:
+      # Autokuma
+      - "kuma.whoami_container.docker.name=whoami Container"
+      - "kuma.whoami_container.docker.docker_container=whoami"
+      - "kuma.whoami_container.docker.docker_host_name=local"
+      - "kuma.whoami_container.docker.parent_name=traefik_grp"
+
+      # Traefik
       - traefik.enable=true
       - traefik.http.routers.whoami-https.rule=Host(`whoami.pranaovs.me`)
       - traefik.http.routers.whoami-https.entrypoints=websecure
