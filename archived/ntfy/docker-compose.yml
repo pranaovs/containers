@@ -4,17 +4,9 @@ services:
     container_name: ntfy
     command:
       - serve
-    init: true # needed, if healthcheck is used. Prevents zombie processes
-    environment:
-      TZ: Asia/Kolkata
-      NTFY_BASE_URL: "https://ntfy.pranaovs.me"
-      NTFY_CACHE_FILE: /var/lib/ntfy/cache.db
-      NTFY_CACHE_DURATION: 48h
-      NTFY_BEHIND_PROXY: true
-      NTFY_ATTACHMENT_CACHE_DIR: /var/lib/ntfy/attachments
-      NTFY_AUTH_DEFAULT_ACCESS: deny-all
+    init: true
     user: root
-    healthcheck: # optional: remember to adapt the host:port to your environment
+    healthcheck:
       test:
         [
           "CMD-SHELL",
@@ -25,20 +17,28 @@ services:
       retries: 3
       start_period: 40s
     volumes:
-      - ./data:/var/cache/ntfy
       - ./config:/etc/ntfy
+      - ./data:/var/lib/ntfy
+      - ntfy_cache:/var/cache/ntfy
     expose:
       - "80"
     restart: always
+    env_file: .env
+    environment:
+      - TZ=Asia/Kolkata
     labels:
       # Traefik
       - "traefik.enable=true"
-      - "traefik.http.routers.ntfy.rule=Host(`ntfy.pranaovs.me`) || Host(`notify.pranaovs.me`)"
-      - "traefik.docker.network=traefik_net"
+      - "traefik.http.routers.ntfy-https.rule=Host(`ntfy.pranaovs.me`) || Host(`notify.pranaovs.me`)"
+      - "traefik.http.routers.ntfy-https.entrypoints=websecure"
+      - traefik.http.routers.ntfy-https.service=ntfy
+
+      - "traefik.http.routers.ntfy-ts.rule=Host(`ntfy.devserver.ts.net`) || Host(`ntfy.devserver`) || Host(`notify.devserver.ts.net`) || Host(`notify.devserver`)"
+      - "traefik.http.routers.ntfy-ts.entrypoints=web"
+      - traefik.http.routers.ntfy-ts.service=ntfy
+
       - "traefik.http.services.ntfy.loadbalancer.server.port=80"
-      - "traefik.http.routers.ntfy.entrypoints=websecure"
-      - "traefik.http.routers.ntfy.tls=true"
-      - "traefik.http.routers.ntfy.tls.certresolver=le"
+      - "traefik.docker.network=traefik_net"
       # AutoKuma (uptime-kuma)
       - "kuma.ntfy_grp.group.name=ntfy"
       - "kuma.ntfy_http_1.http.name=ntfy (ntfy.pranaovs.me)"
@@ -51,6 +51,9 @@ services:
       - "kuma.ntfy_container.docker.docker_container=ntfy"
       - "kuma.ntfy_container.docker.docker_host_name=local"
       - "kuma.ntfy_container.docker.parent_name=ntfy_grp"
+
+volumes:
+  ntfy_cache:
 
 networks:
   traefik_net:
