@@ -1,7 +1,7 @@
 services:
-  uptime-kuma:
+  uptimekuma:
     image: louislam/uptime-kuma:2
-    container_name: uptime_kuma
+    container_name: uptimekuma
     restart: unless-stopped
     ports:
       - "30090:3001"
@@ -33,7 +33,7 @@ services:
       - "kuma.uptime_kuma_http_2.http.url=https://uptime.pranaovs.me"
       - "kuma.uptime_kuma_http_2.http.parent_name=uptime_kuma_grp"
       - "kuma.uptime_kuma_container.docker.name=Uptime Kuma Container"
-      - "kuma.uptime_kuma_container.docker.docker_container=uptime_kuma"
+      - "kuma.uptime_kuma_container.docker.docker_container=uptimekuma"
       - "kuma.uptime_kuma_container.docker.docker_host_name=local"
       - "kuma.uptime_kuma_container.docker.parent_name=uptime_kuma_grp"
       # Watchtower
@@ -45,14 +45,18 @@ services:
   autokuma:
     image: ghcr.io/bigboot/autokuma:latest
     restart: always
+    container_name: autokuma
     environment:
-      AUTOKUMA__KUMA__URL: http://uptime_kuma:3001
+      AUTOKUMA__KUMA__URL: http://uptimekuma:3001
     env_file: ".env"
     security_opt:
       - label=type:spc_t
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./data/autokuma:/data
+    depends_on:
+      - uptimekuma
+
     labels:
       # AutoKuma docker setup
       - "kuma.local.docker_host.name=Docker socket"
@@ -60,7 +64,7 @@ services:
       - "kuma.local.docker_host.path=/var/run/docker.sock"
       # AutoKuma (uptime-kuma)
       - "kuma.autokuma_container.docker.name=AutoKuma Container"
-      - "kuma.autokuma_container.docker.docker_container=uptime-kuma-autokuma-1"
+      - "kuma.autokuma_container.docker.docker_container=autokuma"
       - "kuma.autokuma_container.docker.docker_host_name=local"
       - "kuma.autokuma_container.docker.parent_name=uptime_kuma_grp"
       # Group for CTF Tools
