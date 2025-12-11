@@ -60,6 +60,12 @@ services:
       - "traefik.http.middlewares.crowdsec.plugin.crowdsec-bouncer.enabled=true"
       - "traefik.http.middlewares.crowdsec.plugin.crowdsec-bouncer.crowdsecappsecenabled=false"
       - "traefik.http.middlewares.crowdsec.plugin.crowdsec-bouncer.crowdseclapikey=${CROWDSEC_LAPI_KEY}"
+      # Autokuma
+      - "kuma.traefik_container.docker.name=Crowdsec Container"
+      - "kuma.traefik_container.docker.docker_container=crowdsec"
+      - "kuma.traefik_container.docker.docker_host_name=local"
+      - "kuma.traefik_container.docker.parent_name=traefik_grp"
+
     networks:
       - traefik_net
 
