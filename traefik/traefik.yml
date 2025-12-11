@@ -14,6 +14,8 @@ entryPoints:
     http:
       tls:
         certResolver: le
+      middlewares:
+        - crowdsec@docker
 
 serversTransport:
   insecureSkipVerify: true
@@ -37,5 +39,11 @@ log:
 
 accessLog:
   format: common # or json
-  bufferingSize: 0 # disable buffering, send directly to stdout
+  # bufferingSize: 0 # disable buffering, send directly to stdout
+  filePath: /var/log/traefik/access.log
 
+experimental:
+  plugins:
+    crowdsec-bouncer:
+      moduleName: "github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin"
+      version: "v1.4.7"
