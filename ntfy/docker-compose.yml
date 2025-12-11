@@ -24,8 +24,11 @@ services:
       - "80"
     restart: always
     env_file: .env
+    networks:
+      - traefik_net
     environment:
       - TZ=Asia/Kolkata
+
     labels:
       # Traefik
       - "traefik.enable=true"
@@ -34,6 +37,7 @@ services:
       - traefik.http.routers.ntfy-https.service=ntfy
 
       - "traefik.http.routers.ntfy-ts.rule=Host(`ntfy.devserver.ts.net`) || Host(`ntfy.devserver`) || Host(`notify.devserver.ts.net`) || Host(`notify.devserver`)"
+      - headnscale.subdomain=ntfy|notify
       - "traefik.http.routers.ntfy-ts.entrypoints=web"
       - traefik.http.routers.ntfy-ts.service=ntfy
 
