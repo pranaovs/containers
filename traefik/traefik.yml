@@ -9,15 +9,13 @@ api:
 entryPoints:
   web:
     address: ":80"
-    http:
-      redirections:
-        entryPoint:
-          to: websecure
-          scheme: https
   websecure:
     address: ":443"
-  metrics:
-    address: ":9090"
+    http:
+      tls:
+        certResolver: le
+      middlewares:
+        - crowdsec@docker
 
 serversTransport:
   insecureSkipVerify: true
@@ -39,14 +37,13 @@ log:
   format: common # or json
   filePath: "" # empty means stdout
 
-metrics:
-  prometheus:
-    entryPoint: metrics
-    addEntryPointsLabels: true
-    addRoutersLabels: true
-    addServicesLabels: true
-
 accessLog:
   format: common # or json
-  bufferingSize: 0 # disable buffering, send directly to stdout
+  # bufferingSize: 0 # disable buffering, send directly to stdout
+  filePath: /var/log/traefik/access.log
 
+experimental:
+  plugins:
+    crowdsec-bouncer:
+      moduleName: "github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin"
+      version: "v1.4.7"

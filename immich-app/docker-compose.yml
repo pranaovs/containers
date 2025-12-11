@@ -12,7 +12,7 @@ name: immich
 services:
   immich-server:
     container_name: immich_server
-    image: ghcr.io/immich-app/immich-server:release
+    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
     # extends:
     #   file: hwaccel.transcoding.yml
     #   service: cpu # set to one of [nvenc, quicksync, rkmpp, vaapi, vaapi-wsl] for accelerated transcoding
@@ -22,14 +22,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
-    environment:
-      - "TZ=Asia/Kolkata"
-      - "IMMICH_TELEMETRY_INCLUDE=all"
     ports:
       - "30081:2283"
-    expose:
-      - "8081"
-      - "8082"
     depends_on:
       - database
       - redis
@@ -39,12 +33,18 @@ services:
     labels:
       # Traefik
       - "traefik.enable=true"
-      - "traefik.http.routers.immich.rule=Host(`immich.pranaovs.me`) || Host(`photos.pranaovs.me`)"
-      - "traefik.docker.network=traefik_net"
+      - "traefik.http.routers.immich-https.rule=Host(`immich.pranaovs.me`) || Host(`photos.pranaovs.me`)"
+      - "traefik.http.routers.immich-https.entrypoints=websecure"
+      - "traefik.http.routers.immich-https.middlewares=anubis@docker"
+      - "traefik.http.routers.immich-https.service=immich"
+
+      - "traefik.http.routers.immich-ts.rule=Host(`immich.devserver.ts.net`) || Host(`photos.devserver.ts.net`) || Host(`immich.devserver`) || Host(`photos.devserver`)"
+      - "headnscale.subdomain=immich|photos"
+      - "traefik.http.routers.immich-ts.entrypoints=web"
+      - "traefik.http.routers.immich-ts.service=immich"
+
       - "traefik.http.services.immich.loadbalancer.server.port=2283"
-      - "traefik.http.routers.immich.entrypoints=websecure"
-      - "traefik.http.routers.immich.tls=true"
-      - "traefik.http.routers.immich.tls.certresolver=le"
+      - "traefik.docker.network=traefik_net"
       # AutoKuma (uptime-kuma)
       - "kuma.immich_grp.group.name=Immich"
       - "kuma.immich_http_1.http.name=Immich (immich.pranaovs.me)"
@@ -57,14 +57,11 @@ services:
       - "kuma.immich_server_container.docker.docker_container=immich_server"
       - "kuma.immich_server_container.docker.docker_host_name=local"
       - "kuma.immich_server_container.docker.parent_name=immich_grp"
-      # Prometheus
-      - "prometheus-scrape.enabled=true"
-      - "prometheus-scrape.port=8081"
-      - "prometheus-scrape.job_name=Immich"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
     networks:
       - default
       - traefik_net
-      - metrics_net
 
   immich-machine-learning:
     container_name: immich_machine_learning
@@ -78,9 +75,6 @@ services:
       - model-cache:/cache
     env_file:
       - .env
-    environment:
-      - "TZ=Asia/Kolkata"
-      - "IMMICH_TELEMETRY_INCLUDE=all"
     restart: unless-stopped
     healthcheck:
       disable: false
@@ -90,6 +84,8 @@ services:
       - "kuma.immich_ml_container.docker.docker_container=immich_machine_learning"
       - "kuma.immich_ml_container.docker.docker_host_name=local"
       - "kuma.immich_ml_container.docker.parent_name=immich_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
 
   redis:
     container_name: immich_redis
@@ -131,6 +127,4 @@ volumes:
 
 networks:
   traefik_net:
-    external: true
-  metrics_net:
     external: true

@@ -5,11 +5,10 @@ services:
     container_name: headscale
     ports:
       - "3478:3478/udp"
-    expose:
-      - "9090"
     volumes:
       - ./config:/etc/headscale
       - ./lib:/var/lib/headscale
+      - ./dns:/dns
       - headscale_run:/var/run/headscale
     command: serve
     labels:
@@ -18,8 +17,7 @@ services:
       - "traefik.http.routers.headscale.rule=Host(`headscale.pranaovs.me`)"
       - "traefik.http.services.headscale.loadbalancer.server.port=8080"
       - "traefik.http.routers.headscale.entrypoints=websecure"
-      - "traefik.http.routers.headscale.tls=true"
-      - "traefik.http.routers.headscale.tls.certresolver=le"
+      - "traefik.http.routers.headscale.middlewares=anubis@docker"
       # AutoKuma (uptime-kuma)
       - "kuma.headscale_grp.group.name=Headscale"
       - "kuma.headscale_http.http.name=Headscale HTTP"
@@ -29,18 +27,51 @@ services:
       - "kuma.headscale_container.docker.docker_container=headscale"
       - "kuma.headscale_container.docker.docker_host_name=local"
       - "kuma.headscale_container.docker.parent_name=headscale_grp"
-      # Prometheus
-      - "prometheus-scrape.enabled=true"
-      - "prometheus-scrape.job_name=Headscale"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
     networks:
       - traefik_net
-      - metrics_net
+
+  headnscale:
+    image: ghcr.io/pranaovs/headnscale:latest
+    container_name: headnscale
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./dns:/data
+    expose:
+      - "8080"
+    environment:
+      - HEADNSCALE_JSON_PATH=/data/extra_records.json
+      - HEADNSCALE_HOSTS_PATH=/data/hosts.txt
+      - HEADNSCALE_NODE_HOSTNAME=devserver
+      - HEADNSCALE_NODE_IP=100.64.0.2
+      - HEADNSCALE_NODE_IP6=fd7a:115c:a1e0::2
+      - HEADNSCALE_NO_BASE_DOMAIN=true
+    security_opt:
+      - label=type:spc_t
+    labels:
+      # AutoKuma (uptime-kuma)
+      - "kuma.headnscale_container.docker.name=Headnscale Container"
+      - "kuma.headnscale_container.docker.docker_container=headnscale"
+      - "kuma.headnscale_container.docker.docker_host_name=local"
+      - "kuma.headnscale_container.docker.parent_name=headscale_grp"
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.routers.headnscale-ts.rule=(Host(`devserver.ts.net`) || Host(`devserver`)) && (Path(`/hosts`) || Path(`/hosts.txt`))"
+      - "headnscale.subdomain=traefik"
+      - "traefik.http.routers.headnscale-ts.entrypoints=web"
+      - "traefik.http.routers.headnscale-ts.priority=1000"
+      - "traefik.http.routers.headnscale-ts.service=headnscale"
+      - "traefik.http.services.headnscale.loadbalancer.server.port=8080"
+      - "traefik.docker.network=traefik_net"
+
+    networks:
+      - traefik_net
 
 volumes:
   headscale_run:
 
 networks:
   traefik_net:
-    external: true
-  metrics_net:
     external: true

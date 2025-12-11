@@ -20,7 +20,7 @@ listen_addr: 0.0.0.0:8080
 
 # Address to listen to /metrics and /debug, you may want
 # to keep this endpoint private to your internal network
-metrics_listen_addr: 0.0.0.0:9090
+metrics_listen_addr: 127.0.0.1:9090
 
 # Address to listen for gRPC.
 # gRPC is used for controlling a headscale server
@@ -241,7 +241,7 @@ policy:
   mode: file
   # If the mode is set to "file", the path to a
   # HuJSON file containing ACL policies.
-  path: "/etc/headscale/shared-acl.json"
+  path: "/etc/headscale/default-acl.json"
 
 ## DNS
 #
@@ -319,7 +319,7 @@ dns:
   #
   # Alternatively, extra DNS records can be loaded from a JSON file.
   # Headscale processes this file on each change.
-  # extra_records_path: /var/lib/headscale/extra-records.json
+  extra_records_path: /dns/extra_records.json
 
 # Unix socket used for the CLI to connect without authentication
 # Note: for production you will want to set this to something like:

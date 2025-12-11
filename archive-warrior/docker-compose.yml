@@ -6,19 +6,34 @@ services:
     ports:
       - "30082:8001"
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
       # AutoKuma (uptime-kuma)
       - "kuma.archiveteam_grp.group.name=Archive Team Warrior"
       - "kuma.archiveteam_container.docker.name=Archive Team Warrior Container"
       - "kuma.archiveteam_container.docker.docker_container=archiveTeamWarrior"
       - "kuma.archiveteam_container.docker.docker_host_name=local"
       - "kuma.archiveteam_container.docker.parent_name=archiveteam_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.routers.archivewarrior-ts.rule=Host(`archiver.devserver.ts.net`) || Host(`archivewarrior.devserver.ts.net`)"
+      - "headnscale.subdomain=archiver|archivewarrior"
+      - "traefik.http.services.archivewarrior-ts.loadbalancer.server.port=8001"
+      - "traefik.http.routers.archivewarrior-ts.entrypoints=web"
+      - "traefik.docker.network=traefik_net"
+
     restart: unless-stopped
     volumes:
       - "./config.json:/home/warrior/projects/config.json"
       - "warrior_data:/home/warrior/data"
       - "warrior_projects:/home/warrior/projects"
+    networks:
+      - traefik_net
 
 volumes:
   warrior_data:
   warrior_projects:
+
+networks:
+  traefik_net:
+    external: true

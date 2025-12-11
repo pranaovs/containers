@@ -13,12 +13,18 @@ services:
     labels:
       # Traefik
       - "traefik.enable=true"
-      - "traefik.http.routers.uptime_kuma.rule=Host(`status.pranaovs.me`) || Host(`uptime.pranaovs.me`)"
+      - "traefik.http.routers.uptimekuma-https.rule=Host(`status.pranaovs.me`) || Host(`uptime.pranaovs.me`)"
+      - "traefik.http.routers.uptimekuma-https.entrypoints=websecure"
+      - "traefik.http.routers.uptimekuma-https.middlewares=anubis@docker"
+      - "traefik.http.routers.uptimekuma-https.service=uptimekuma"
+
+      - "traefik.http.routers.uptimekuma-ts.rule=Host(`status.devserver.ts.net`) || Host(`uptime.devserver.ts.net`) || Host(`status.devserver`) || Host(`uptime.devserver`)"
+      - "headnscale.subdomain=status|uptime"
+      - "traefik.http.routers.uptimekuma-ts.entrypoints=web"
+      - "traefik.http.routers.uptimekuma-ts.service=uptimekuma"
+
+      - "traefik.http.services.uptimekuma.loadbalancer.server.port=3001"
       - "traefik.docker.network=traefik_net"
-      - "traefik.http.services.uptime_kuma.loadbalancer.server.port=3001"
-      - "traefik.http.routers.uptime_kuma.entrypoints=websecure"
-      - "traefik.http.routers.uptime_kuma.tls=true"
-      - "traefik.http.routers.uptime_kuma.tls.certresolver=le"
       # AutoKuma (uptime-kuma)
       - "kuma.uptime_kuma_grp.group.name=Uptime Kuma"
       - "kuma.uptime_kuma_http_1.http.name=Uptime Kuma (status.pranaovs.me)"
@@ -31,6 +37,8 @@ services:
       - "kuma.uptime_kuma_container.docker.docker_container=uptime_kuma"
       - "kuma.uptime_kuma_container.docker.docker_host_name=local"
       - "kuma.uptime_kuma_container.docker.parent_name=uptime_kuma_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
     networks:
       - default
       - traefik_net
@@ -58,6 +66,16 @@ services:
       - "kuma.autokuma_container.docker.parent_name=uptime_kuma_grp"
       # Group for CTF Tools
       - "kuma.ctf_grp.group.name=CTF"
+      # DNS Monitor
+      - "kuma.dns_grp.group.name=DNS"
+      - "kuma.dns_a.dns.name=pranaovs.me A"
+      - "kuma.dns_a.dns.hostname=pranaovs.me"
+      - "kuma.dns_a.dns.parent_name=dns_grp"
+      - "kuma.dns_a.dns.dns_resolve_type=A"
+      - "kuma.dns_aaaa.dns.name=pranaovs.me AAAA"
+      - "kuma.dns_aaaa.dns.hostname=pranaovs.me"
+      - "kuma.dns_aaaa.dns.dns_resolve_type=AAAA"
+      - "kuma.dns_aaaa.dns.parent_name=dns_grp"
 
 networks:
   traefik_net:

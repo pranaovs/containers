@@ -15,14 +15,12 @@ services:
     env_file:
       - .env
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
       # Traefik
       - "traefik.enable=true"
       - "traefik.http.routers.vaultwarden.rule=Host(`vaultwarden.pranaovs.me`) || Host(`bitwarden.pranaovs.me`) || Host(`passwords.pranaovs.me`)"
       - "traefik.http.services.vaultwarden.loadbalancer.server.port=80"
       - "traefik.http.routers.vaultwarden.entrypoints=websecure"
-      - "traefik.http.routers.vaultwarden.tls=true"
-      - "traefik.http.routers.vaultwarden.tls.certresolver=le"
+      - "traefik.http.routers.vaultwarden.middlewares=anubis@docker"
       # AutoKuma (uptime-kuma)
       - "kuma.vaultwarden_grp.group.name=Vaultwarden"
       - "kuma.vaultwarden_http_1.http.name=Vaultwarden (vaultwarden.pranaovs.me)"
@@ -38,6 +36,8 @@ services:
       - "kuma.vaultwarden_container.docker.docker_container=vaultwarden"
       - "kuma.vaultwarden_container.docker.docker_host_name=local"
       - "kuma.vaultwarden_container.docker.parent_name=vaultwarden_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
     networks:
       - traefik_net
 

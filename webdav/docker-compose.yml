@@ -1,0 +1,35 @@
+services:
+  webdav:
+    image: "ghcr.io/hacdias/webdav:latest"
+    container_name: webdav
+    ports:
+      - "30094:6065"
+    volumes:
+      - ./data:/data
+      - ./config:/config:ro
+    env_file: .env
+    command: ["-c", "/config/config.yml"]
+    restart: always
+    labels:
+      # AutoKuma (uptime-kuma)
+      - "kuma.webdav_grp.group.name=WebDAV"
+      - "kuma.webdav_container.docker.name=WebDAV Container"
+      - "kuma.webdav_container.docker.docker_container=webdav"
+      - "kuma.webdav_container.docker.docker_host_name=local"
+      - "kuma.webdav_container.docker.parent_name=webdav_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.routers.webdav-ts.rule=Host(`webdav.devserver.ts.net`) || Host(`backups.devserver.ts.net`) || Host(`backups.devserver.ts.net`) || Host(`webdav.devserver`) || Host(`backup.devserver`) || Host(`backups.devserver`)"
+      - "headnscale.subdomain=webdav|backup|backups"
+      - "traefik.http.routers.webdav-ts.entrypoints=web"
+      - "traefik.http.routers.webdav-ts.service=webdav"
+      - "traefik.http.services.webdav.loadbalancer.server.port=6065"
+      - "traefik.docker.network=traefik_net"
+    networks:
+      - traefik_net
+
+networks:
+  traefik_net:
+    external: true

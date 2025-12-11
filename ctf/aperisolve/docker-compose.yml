@@ -24,8 +24,6 @@ services:
       - "traefik.docker.network=traefik_net"
       - "traefik.http.services.aperisolve.loadbalancer.server.port=5000"
       - "traefik.http.routers.aperisolve.entrypoints=websecure"
-      - "traefik.http.routers.aperisolve.tls=true"
-      - "traefik.http.routers.aperisolve.tls.certresolver=le"
       # AutoKuma (uptime-kuma)
       - "kuma.aperisolve_grp.group.name=Aperisolve"
       - "kuma.aperisolve_grp.group.parent_name=ctf_grp"
