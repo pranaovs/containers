@@ -2,6 +2,7 @@ services:
   jellyfin:
     image: "jellyfin/jellyfin:latest"
     container_name: jellyfin
+    restart: always
     expose:
       - "8096"
     volumes:
