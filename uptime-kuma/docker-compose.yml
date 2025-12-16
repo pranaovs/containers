@@ -36,6 +36,9 @@ services:
     container_name: autokuma
     environment:
       AUTOKUMA__KUMA__URL: http://uptimekuma:3001
+      # Default settings
+      AUTOKUMA__DEFAULT_SETTINGS: |-
+        *.max_retries: 5
     env_file: ".env"
     security_opt:
       - label=type:spc_t
@@ -46,7 +49,7 @@ services:
       - uptimekuma
 
     labels:
-      # AutoKuma docker setup
+      # Docker setup
       - "kuma.local.docker_host.name=Docker socket"
       - "kuma.local.docker_host.connection_type=socket"
       - "kuma.local.docker_host.path=/var/run/docker.sock"
