@@ -36,15 +36,27 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.ntfy-https.rule=Host(`ntfy.pranaovs.me`) || Host(`notify.pranaovs.me`)"
       - "traefik.http.routers.ntfy-https.entrypoints=websecure"
-      - traefik.http.routers.ntfy-https.service=ntfy
+      - "traefik.http.routers.ntfy-https.service=ntfy"
 
       - "traefik.http.routers.ntfy-ts.rule=Host(`ntfy.devserver.ts.net`) || Host(`ntfy.devserver`) || Host(`notify.devserver.ts.net`) || Host(`notify.devserver`)"
-      - headnscale.subdomain=ntfy|notify
+      - "headnscale.subdomain=ntfy|notify"
       - "traefik.http.routers.ntfy-ts.entrypoints=web"
       - traefik.http.routers.ntfy-ts.service=ntfy
 
       - "traefik.http.services.ntfy.loadbalancer.server.port=80"
       - "traefik.docker.network=traefik_net"
+
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  autokuma:
+    image: busybox:latest
+    container_name: ntfy-autokuma
+    restart: always
+    command: ["sleep", "infinity"]
+    healthcheck:
+      test: ["CMD", "sleep", "0"]
+    labels:
       # AutoKuma (uptime-kuma)
       - "kuma.ntfy_grp.group.name=ntfy"
       - 'kuma.ntfy_grp.group.notification_name_list=["ntfy"]'
@@ -58,6 +70,9 @@ services:
       - "kuma.ntfy_container.docker.docker_container=ntfy"
       - "kuma.ntfy_container.docker.docker_host_name=local"
       - "kuma.ntfy_container.docker.parent_name=ntfy_grp"
+
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
 
 volumes:
   ntfy_cache:

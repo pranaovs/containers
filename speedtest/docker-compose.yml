@@ -23,6 +23,20 @@ services:
 
       - "traefik.http.services.speedtest.loadbalancer.server.port=8080"
       - "traefik.docker.network=traefik_net"
+
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+    networks:
+      - traefik_net
+
+  autokuma:
+    image: busybox:latest
+    container_name: speedtest-autokuma
+    restart: always
+    command: ["sleep", "infinity"]
+    healthcheck:
+      test: ["CMD", "sleep", "0"]
+    labels:
       # AutoKuma (uptime-kuma)
       - "kuma.speedtest_grp.group.name=Speedtest"
       - 'kuma.speedtest_grp.group.notification_name_list=["ntfy"]'
@@ -38,8 +52,6 @@ services:
       - "kuma.speedtest_container.docker.parent_name=speedtest_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
-    networks:
-      - traefik_net
 
 networks:
   traefik_net:

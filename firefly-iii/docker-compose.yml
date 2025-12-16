@@ -12,13 +12,6 @@ services:
     depends_on:
       - db
     labels:
-      # AutoKuma (uptime-kuma)
-      - "kuma.firefly_grp.group.name=Firefly III"
-      - 'kuma.firefly_grp.group.notification_name_list=["ntfy"]'
-      - "kuma.firefly_container.docker.name=Firefly III Container"
-      - "kuma.firefly_container.docker.docker_container=firefly_iii"
-      - "kuma.firefly_container.docker.docker_host_name=local"
-      - "kuma.firefly_container.docker.parent_name=firefly_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
       # Traefik
@@ -42,11 +35,6 @@ services:
     volumes:
       - ./data/db:/var/lib/mysql
     labels:
-      # AutoKuma (uptime-kuma)
-      - "kuma.firefly_db_container.docker.name=Firefly III Database Container"
-      - "kuma.firefly_db_container.docker.docker_container=firefly_iii_db"
-      - "kuma.firefly_db_container.docker.docker_host_name=local"
-      - "kuma.firefly_db_container.docker.parent_name=firefly_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
 
@@ -68,11 +56,35 @@ services:
     depends_on:
       - app
     labels:
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  autokuma:
+    image: busybox:latest
+    container_name: firefly_iii-autokuma
+    restart: always
+    command: ["sleep", "infinity"]
+    healthcheck:
+      test: ["CMD", "sleep", "0"]
+    labels:
       # AutoKuma (uptime-kuma)
+      - "kuma.firefly_grp.group.name=Firefly III"
+      - 'kuma.firefly_grp.group.notification_name_list=["ntfy"]'
+      - "kuma.firefly_container.docker.name=Firefly III Container"
+      - "kuma.firefly_container.docker.docker_container=firefly_iii"
+      - "kuma.firefly_container.docker.docker_host_name=local"
+      - "kuma.firefly_container.docker.parent_name=firefly_grp"
+
+      - "kuma.firefly_db_container.docker.name=Firefly III Database Container"
+      - "kuma.firefly_db_container.docker.docker_container=firefly_iii_db"
+      - "kuma.firefly_db_container.docker.docker_host_name=local"
+      - "kuma.firefly_db_container.docker.parent_name=firefly_grp"
+
       - "kuma.firefly_cron_container.docker.name=Firefly III Cron Container"
       - "kuma.firefly_cron_container.docker.docker_container=firefly_iii_cron"
       - "kuma.firefly_cron_container.docker.docker_host_name=local"
       - "kuma.firefly_cron_container.docker.parent_name=firefly_grp"
+
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
 

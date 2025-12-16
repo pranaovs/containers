@@ -31,6 +31,20 @@ services:
       - "traefik.http.routers.n8n.rule=Host(`n8n.pranaovs.me`) || Host(`n8n.deepanalve.dev`)"
       - "traefik.http.services.n8n.loadbalancer.server.port=5678"
       - "traefik.http.routers.n8n.entrypoints=websecure"
+      - "traefik.docker.network=traefik_net"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+    networks:
+      - traefik_net
+
+  autokuma:
+    image: busybox:latest
+    container_name: n8n-autokuma
+    restart: always
+    command: ["sleep", "infinity"]
+    healthcheck:
+      test: ["CMD", "sleep", "0"]
+    labels:
       # AutoKuma (uptime-kuma)
       - "kuma.n8n_grp.group.name=n8n"
       - 'kuma.n8n_grp.group.notification_name_list=["ntfy"]'
@@ -46,8 +60,6 @@ services:
       - "kuma.n8n_container.docker.parent_name=n8n_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
-    networks:
-      - traefik_net
 
 networks:
   traefik_net:

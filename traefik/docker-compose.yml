@@ -23,13 +23,6 @@ services:
       - "--certificatesresolvers.le.acme.email=${TRAEFIK_ACME_EMAIL}"
 
     labels:
-      # AutoKuma (uptime-kuma)
-      - "kuma.traefik_grp.group.name=Traefik"
-      - 'kuma.traefik_grp.group.notification_name_list=["ntfy"]'
-      - "kuma.traefik_container.docker.name=Traefik Container"
-      - "kuma.traefik_container.docker.docker_container=traefik"
-      - "kuma.traefik_container.docker.docker_host_name=local"
-      - "kuma.traefik_container.docker.parent_name=traefik_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
       # Traefik
@@ -66,11 +59,8 @@ services:
       - logs:/var/log/traefik:ro
       - crowdsec-data:/var/lib/crowdsec/data/
     labels:
-      # Autokuma
-      - "kuma.crowdsec_container.docker.name=Crowdsec Container"
-      - "kuma.crowdsec_container.docker.docker_container=crowdsec"
-      - "kuma.crowdsec_container.docker.docker_host_name=local"
-      - "kuma.crowdsec_container.docker.parent_name=traefik_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
 
   anubis:
     image: ghcr.io/techarohq/anubis:main
@@ -91,12 +81,6 @@ services:
       - traefik_net
 
     labels:
-      # Autokuma
-      - "kuma.anubis_container.docker.name=Anubis Container"
-      - "kuma.anubis_container.docker.docker_container=anubis"
-      - "kuma.anubis_container.docker.docker_host_name=local"
-      - "kuma.anubis_container.docker.parent_name=traefik_grp"
-
       # Traefik
       - traefik.enable=true
       - traefik.http.routers.anubis-https.rule=Host(`anubis.pranaovs.me`)
@@ -106,18 +90,15 @@ services:
       - traefik.http.services.anubis.loadbalancer.server.port=8080
       - traefik.docker.network=traefik_net
 
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+
   whoami:
     image: traefik/whoami:latest
     container_name: whoami
     networks:
       - traefik_net
     labels:
-      # Autokuma
-      - "kuma.whoami_container.docker.name=whoami Container"
-      - "kuma.whoami_container.docker.docker_container=whoami"
-      - "kuma.whoami_container.docker.docker_host_name=local"
-      - "kuma.whoami_container.docker.parent_name=traefik_grp"
-
       # Traefik
       - traefik.enable=true
       - traefik.http.routers.whoami-https.rule=Host(`whoami.pranaovs.me`)
@@ -132,6 +113,43 @@ services:
 
       - traefik.docker.network=traefik_net
       - traefik.http.services.whoami.loadbalancer.server.port=80
+
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  autokuma:
+    image: busybox:latest
+    container_name: traefik-autokuma
+    restart: always
+    command: ["sleep", "infinity"]
+    healthcheck:
+      test: ["CMD", "sleep", "0"]
+    labels:
+      # Autokuma
+      - "kuma.traefik_grp.group.name=Traefik"
+      - 'kuma.traefik_grp.group.notification_name_list=["ntfy"]'
+      - "kuma.traefik_container.docker.name=Traefik Container"
+      - "kuma.traefik_container.docker.docker_container=traefik"
+      - "kuma.traefik_container.docker.docker_host_name=local"
+      - "kuma.traefik_container.docker.parent_name=traefik_grp"
+
+      - "kuma.crowdsec_container.docker.name=Crowdsec Container"
+      - "kuma.crowdsec_container.docker.docker_container=crowdsec"
+      - "kuma.crowdsec_container.docker.docker_host_name=local"
+      - "kuma.crowdsec_container.docker.parent_name=traefik_grp"
+
+      - "kuma.anubis_container.docker.name=Anubis Container"
+      - "kuma.anubis_container.docker.docker_container=anubis"
+      - "kuma.anubis_container.docker.docker_host_name=local"
+      - "kuma.anubis_container.docker.parent_name=traefik_grp"
+
+      - "kuma.whoami_container.docker.name=whoami Container"
+      - "kuma.whoami_container.docker.docker_container=whoami"
+      - "kuma.whoami_container.docker.docker_host_name=local"
+      - "kuma.whoami_container.docker.parent_name=traefik_grp"
+
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
 
 volumes:
   letsencrypt:

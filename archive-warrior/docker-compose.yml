@@ -6,13 +6,6 @@ services:
     ports:
       - "30082:8001"
     labels:
-      # AutoKuma (uptime-kuma)
-      - "kuma.archiveteam_grp.group.name=Archive Team Warrior"
-      - 'kuma.archiveteam_grp.group.notification_name_list=["ntfy"]'
-      - "kuma.archiveteam_container.docker.name=Archive Team Warrior Container"
-      - "kuma.archiveteam_container.docker.docker_container=archiveTeamWarrior"
-      - "kuma.archiveteam_container.docker.docker_host_name=local"
-      - "kuma.archiveteam_container.docker.parent_name=archiveteam_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
       # Traefik
@@ -30,6 +23,24 @@ services:
       - "warrior_projects:/home/warrior/projects"
     networks:
       - traefik_net
+
+  autokuma:
+    image: busybox:latest
+    container_name: archiveTeamWarrior-autokuma
+    restart: always
+    command: ["sleep", "infinity"]
+    healthcheck:
+      test: ["CMD", "sleep", "0"]
+    labels:
+      # AutoKuma (uptime-kuma)
+      - "kuma.archiveteam_grp.group.name=Archive Team Warrior"
+      - 'kuma.archiveteam_grp.group.notification_name_list=["ntfy"]'
+      - "kuma.archiveteam_container.docker.name=Archive Team Warrior Container"
+      - "kuma.archiveteam_container.docker.docker_container=archiveTeamWarrior"
+      - "kuma.archiveteam_container.docker.docker_host_name=local"
+      - "kuma.archiveteam_container.docker.parent_name=archiveteam_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
 
 volumes:
   warrior_data:

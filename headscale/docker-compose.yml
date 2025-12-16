@@ -17,16 +17,7 @@ services:
       - "traefik.http.routers.headscale.rule=Host(`headscale.pranaovs.me`)"
       - "traefik.http.services.headscale.loadbalancer.server.port=8080"
       - "traefik.http.routers.headscale.entrypoints=websecure"
-      # AutoKuma (uptime-kuma)
-      - "kuma.headscale_grp.group.name=Headscale"
-      - 'kuma.headscale_grp.group.notification_name_list=["ntfy"]'
-      - "kuma.headscale_http.http.name=Headscale HTTP"
-      - "kuma.headscale_http.http.url=https://headscale.pranaovs.me/health"
-      - "kuma.headscale_http.http.parent_name=headscale_grp"
-      - "kuma.headscale_container.docker.name=Headscale Container"
-      - "kuma.headscale_container.docker.docker_container=headscale"
-      - "kuma.headscale_container.docker.docker_host_name=local"
-      - "kuma.headscale_container.docker.parent_name=headscale_grp"
+      - "traefik.docker.network=traefik_net"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
     networks:
@@ -51,11 +42,6 @@ services:
     security_opt:
       - label=type:spc_t
     labels:
-      # AutoKuma (uptime-kuma)
-      - "kuma.headnscale_container.docker.name=Headnscale Container"
-      - "kuma.headnscale_container.docker.docker_container=headnscale"
-      - "kuma.headnscale_container.docker.docker_host_name=local"
-      - "kuma.headnscale_container.docker.parent_name=headscale_grp"
       # Traefik
       - "traefik.enable=true"
       - "traefik.http.routers.headnscale-ts.rule=(Host(`devserver.ts.net`) || Host(`devserver`)) && (Path(`/hosts`) || Path(`/hosts.txt`))"
@@ -68,6 +54,32 @@ services:
 
     networks:
       - traefik_net
+
+  autokuma:
+    image: busybox:latest
+    container_name: headscale-autokuma
+    restart: always
+    command: ["sleep", "infinity"]
+    healthcheck:
+      test: ["CMD", "sleep", "0"]
+    labels:
+      # AutoKuma (uptime-kuma)
+      - "kuma.headscale_grp.group.name=Headscale"
+      - 'kuma.headscale_grp.group.notification_name_list=["ntfy"]'
+      - "kuma.headscale_http.http.name=Headscale HTTP"
+      - "kuma.headscale_http.http.url=https://headscale.pranaovs.me/health"
+      - "kuma.headscale_http.http.parent_name=headscale_grp"
+      - "kuma.headscale_container.docker.name=Headscale Container"
+      - "kuma.headscale_container.docker.docker_container=headscale"
+      - "kuma.headscale_container.docker.docker_host_name=local"
+      - "kuma.headscale_container.docker.parent_name=headscale_grp"
+
+      - "kuma.headnscale_container.docker.name=Headnscale Container"
+      - "kuma.headnscale_container.docker.docker_container=headnscale"
+      - "kuma.headnscale_container.docker.docker_host_name=local"
+      - "kuma.headnscale_container.docker.parent_name=headscale_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
 
 volumes:
   headscale_run:

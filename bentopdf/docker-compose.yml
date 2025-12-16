@@ -19,6 +19,19 @@ services:
 
       - "traefik.http.services.bentopdf.loadbalancer.server.port=8080"
       - "traefik.docker.network=traefik_net"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+    networks:
+      - traefik_net
+
+  autokuma:
+    image: busybox:latest
+    container_name: bentopdf-autokuma
+    restart: always
+    command: ["sleep", "infinity"]
+    healthcheck:
+      test: ["CMD", "sleep", "0"]
+    labels:
       # AutoKuma (uptime-kuma)
       - "kuma.bentopdf_grp.group.name=BentoPDF"
       - 'kuma.bentopdf_grp.group.notification_name_list=["ntfy"]'
@@ -37,8 +50,6 @@ services:
       - "kuma.bentopdf_container.docker.parent_name=bentopdf_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
-    networks:
-      - traefik_net
 
 networks:
   traefik_net:

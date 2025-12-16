@@ -1,6 +1,7 @@
 services:
   wakapi:
     image: ghcr.io/muety/wakapi:latest
+    container_name: wakapi
     restart: always
     ports:
       - "30084:3000"
@@ -34,6 +35,34 @@ services:
 
       - "traefik.http.services.wakapi.loadbalancer.server.port=3000"
       - "traefik.docker.network=traefik_net"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+    networks:
+      - default
+      - traefik_net
+
+  db:
+    image: postgres:17
+    container_name: wakapi-db
+    restart: always
+    environment:
+      POSTGRES_USER: "wakapi"
+      POSTGRES_DB: "wakapi"
+      POSTGRES_PASSWORD: ${WAKAPI_DB_PASSWORD}
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    labels:
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  autokuma:
+    image: busybox:latest
+    container_name: wakapi-autokuma
+    restart: always
+    command: ["sleep", "infinity"]
+    healthcheck:
+      test: ["CMD", "sleep", "0"]
+    labels:
       # AutoKuma (uptime-kuma)
       - "kuma.wakapi_grp.group.name=Wakapi"
       - 'kuma.wakapi_grp.group.notification_name_list=["ntfy"]'
@@ -44,28 +73,11 @@ services:
       - "kuma.wakapi_http_2.http.url=https://wakatime.pranaovs.me"
       - "kuma.wakapi_http_2.http.parent_name=wakapi_grp"
       - "kuma.wakapi_container.docker.name=Wakapi Container"
-      - "kuma.wakapi_container.docker.docker_container=wakapi-wakapi-1"
+      - "kuma.wakapi_container.docker.docker_container=wakapi"
       - "kuma.wakapi_container.docker.docker_host_name=local"
       - "kuma.wakapi_container.docker.parent_name=wakapi_grp"
-      # Watchtower
-      - "com.centurylinklabs.watchtower.enable=true"
-    networks:
-      - default
-      - traefik_net
-
-  db:
-    image: postgres:17
-    restart: always
-    environment:
-      POSTGRES_USER: "wakapi"
-      POSTGRES_DB: "wakapi"
-      POSTGRES_PASSWORD: ${WAKAPI_DB_PASSWORD}
-    volumes:
-      - ./data:/var/lib/postgresql/data
-    labels:
-      # AutoKuma (uptime-kuma)
       - "kuma.wakapi_db_container.docker.name=Wakapi Database"
-      - "kuma.wakapi_db_container.docker.docker_container=wakapi-db-1"
+      - "kuma.wakapi_db_container.docker.docker_container=wakapi-db"
       - "kuma.wakapi_db_container.docker.docker_host_name=local"
       - "kuma.wakapi_db_container.docker.parent_name=wakapi_grp"
       # Watchtower

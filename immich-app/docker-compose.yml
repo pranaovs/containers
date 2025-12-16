@@ -44,19 +44,6 @@ services:
 
       - "traefik.http.services.immich.loadbalancer.server.port=2283"
       - "traefik.docker.network=traefik_net"
-      # AutoKuma (uptime-kuma)
-      - "kuma.immich_grp.group.name=Immich"
-      - 'kuma.immich_grp.group.notification_name_list=["ntfy"]'
-      - "kuma.immich_http_1.http.name=Immich (immich.pranaovs.me)"
-      - "kuma.immich_http_1.http.url=https://immich.pranaovs.me"
-      - "kuma.immich_http_1.http.parent_name=immich_grp"
-      - "kuma.immich_http_2.http.name=Immich (photos.pranaovs.me)"
-      - "kuma.immich_http_2.http.url=https://photos.pranaovs.me"
-      - "kuma.immich_http_2.http.parent_name=immich_grp"
-      - "kuma.immich_server_container.docker.name=Immich Server"
-      - "kuma.immich_server_container.docker.docker_container=immich_server"
-      - "kuma.immich_server_container.docker.docker_host_name=local"
-      - "kuma.immich_server_container.docker.parent_name=immich_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
     networks:
@@ -79,11 +66,6 @@ services:
     healthcheck:
       disable: false
     labels:
-      # AutoKuma (uptime-kuma)
-      - "kuma.immich_ml_container.docker.name=Immich Machine Learning Container"
-      - "kuma.immich_ml_container.docker.docker_container=immich_machine_learning"
-      - "kuma.immich_ml_container.docker.docker_host_name=local"
-      - "kuma.immich_ml_container.docker.parent_name=immich_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
 
@@ -93,12 +75,6 @@ services:
     healthcheck:
       test: redis-cli ping || exit 1
     restart: always
-    labels:
-      # AutoKuma (uptime-kuma)
-      - "kuma.immich_redis_container.docker.name=Immich Redis Container"
-      - "kuma.immich_redis_container.docker.docker_container=immich_redis"
-      - "kuma.immich_redis_container.docker.docker_host_name=local"
-      - "kuma.immich_redis_container.docker.parent_name=immich_grp"
 
   database:
     container_name: immich_postgres
@@ -115,12 +91,46 @@ services:
       - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
     shm_size: 128mb
     restart: always
+
+  autokuma:
+    image: busybox:latest
+    container_name: immich-autokuma
+    restart: always
+    command: ["sleep", "infinity"]
+    healthcheck:
+      test: ["CMD", "sleep", "0"]
     labels:
       # AutoKuma (uptime-kuma)
+      - "kuma.immich_grp.group.name=Immich"
+      - 'kuma.immich_grp.group.notification_name_list=["ntfy"]'
+      - "kuma.immich_http_1.http.name=Immich (immich.pranaovs.me)"
+      - "kuma.immich_http_1.http.url=https://immich.pranaovs.me"
+      - "kuma.immich_http_1.http.parent_name=immich_grp"
+      - "kuma.immich_http_2.http.name=Immich (photos.pranaovs.me)"
+      - "kuma.immich_http_2.http.url=https://photos.pranaovs.me"
+      - "kuma.immich_http_2.http.parent_name=immich_grp"
+      - "kuma.immich_server_container.docker.name=Immich Server"
+      - "kuma.immich_server_container.docker.docker_container=immich_server"
+      - "kuma.immich_server_container.docker.docker_host_name=local"
+      - "kuma.immich_server_container.docker.parent_name=immich_grp"
+
+      - "kuma.immich_ml_container.docker.name=Immich Machine Learning Container"
+      - "kuma.immich_ml_container.docker.docker_container=immich_machine_learning"
+      - "kuma.immich_ml_container.docker.docker_host_name=local"
+      - "kuma.immich_ml_container.docker.parent_name=immich_grp"
+
+      - "kuma.immich_redis_container.docker.name=Immich Redis Container"
+      - "kuma.immich_redis_container.docker.docker_container=immich_redis"
+      - "kuma.immich_redis_container.docker.docker_host_name=local"
+      - "kuma.immich_redis_container.docker.parent_name=immich_grp"
+
       - "kuma.immich_postgres_container.docker.name=Immich Postgres Container"
       - "kuma.immich_postgres_container.docker.docker_container=immich_postgres"
       - "kuma.immich_postgres_container.docker.docker_host_name=local"
       - "kuma.immich_postgres_container.docker.parent_name=immich_grp"
+
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
 
 volumes:
   model-cache:

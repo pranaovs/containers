@@ -32,19 +32,6 @@ services:
 
       - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
       - "traefik.docker.network=traefik_net"
-      # AutoKuma (uptime-kuma)
-      - "kuma.jellyfin_grp.group.name=Jellyfin"
-      - 'kuma.jellyfin_grp.group.notification_name_list=["ntfy"]'
-      - "kuma.jellyfin_http_1.http.name=Jellyfin (jellyfin.pranaovs.me)"
-      - "kuma.jellyfin_http_1.http.url=https://jellyfin.pranaovs.me"
-      - "kuma.jellyfin_http_1.http.parent_name=jellyfin_grp"
-      - "kuma.jellyfin_http_2.http.name=Jellyfin (anime.pranaovs.me)"
-      - "kuma.jellyfin_http_2.http.url=https://anime.pranaovs.me"
-      - "kuma.jellyfin_http_2.http.parent_name=jellyfin_grp"
-      - "kuma.jellyfin_container.docker.name=Jellyfin Container"
-      - "kuma.jellyfin_container.docker.docker_container=jellyfin"
-      - "kuma.jellyfin_container.docker.docker_host_name=local"
-      - "kuma.jellyfin_container.docker.parent_name=jellyfin_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
 
@@ -66,7 +53,31 @@ services:
       - "traefik.docker.network=traefik_net"
       - "traefik.http.services.jellyfin_proxy.loadbalancer.server.port=8080"
       - "traefik.http.routers.jellyfin_proxy.entrypoints=websecure"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  autokuma:
+    image: busybox:latest
+    container_name: jellyfin-autokuma
+    restart: always
+    command: ["sleep", "infinity"]
+    healthcheck:
+      test: ["CMD", "sleep", "0"]
+    labels:
       # AutoKuma (uptime-kuma)
+      - "kuma.jellyfin_grp.group.name=Jellyfin"
+      - 'kuma.jellyfin_grp.group.notification_name_list=["ntfy"]'
+      - "kuma.jellyfin_http_1.http.name=Jellyfin (jellyfin.pranaovs.me)"
+      - "kuma.jellyfin_http_1.http.url=https://jellyfin.pranaovs.me"
+      - "kuma.jellyfin_http_1.http.parent_name=jellyfin_grp"
+      - "kuma.jellyfin_http_2.http.name=Jellyfin (anime.pranaovs.me)"
+      - "kuma.jellyfin_http_2.http.url=https://anime.pranaovs.me"
+      - "kuma.jellyfin_http_2.http.parent_name=jellyfin_grp"
+      - "kuma.jellyfin_container.docker.name=Jellyfin Container"
+      - "kuma.jellyfin_container.docker.docker_container=jellyfin"
+      - "kuma.jellyfin_container.docker.docker_host_name=local"
+      - "kuma.jellyfin_container.docker.parent_name=jellyfin_grp"
+
       - "kuma.jellyfinproxy_grp.group.name=Jellyfin Proxy"
       - "kuma.jellyfinproxy_http_1.http.name=Jellyfin Proxy (proxy.jellyfin.pranaovs.me)"
       - "kuma.jellyfinproxy_http_1.http.url=https://proxy.jellyfin.pranaovs.me"

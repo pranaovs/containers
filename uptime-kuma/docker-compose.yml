@@ -24,19 +24,6 @@ services:
 
       - "traefik.http.services.uptimekuma.loadbalancer.server.port=3001"
       - "traefik.docker.network=traefik_net"
-      # AutoKuma (uptime-kuma)
-      - "kuma.uptime_kuma_grp.group.name=Uptime Kuma"
-      - 'kuma.uptime_kuma_grp.group.notification_name_list=["ntfy"]'
-      - "kuma.uptime_kuma_http_1.http.name=Uptime Kuma (status.pranaovs.me)"
-      - "kuma.uptime_kuma_http_1.http.url=https://status.pranaovs.me"
-      - "kuma.uptime_kuma_http_1.http.parent_name=uptime_kuma_grp"
-      - "kuma.uptime_kuma_http_2.http.name=Uptime Kuma (uptime.pranaovs.me)"
-      - "kuma.uptime_kuma_http_2.http.url=https://uptime.pranaovs.me"
-      - "kuma.uptime_kuma_http_2.http.parent_name=uptime_kuma_grp"
-      - "kuma.uptime_kuma_container.docker.name=Uptime Kuma Container"
-      - "kuma.uptime_kuma_container.docker.docker_container=uptimekuma"
-      - "kuma.uptime_kuma_container.docker.docker_host_name=local"
-      - "kuma.uptime_kuma_container.docker.parent_name=uptime_kuma_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
     networks:
@@ -67,13 +54,36 @@ services:
       - kuma.ntfy.notification.name=ntfy Notifications
       - kuma.ntfy.notification.active=true
       - kuma.ntfy.notification.config={"isDefault":false,"name":"ntfy","ntfyAuthenticationMethod":"accessToken","ntfyPriority":5,"ntfyPriorityDown":5,"ntfyaccesstoken":"${AUTOKUMA_NTFY_ACCESS_TOKEN}","ntfyserverurl":"http://ntfy","ntfytopic":"${AUTOKUMA_NTFY_TOPIC}","type":"ntfy"}
+      # Group for CTF Tools
+      - "kuma.ctf_grp.group.name=CTF"
+
+  autokuma-labels:
+    image: busybox:latest
+    container_name: uptimekuma-autokuma
+    restart: always
+    command: ["sleep", "infinity"]
+    healthcheck:
+      test: ["CMD", "sleep", "0"]
+    labels:
       # AutoKuma (uptime-kuma)
+      - "kuma.uptime_kuma_grp.group.name=Uptime Kuma"
+      - 'kuma.uptime_kuma_grp.group.notification_name_list=["ntfy"]'
+      - "kuma.uptime_kuma_http_1.http.name=Uptime Kuma (status.pranaovs.me)"
+      - "kuma.uptime_kuma_http_1.http.url=https://status.pranaovs.me"
+      - "kuma.uptime_kuma_http_1.http.parent_name=uptime_kuma_grp"
+      - "kuma.uptime_kuma_http_2.http.name=Uptime Kuma (uptime.pranaovs.me)"
+      - "kuma.uptime_kuma_http_2.http.url=https://uptime.pranaovs.me"
+      - "kuma.uptime_kuma_http_2.http.parent_name=uptime_kuma_grp"
+      - "kuma.uptime_kuma_container.docker.name=Uptime Kuma Container"
+      - "kuma.uptime_kuma_container.docker.docker_container=uptimekuma"
+      - "kuma.uptime_kuma_container.docker.docker_host_name=local"
+      - "kuma.uptime_kuma_container.docker.parent_name=uptime_kuma_grp"
+
       - "kuma.autokuma_container.docker.name=AutoKuma Container"
       - "kuma.autokuma_container.docker.docker_container=autokuma"
       - "kuma.autokuma_container.docker.docker_host_name=local"
       - "kuma.autokuma_container.docker.parent_name=uptime_kuma_grp"
-      # Group for CTF Tools
-      - "kuma.ctf_grp.group.name=CTF"
+
       # DNS Monitor
       - "kuma.dns_grp.group.name=DNS"
       - 'kuma.dns_grp.group.notification_name_list=["ntfy"]'
@@ -85,6 +95,8 @@ services:
       - "kuma.dns_aaaa.dns.hostname=pranaovs.me"
       - "kuma.dns_aaaa.dns.dns_resolve_type=AAAA"
       - "kuma.dns_aaaa.dns.parent_name=dns_grp"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
 
 networks:
   traefik_net:

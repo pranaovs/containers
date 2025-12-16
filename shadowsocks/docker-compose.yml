@@ -24,6 +24,20 @@ services:
       - "traefik.tcp.routers.shadowsocks.entrypoints=websecure"
       - "traefik.tcp.services.shadowsocks.loadbalancer.server.port=443"
       - "traefik.tcp.routers.shadowsocks.priority=1" # Lowest priority
+      - "traefik.docker.network=traefik_net"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+    networks:
+      - traefik_net
+
+  autokuma:
+    image: busybox:latest
+    container_name: shadowsocks-autokuma
+    restart: always
+    command: ["sleep", "infinity"]
+    healthcheck:
+      test: ["CMD", "sleep", "0"]
+    labels:
       # AutoKuma (uptime-kuma)
       - "kuma.shadowsocks_grp.group.name=Shadowsocks"
       - 'kuma.shadowsocks_grp.group.notification_name_list=["ntfy"]'
@@ -33,8 +47,6 @@ services:
       - "kuma.shadowsocks_container.docker.parent_name=shadowsocks_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
-    networks:
-      - traefik_net
 
 networks:
   traefik_net:
