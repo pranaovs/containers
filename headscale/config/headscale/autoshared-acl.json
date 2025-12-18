@@ -1,20 +1,6 @@
 {
   "groups": {
-    "group:admin": [
-      "personal@"
-    ],
-    "group:internet": [
-      "personal@"
-    ]
-  },
-  "hosts": {
-    "devbox": "100.64.0.1",
-    "devserver": "100.64.0.2"
-  },
-  "tagOwners": {
-    "tag:server": [
-      "personal@"
-    ]
+    "group:admin": []
   },
   "acls": [
     {
@@ -29,28 +15,28 @@
     {
       "action": "accept",
       "src": [
-        "group:internet"
-      ],
-      "dst": [
-        "autogroup:internet:*"
-      ]
-    },
-    {
-      "action": "accept",
-      "src": [
-        "autogroup:member"
-      ],
-      "dst": [
-        "autogroup:internet:*"
-      ]
-    },
-    {
-      "action": "accept",
-      "src": [
         "autogroup:member"
       ],
       "dst": [
         "autogroup:self:*"
+      ]
+    },
+    {
+      "action": "accept",
+      "src": [
+        "autogroup:member"
+      ],
+      "dst": [
+        "autogroup:internet:*"
+      ]
+    },
+    {
+      "action": "accept",
+      "src": [
+        "personal@"
+      ],
+      "dst": [
+        "alt@:*"
       ]
     }
   ],
@@ -61,10 +47,10 @@
         "personal@"
       ],
       "dst": [
-        "autogroup:self"
+        "@alt"
       ],
       "users": [
-        "root"
+        "autogroup:nonroot"
       ]
     },
     {
