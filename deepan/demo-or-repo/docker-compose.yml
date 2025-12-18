@@ -1,0 +1,95 @@
+services:
+  # Backend API Service
+  backend:
+    image: ghcr.io/deepan-alve/demo-or-repo-backend:latest
+    container_name: project-dashboard-backend
+    pull_policy: always
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    volumes:
+      - ./data:/app
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('http').get('http://localhost:3000/api/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    labels:
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  # Frontend Service
+  frontend:
+    image: ghcr.io/deepan-alve/demo-or-repo-frontend:latest
+    container_name: project-dashboard-frontend
+    pull_policy: always
+    restart: always
+    depends_on:
+      - backend
+    expose:
+      - 80
+    healthcheck:
+      test: ["CMD", "curl", "-q", "http://localhost:80/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    labels:
+      # Traefik - HTTPS routes
+      - "traefik.enable=true"
+      - "traefik.http.routers.project-dashboard-https.rule=Host(`projects.deepanalve.dev`)" # CHANGE THIS
+      - "traefik.http.routers.project-dashboard-https.entrypoints=websecure"
+      - "traefik.http.routers.project-dashboard-https.service=frontend"
+      - "traefik.http.routers.project-dashboard-https.middlewares=anubis@docker"
+
+      # Service configuration
+      - "traefik.http.services.frontend.loadbalancer.server.port=80"
+      - "traefik.docker.network=traefik_net"
+
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+    networks:
+      - traefik_net
+      - default
+
+  # AutoKuma monitoring (optional)
+  autokuma:
+    image: busybox:latest
+    container_name: project-dashboard-autokuma
+    restart: always
+    command: ["sleep", "infinity"]
+    healthcheck:
+      test: ["CMD", "sleep", "0"]
+    labels:
+      # AutoKuma (uptime-kuma) monitoring
+      - "kuma.project_dashboard_grp.group.name=Project Dashboard"
+      - 'kuma.project_dashboard_grp.group.notification_name_list=["ntfy"]'
+
+      - "kuma.project_dashboard_http_1.http.name=Project Dashboard (projects.deepanalve.dev)" # CHANGE THIS
+      - "kuma.project_dashboard_http_1.http.url=https://projects.deepanalve.dev" # CHANGE THIS
+      - "kuma.project_dashboard_http_1.http.parent_name=project_dashboard_grp"
+
+      - "kuma.project_dashboard_frontend.docker.name=Project Dashboard Frontend Container"
+      - "kuma.project_dashboard_frontend.docker.docker_container=project-dashboard-frontend"
+      - "kuma.project_dashboard_frontend.docker.docker_host_name=local"
+      - "kuma.project_dashboard_frontend.docker.parent_name=project_dashboard_grp"
+
+      - "kuma.project_dashboard_backend.docker.name=Project Dashboard Backend Container"
+      - "kuma.project_dashboard_backend.docker.docker_container=project-dashboard-backend"
+      - "kuma.project_dashboard_backend.docker.docker_host_name=local"
+      - "kuma.project_dashboard_backend.docker.parent_name=project_dashboard_grp"
+
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+
+networks:
+  traefik_net:
+    external: true
