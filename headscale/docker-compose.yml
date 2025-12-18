@@ -48,7 +48,7 @@ services:
       - "com.centurylinklabs.watchtower.enable=true"
       # Traefik
       - "traefik.enable=true"
-      - "traefik.http.routers.headplane-ts.rule=Host(`headplane.devserver.ts.net`)"
+      - "traefik.http.routers.headplane-ts.rule=Host(`headplane.devserver.ts.net`) || Host(`headplane.devserver`)"
       - "headnscale.subdomain=headplane"
       - "traefik.http.routers.headplane-ts.entrypoints=web"
       - "traefik.http.routers.headplane-ts.service=headplane"
