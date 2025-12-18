@@ -241,7 +241,7 @@ policy:
   mode: file
   # If the mode is set to "file", the path to a
   # HuJSON file containing ACL policies.
-  path: "/etc/headscale/default-acl.json"
+  path: "/etc/headscale/autoshared-acl.json"
 
 ## DNS
 #
