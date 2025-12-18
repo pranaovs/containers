@@ -1,6 +1,8 @@
 {
   "groups": {
-    "group:admin": []
+    "group:admin": [
+      "admin@"
+    ]
   },
   "acls": [
     {
