@@ -12,7 +12,7 @@ server:
   # The secret used to encode and decode web sessions (must be 32 characters)
   # You may also provide `cookie_secret_path` instead to read a value from disk.
   # See https://headplane.net/configuration/#sensitive-values
-  cookie_secret: "<change_me_to_something_secure!>"
+  cookie_secret_path: "/private/cookie_secret"
 
   # Whether cookies should be marked as Secure
   # * Should be false if running without HTTPs
@@ -43,7 +43,7 @@ server:
   # may be protected by this secret.
   #
   # If not set, these endpoints will be disabled.
-  # info_secret: "<change_me_to_something_secure!>"
+  info_secret_path: "/private/info_secret"
 
 # Headscale specific settings to allow Headplane to talk
 # to Headscale and access deep integration features
@@ -53,7 +53,7 @@ headscale:
   # (THIS IS NOT the gRPC endpoint, but the HTTP endpoint)
   #
   # IMPORTANT: If you are using TLS this MUST be set to `https://`
-  url: "http://headscale:3000"
+  url: "https://headscale.pranaovs.me"
 
   # If you use the TLS configuration in Headscale, and you are not using
   # Let's Encrypt for your certificate, pass in the path to the certificate.
@@ -96,14 +96,15 @@ integration:
   # You will see the Headplane agent in your Tailnet as a node when
   # it connects.
   agent:
-    enabled: false
+    enabled: true
 
     # To connect to your Tailnet, you need to generate a pre-auth key
     # This can be done via the web UI or through the `headscale` CLI.
-    pre_authkey: "<your-preauth-key>"
+    # pre_authkey: "<your-preauth-key>"
+    pre_authkey_path: /private/pre_authkey
 
     # Optionally change the name of the agent in the Tailnet.
-    # host_name: "headplane-agent"
+    host_name: "headplane"
 
     # Configure different caching settings. By default, the agent will store
     # caches in the path below for a maximum of 1 minute. If you want data

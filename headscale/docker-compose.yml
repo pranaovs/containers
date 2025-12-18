@@ -33,11 +33,15 @@ services:
       - headscale
     expose:
       - "3000"
+    environment:
+      - HEADPLANE_LOAD_ENV_OVERRIDES=true
+    security_opt:
+      - label=type:spc_t
     volumes:
-      # Same as before
       - ./config/headplane/:/etc/headplane
       - ./lib/headplane:/var/lib/headplane
       - ./config/headscale:/etc/headscale
+      - ./private:/private:ro
       - ./dns:/dns
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
