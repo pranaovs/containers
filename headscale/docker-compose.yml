@@ -33,8 +33,6 @@ services:
       - headscale
     expose:
       - "3000"
-    environment:
-      - HEADPLANE_LOAD_ENV_OVERRIDES=true
     security_opt:
       - label=type:spc_t
     volumes:
