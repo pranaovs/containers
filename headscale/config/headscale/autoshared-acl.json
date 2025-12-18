@@ -47,7 +47,7 @@
         "personal@"
       ],
       "dst": [
-        "@alt"
+        "alt@"
       ],
       "users": [
         "autogroup:nonroot"
