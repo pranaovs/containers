@@ -111,6 +111,11 @@ services:
       - "kuma.headscale_container.docker.docker_host_name=local"
       - "kuma.headscale_container.docker.parent_name=headscale_grp"
 
+      - "kuma.headplane_container.docker.name=Headplane Container"
+      - "kuma.headplane_container.docker.docker_container=headplane"
+      - "kuma.headplane_container.docker.docker_host_name=local"
+      - "kuma.headplane_container.docker.parent_name=headscale_grp"
+
       - "kuma.headnscale_container.docker.name=Headnscale Container"
       - "kuma.headnscale_container.docker.docker_container=headnscale"
       - "kuma.headnscale_container.docker.docker_host_name=local"
