@@ -38,17 +38,6 @@
       "dst": [
         "alt@:*"
       ]
-    },
-    {
-      "action": "accept",
-      "src": [
-        "autogroup:member"
-      ],
-      "dst": [
-        "*:25565",
-        "*:19132",
-        "*:19133"
-      ]
     }
   ],
   "ssh": [
