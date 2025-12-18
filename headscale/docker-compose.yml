@@ -6,8 +6,8 @@ services:
     ports:
       - "3478:3478/udp"
     volumes:
-      - ./config:/etc/headscale
-      - ./lib:/var/lib/headscale
+      - ./config/headscale:/etc/headscale
+      - ./lib/headscale:/var/lib/headscale
       - ./dns:/dns
       - headscale_run:/var/run/headscale
     command: serve
@@ -20,12 +20,47 @@ services:
       - "traefik.docker.network=traefik_net"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      - "me.tale.headplane.target=headscale"
+
+    networks:
+      - traefik_net
+
+  headplane:
+    image: ghcr.io/tale/headplane:latest
+    container_name: headplane
+    restart: always
+    depends_on:
+      - headscale
+    expose:
+      - "3000"
+    volumes:
+      # Same as before
+      - ./config/headplane/:/etc/headplane
+      - ./lib/headplane:/var/lib/headplane
+      - ./config/headscale:/etc/headscale
+      - ./dns:/dns
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+    labels:
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.routers.headplane-ts.rule=Host(`headplane.devserver.ts.net`)"
+      - "headnscale.subdomain=headplane"
+      - "traefik.http.routers.headplane-ts.entrypoints=web"
+      - "traefik.http.routers.headplane-ts.service=headplane"
+      - "traefik.http.services.headplane.loadbalancer.server.port=3000"
+      - "traefik.docker.network=traefik_net"
+
     networks:
       - traefik_net
 
   headnscale:
     image: ghcr.io/pranaovs/headnscale:latest
     container_name: headnscale
+    depends_on:
+      - headscale
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
