@@ -35,7 +35,7 @@
     {
       "action": "accept",
       "src": [
-        "personal@"
+        "pranaovs@"
       ],
       "dst": [
         "alt@:*"
@@ -46,7 +46,7 @@
     {
       "action": "accept",
       "src": [
-        "personal@"
+        "pranaovs@"
       ],
       "dst": [
         "alt@"
