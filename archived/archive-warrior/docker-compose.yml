@@ -27,7 +27,7 @@ services:
   autokuma:
     image: busybox:latest
     container_name: archiveTeamWarrior-autokuma
-    restart: always
+    restart: unless-stopped
     command: ["sleep", "infinity"]
     healthcheck:
       test: ["CMD", "sleep", "0"]
