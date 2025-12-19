@@ -50,8 +50,18 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.headplane-ts.rule=Host(`headplane.devserver.ts.net`) || Host(`headplane.devserver`)"
       - "headnscale.subdomain=headplane"
+      - "traefik.http.routers.headplane-ts.priority=10"
       - "traefik.http.routers.headplane-ts.entrypoints=web"
       - "traefik.http.routers.headplane-ts.service=headplane"
+
+        # Root-only rewrite router
+      - "traefik.http.routers.headplane-ts-root.rule=(Host(`headplane.devserver.ts.net`) || Host(`headplane.devserver`)) && Path(`/`)"
+      - "traefik.http.routers.headplane-ts-root.priority=100"
+      - "traefik.http.routers.headplane-ts-root.entrypoints=web"
+      - "traefik.http.routers.headplane-ts-root.middlewares=redirect-admin"
+      - "traefik.http.routers.headplane-ts-root.service=headplane"
+      - "traefik.http.middlewares.redirect-admin.addprefix.prefix=/admin"
+
       - "traefik.http.services.headplane.loadbalancer.server.port=3000"
       - "traefik.docker.network=traefik_net"
 
