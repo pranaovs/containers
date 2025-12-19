@@ -22,12 +22,10 @@ services:
       - SEARXNG_API_URL=http://wma-searxng:8080
     depends_on:
       - searxng
-    ports:
-      - "3001:3001"
     volumes:
       - backend-data:/home/perplexica/data
       - uploads-data:/home/perplexica/uploads
-      - ./config.toml:/home/perplexica/config.toml:ro
+      - ./config/perplexica:/home/perplexica
     restart: always
     healthcheck:
       test: ["CMD", "curl", "-q", "http://localhost:3001/api/models"]
@@ -45,8 +43,6 @@ services:
       - NEXT_PUBLIC_WS_URL=${NEXT_PUBLIC_WS_URL:-ws://localhost:3001}
     depends_on:
       - backend
-    ports:
-      - "3000:3000"
     networks:
       - traefik_net
       - default
@@ -65,7 +61,7 @@ services:
       - "traefik.http.routers.wma-https.middlewares=anubis@docker"
 
       # Service configuration
-      - "traefik.http.services.frontend.loadbalancer.server.port=80"
+      - "traefik.http.services.frontend.loadbalancer.server.port=3000"
       - "traefik.docker.network=traefik_net"
 
       # Watchtower
