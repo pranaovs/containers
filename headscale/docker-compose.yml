@@ -48,14 +48,14 @@ services:
       - "com.centurylinklabs.watchtower.enable=true"
       # Traefik
       - "traefik.enable=true"
-      - "traefik.http.routers.headplane-ts.rule=Host(`headplane.devserver.ts.net`) || Host(`headplane.devserver`)"
+      - "traefik.http.routers.headplane-ts.rule=Host(`headplane.devserver.ts.net`) || Host(`headplane.devserver`) || Host(`headscale.devserver.ts.net`) || Host(`headscale.devserver`)"
       - "headnscale.subdomain=headplane"
       - "traefik.http.routers.headplane-ts.priority=10"
       - "traefik.http.routers.headplane-ts.entrypoints=web"
       - "traefik.http.routers.headplane-ts.service=headplane"
 
-        # Root-only rewrite router
-      - "traefik.http.routers.headplane-ts-root.rule=(Host(`headplane.devserver.ts.net`) || Host(`headplane.devserver`)) && Path(`/`)"
+      # Root-only rewrite router
+      - "traefik.http.routers.headplane-ts-root.rule=(Host(`headplane.devserver.ts.net`) || Host(`headplane.devserver`) || Host(`headscale.devserver.ts.net`) || Host(`headscale.devserver`)) && Path(`/`)"
       - "traefik.http.routers.headplane-ts-root.priority=100"
       - "traefik.http.routers.headplane-ts-root.entrypoints=web"
       - "traefik.http.routers.headplane-ts-root.middlewares=redirect-admin"
