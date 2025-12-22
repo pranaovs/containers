@@ -109,8 +109,8 @@ derp:
     ipv6: 2a01:4f9:c010:dd94::2
 
   # List of externally available DERP maps encoded in JSON
-  # urls:
-  # - https://controlplane.tailscale.com/derpmap/default
+  urls:
+    - https://controlplane.tailscale.com/derpmap/default
 
   # Locally available DERP map files encoded in YAML
   #
