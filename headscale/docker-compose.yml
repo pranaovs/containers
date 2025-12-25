@@ -104,6 +104,9 @@ services:
       - "traefik.http.services.headnscale.loadbalancer.server.port=8080"
       - "traefik.docker.network=traefik_net"
 
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+
     networks:
       - traefik_net
 
@@ -118,6 +121,7 @@ services:
       # AutoKuma (uptime-kuma)
       - "kuma.headscale_grp.group.name=Headscale"
       - 'kuma.headscale_grp.group.notification_name_list=["ntfy"]'
+
       - "kuma.headscale_http.http.name=Headscale HTTP"
       - "kuma.headscale_http.http.url=https://headscale.pranaovs.me/health"
       - "kuma.headscale_http.http.parent_name=headscale_grp"
@@ -135,6 +139,12 @@ services:
       - "kuma.headnscale_container.docker.docker_container=headnscale"
       - "kuma.headnscale_container.docker.docker_host_name=local"
       - "kuma.headnscale_container.docker.parent_name=headscale_grp"
+
+      - "kuma.whoami_container.docker.docker_container=whoami"
+      - "kuma.whoami_container.docker.name=whoami Container"
+      - "kuma.whoami_container.docker.docker_host_name=local"
+      - "kuma.whoami_container.docker.parent_name=headscale_grp"
+      #
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
 
