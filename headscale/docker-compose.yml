@@ -49,7 +49,7 @@ services:
       # Traefik
       - "traefik.enable=true"
       - "traefik.http.routers.headplane-ts.rule=Host(`headplane.devserver.ts.net`) || Host(`headplane.devserver`) || Host(`headscale.devserver.ts.net`) || Host(`headscale.devserver`)"
-      - "headnscale.subdomain=headplane"
+      - "headnscale.subdomain=headplane|headscale"
       - "traefik.http.routers.headplane-ts.priority=10"
       - "traefik.http.routers.headplane-ts.entrypoints=web"
       - "traefik.http.routers.headplane-ts.service=headplane"
