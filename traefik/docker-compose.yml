@@ -42,6 +42,91 @@ services:
       # Anubis
       - traefik.http.middlewares.anubis.forwardauth.address=http://anubis:8080/.within.website/x/cmd/anubis/api/check
 
+  traefik-dashboard:
+    image: hhftechnology/traefik-log-dashboard:latest
+    container_name: traefik-log-dashboard
+    restart: always
+    expose:
+      - "5000"
+    volumes:
+      - ./data/traefik-logs/dashboard:/app/data:Z,U
+      - ./data/traefik-logs/geoip:/geoip:ro,Z
+      - ./data/traefik-logs/positions:/data:Z,U
+    environment:
+      - AGENT_API_URL=http://traefik-agent:5000
+      - AGENT_API_TOKEN=${TRAEFIK_LOG_DASHBOARD_AUTH_TOKEN}
+      - AGENT_NAME=Local
+
+      # Node Environment
+      - NODE_ENV=production
+      - PORT=3000
+      - GEOIP_DB_PATH=/geoip/GeoLite2-City.mmdb
+
+      # Display Configuration
+      - NEXT_PUBLIC_SHOW_DEMO_PAGE=true
+      - NEXT_PUBLIC_MAX_LOGS_DISPLAY=500
+    depends_on:
+      traefik-agent:
+        condition: service_healthy
+    networks:
+      - traefik_net
+      - traefik_logs_net
+
+    labels:
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik-log-ts.rule=Host(`logs.devserver.ts.net`) || Host(`logs.devserver`)"
+      - "headnscale.subdomain=logs"
+      - "traefik.http.routers.traefik-log-ts.entrypoints=web"
+      - "traefik.http.routers.traefik-log-ts.service=traefik-dashboard"
+      - "traefik.http.services.traefik-dashboard.loadbalancer.server.port=3000"
+      - "traefik.docker.network=traefik_net"
+
+  traefik-agent:
+    image: hhftechnology/traefik-log-dashboard-agent:latest
+    container_name: traefik-log-dashboard-agent
+    restart: always
+    expose:
+      - "5000"
+    volumes:
+      - logs:/var/log/traefik:ro
+      - ./data/traefik-logs/positions:/data:Z,U
+    environment:
+      # Log Paths
+      - TRAEFIK_LOG_DASHBOARD_ACCESS_PATH=/var/log/traefik/access.log
+      - TRAEFIK_LOG_DASHBOARD_ERROR_PATH=/var/log/traefik/access.log
+      # Authentication
+      - TRAEFIK_LOG_DASHBOARD_AUTH_TOKEN=${TRAEFIK_LOG_DASHBOARD_AUTH_TOKEN}
+      # System Monitoring
+      - TRAEFIK_LOG_DASHBOARD_SYSTEM_MONITORING=true
+      # Server Port
+      - PORT=5000
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://localhost:5000/api/logs/status",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - traefik_logs_net
+    labels:
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
+
   crowdsec:
     image: crowdsecurity/crowdsec:latest
     container_name: crowdsec
@@ -172,3 +257,4 @@ volumes:
 networks:
   traefik_net:
     external: true
+  traefik_logs_net:
