@@ -24,7 +24,6 @@ services:
     env_file: ".env"
     volumes:
       - ./n8n_data:/root/.n8n
-    user: root
     labels:
       # Traefik
       - "traefik.enable=true"
