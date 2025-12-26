@@ -6,9 +6,9 @@ services:
     ports:
       - "3478:3478/udp"
     volumes:
-      - ./config/headscale:/etc/headscale
-      - ./lib/headscale:/var/lib/headscale
-      - ./dns:/dns
+      - ./config/headscale:/etc/headscale:ro,z,U
+      - ./lib/headscale:/var/lib/headscale:Z,U
+      - ./dns:/dns:ro,z
       - headscale_run:/var/run/headscale
     command: serve
     labels:
@@ -20,6 +20,8 @@ services:
       - "traefik.docker.network=traefik_net"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
       - "me.tale.headplane.target=headscale"
 
     networks:
@@ -36,16 +38,18 @@ services:
     security_opt:
       - label=type:spc_t
     volumes:
-      - ./config/headplane/:/etc/headplane
-      - ./lib/headplane:/var/lib/headplane
-      - ./config/headscale:/etc/headscale
-      - ./private:/private:ro
-      - ./dns:/dns
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - ./config/headplane/:/etc/headplane:ro,Z,U
+      - ./lib/headplane:/var/lib/headplane:Z,U
+      - ./config/headscale:/etc/headscale:ro,z
+      - ./private:/private:ro,Z
+      - ./dns:/dns:ro,z
+      - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
 
     labels:
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
       # Traefik
       - "traefik.enable=true"
       - "traefik.http.routers.headplane-ts.rule=Host(`headplane.devserver.ts.net`) || Host(`headplane.devserver`) || Host(`headscale.devserver.ts.net`) || Host(`headscale.devserver`)"
@@ -75,9 +79,9 @@ services:
       - headscale
     restart: always
     volumes:
-      - ./lib/headnscale:/var/lib/headnscale
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./dns:/data
+      - ./lib/headnscale:/var/lib/headnscale:Z,U
+      - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
+      - ./dns:/data:z,U
     expose:
       - "8080"
     environment:
@@ -106,6 +110,8 @@ services:
 
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
     networks:
       - traefik_net
@@ -147,6 +153,8 @@ services:
       #
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
 volumes:
   headscale_run:

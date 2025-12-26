@@ -8,7 +8,7 @@ services:
     expose:
       - "80"
     volumes:
-      - ./vw-data/:/data/
+      - ./vw-data:/data:Z,U
     environment:
       DOMAIN: "https://vaultwarden.pranaovs.me"
       SIGNUPS_ALLOWED: false
@@ -23,6 +23,8 @@ services:
       - "traefik.docker.network=traefik_net"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
     networks:
       - traefik_net
 
@@ -52,6 +54,8 @@ services:
       - "kuma.vaultwarden_container.docker.parent_name=vaultwarden_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
 networks:
   traefik_net:

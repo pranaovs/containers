@@ -17,8 +17,8 @@ services:
       retries: 3
       start_period: 40s
     volumes:
-      - ./config:/etc/ntfy
-      - ./data:/var/lib/ntfy
+      - ./config:/etc/ntfy:ro,Z,U
+      - ./data:/var/lib/ntfy:Z,U
       - ntfy_cache:/var/cache/ntfy
     ports:
       - "30091:80"
@@ -48,6 +48,8 @@ services:
 
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
   autokuma:
     image: busybox:latest
@@ -73,6 +75,8 @@ services:
 
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
 volumes:
   ntfy_cache:

@@ -2,6 +2,7 @@ services:
   n8n:
     image: docker.n8n.io/n8nio/n8n
     restart: unless-stopped
+    user: root
     ports:
       - "30088:5678"
     environment:
@@ -23,8 +24,7 @@ services:
       - N8N_PROXY_HOPS=1
     env_file: ".env"
     volumes:
-      - ./n8n_data:/root/.n8n
-    user: root
+      - ./n8n_data:/home/node/.n8n:Z,U
     labels:
       # Traefik
       - "traefik.enable=true"
@@ -35,6 +35,8 @@ services:
       - "traefik.docker.network=traefik_net"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
     networks:
       - traefik_net
 
@@ -61,6 +63,8 @@ services:
       - "kuma.n8n_container.docker.parent_name=n8n_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
 networks:
   traefik_net:

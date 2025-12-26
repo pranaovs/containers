@@ -12,6 +12,8 @@ services:
     labels:
       - "lazytainer.group=stirlingpdf"
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
     network_mode: service:lazytainer
     restart: unless-stopped
 
@@ -23,7 +25,7 @@ services:
     ports:
       - "30085:8080"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
     security_opt:
       - label=type:spc_t
     labels:
@@ -34,6 +36,8 @@ services:
       - "lazytainer.group.stirlingpdf.sleepMethod=stop"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
       # Traefik
       - "traefik.enable=true"
       - "traefik.http.routers.pdftools.rule=Host(`pdftools.pranaovs.me`) || Host(`pdf.pranaovs.me`) || Host(`stirling.pranaovs.me`)"

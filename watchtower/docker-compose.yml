@@ -4,13 +4,15 @@ services:
     container_name: watchtower
     restart: always
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
     command: --cleanup --label-enable --interval 3600
     security_opt:
       - label=type:spc_t
     labels:
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
   autokuma:
     image: busybox:latest
@@ -29,3 +31,5 @@ services:
       - "kuma.watchtower_container.docker.parent_name=watchtower_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
