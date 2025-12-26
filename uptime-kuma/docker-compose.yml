@@ -9,7 +9,7 @@ services:
       - label=type:spc_t
     volumes:
       - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
-      - ./data/uptime_kuma:/app/data
+      - ./data/uptime_kuma:/app/data:Z,U
     labels:
       # Traefik
       - "traefik.enable=true"
@@ -44,7 +44,7 @@ services:
       - label=type:spc_t
     volumes:
       - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
-      - ./data/autokuma:/data
+      - ./data/autokuma:/data:Z,U
     depends_on:
       - uptimekuma
 

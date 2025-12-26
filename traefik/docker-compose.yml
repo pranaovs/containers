@@ -14,7 +14,7 @@ services:
       - 30080:8080 # Dashboard WebGui
     volumes:
       - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro # Docker socket
-      - ./traefik.yml:/traefik.yml:ro
+      - ./traefik.yml:/traefik.yml:ro,Z,U
       - letsencrypt:/letsencrypt
       - logs:/var/log/traefik # For crowdsec
     networks:
@@ -55,7 +55,7 @@ services:
     depends_on:
       - traefik
     volumes:
-      - ./config/crowdsec/:/etc/crowdsec
+      - ./config/crowdsec/:/etc/crowdsec:Z,U
       - logs:/var/log/traefik:ro
       - crowdsec-data:/var/lib/crowdsec/data/
     labels:
@@ -68,7 +68,7 @@ services:
     expose:
       - "8080"
     volumes:
-      - ./anubis.yaml:/policy.yaml
+      - ./anubis.yaml:/policy.yaml:ro,Z,U
     environment:
       - BIND=:8080
       # Telling Anubis to do redirect — ensure there is a space after '='

@@ -8,7 +8,7 @@ services:
     expose:
       - "80"
     volumes:
-      - ./vw-data/:/data/
+      - ./vw-data:/data:Z,U
     environment:
       DOMAIN: "https://vaultwarden.pranaovs.me"
       SIGNUPS_ALLOWED: false

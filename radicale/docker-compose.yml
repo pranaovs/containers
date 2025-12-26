@@ -5,8 +5,8 @@ services:
     ports:
       - "30089:5232"
     volumes:
-      - ./config:/etc/radicale:ro
-      - ./data:/var/lib/radicale
+      - ./config:/etc/radicale:ro,Z,U
+      - ./data:/var/lib/radicale:Z,U
     restart: always
     labels:
       # Watchtower

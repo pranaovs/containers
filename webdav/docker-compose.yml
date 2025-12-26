@@ -5,8 +5,8 @@ services:
     ports:
       - "30094:6065"
     volumes:
-      - ./data:/data
-      - ./config:/config:ro
+      - ./data:/data:Z,U
+      - ./config:/config:ro,Z,U
     env_file: .env
     command: ["-c", "/config/config.yml"]
     restart: always

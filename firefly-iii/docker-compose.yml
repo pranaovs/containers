@@ -5,7 +5,7 @@ services:
     container_name: firefly_iii
     restart: always
     volumes:
-      - ./data/upload:/var/www/html/storage/upload
+      - ./data/upload:/var/www/html/storage/upload:Z,U
     env_file: .env
     ports:
       - 30086:8080
@@ -33,7 +33,7 @@ services:
     restart: always
     env_file: .db.env
     volumes:
-      - ./data/db:/var/lib/mysql
+      - ./data/db:/var/lib/mysql:Z,U
     labels:
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"

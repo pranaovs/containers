@@ -23,7 +23,7 @@ services:
       - N8N_PROXY_HOPS=1
     env_file: ".env"
     volumes:
-      - ./n8n_data:/root/.n8n
+      - ./n8n_data:/home/node/.n8n:Z,U
     labels:
       # Traefik
       - "traefik.enable=true"

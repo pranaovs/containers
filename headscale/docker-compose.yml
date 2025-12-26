@@ -6,9 +6,9 @@ services:
     ports:
       - "3478:3478/udp"
     volumes:
-      - ./config/headscale:/etc/headscale
-      - ./lib/headscale:/var/lib/headscale
-      - ./dns:/dns
+      - ./config/headscale:/etc/headscale:ro,z,U
+      - ./lib/headscale:/var/lib/headscale:Z,U
+      - ./dns:/dns:ro,z
       - headscale_run:/var/run/headscale
     command: serve
     labels:
@@ -36,12 +36,12 @@ services:
     security_opt:
       - label=type:spc_t
     volumes:
-      - ./config/headplane/:/etc/headplane
-      - ./lib/headplane:/var/lib/headplane
-      - ./config/headscale:/etc/headscale
-      - ./private:/private:ro
-      - ./dns:/dns
-      - "/run/user/1000/podman/podman.sock:/var/run/docker.sock:ro"
+      - ./config/headplane/:/etc/headplane:ro,Z,U
+      - ./lib/headplane:/var/lib/headplane:Z,U
+      - ./config/headscale:/etc/headscale:ro,z
+      - ./private:/private:ro,Z
+      - ./dns:/dns:ro,z
+      - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
 
     labels:
       # Watchtower
@@ -75,9 +75,9 @@ services:
       - headscale
     restart: always
     volumes:
-      - ./lib/headnscale:/var/lib/headnscale
+      - ./lib/headnscale:/var/lib/headnscale:Z,U
       - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
-      - ./dns:/data
+      - ./dns:/data:z,U
     expose:
       - "8080"
     environment:

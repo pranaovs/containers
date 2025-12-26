@@ -6,8 +6,8 @@ services:
     expose:
       - "8096"
     volumes:
-      - /home/personal/jellyfin/config:/config:Z
-      - /var/cache/jellyfin:/cache:Z
+      - /home/personal/jellyfin/config:/config:Z,U
+      - /home/personal/jellyfin/cache:/cache:Z,U
       - type: bind
         source: /home/personal/Videos/Anime
         target: /media/anime
