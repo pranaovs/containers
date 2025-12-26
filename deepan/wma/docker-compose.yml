@@ -66,6 +66,8 @@ services:
 
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
   # AutoKuma monitoring (optional)
   autokuma:
@@ -101,6 +103,8 @@ services:
 
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
 volumes:
   backend-data:

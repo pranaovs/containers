@@ -20,6 +20,8 @@ services:
       - "traefik.docker.network=traefik_net"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
       - "me.tale.headplane.target=headscale"
 
     networks:
@@ -46,6 +48,8 @@ services:
     labels:
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
       # Traefik
       - "traefik.enable=true"
       - "traefik.http.routers.headplane-ts.rule=Host(`headplane.devserver.ts.net`) || Host(`headplane.devserver`) || Host(`headscale.devserver.ts.net`) || Host(`headscale.devserver`)"
@@ -106,6 +110,8 @@ services:
 
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
     networks:
       - traefik_net
@@ -147,6 +153,8 @@ services:
       #
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
 volumes:
   headscale_run:

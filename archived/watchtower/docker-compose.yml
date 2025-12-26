@@ -11,6 +11,8 @@ services:
     labels:
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
   autokuma:
     image: busybox:latest
@@ -29,3 +31,5 @@ services:
       - "kuma.watchtower_container.docker.parent_name=watchtower_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"

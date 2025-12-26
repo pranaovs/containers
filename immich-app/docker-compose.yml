@@ -46,6 +46,8 @@ services:
       - "traefik.docker.network=traefik_net"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
     networks:
       - default
       - traefik_net
@@ -68,6 +70,8 @@ services:
     labels:
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
   redis:
     container_name: immich_redis
@@ -131,6 +135,8 @@ services:
 
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
 volumes:
   model-cache:

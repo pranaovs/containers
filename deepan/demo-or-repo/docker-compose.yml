@@ -25,6 +25,8 @@ services:
     labels:
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
   # Frontend Service
   frontend:
@@ -56,6 +58,8 @@ services:
 
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
     networks:
       - traefik_net
       - default
@@ -89,6 +93,8 @@ services:
 
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
 networks:
   traefik_net:

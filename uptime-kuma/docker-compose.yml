@@ -27,6 +27,8 @@ services:
       - "traefik.docker.network=traefik_net"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
     networks:
       - default
       - traefik_net
@@ -101,6 +103,8 @@ services:
       - "kuma.dns_aaaa.dns.parent_name=dns_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
 networks:
   traefik_net:

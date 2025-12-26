@@ -20,6 +20,8 @@ services:
       - "traefik.docker.network=traefik_net"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
     networks:
       - traefik_net
 
@@ -43,6 +45,8 @@ services:
       - "kuma.fmd_container.docker.parent_name=fmd_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
 networks:
   traefik_net:

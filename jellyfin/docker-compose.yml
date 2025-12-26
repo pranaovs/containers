@@ -34,6 +34,8 @@ services:
       - "traefik.docker.network=traefik_net"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
   jellyfin-proxy:
     image: alpine/socat:latest
@@ -55,6 +57,8 @@ services:
       - "traefik.http.routers.jellyfin_proxy.entrypoints=websecure"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
   autokuma:
     image: busybox:latest
@@ -110,6 +114,8 @@ services:
       - "kuma.jellyfinproxy_container.docker.parent_name=jellyfinproxy_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
 networks:
   traefik_net:

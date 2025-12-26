@@ -6,6 +6,8 @@ services:
     labels:
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
     env_file: .env
     volumes:
       - ./data:/data
@@ -39,6 +41,8 @@ services:
       - "traefik.docker.network=traefik_net"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
     healthcheck:
       test: ["CMD", "curl", "-q", "http://localhost:80"]
     networks:
@@ -70,6 +74,8 @@ services:
       - "kuma.stacked_frontend_container.docker.parent_name=stacked_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
 networks:
   traefik_net:

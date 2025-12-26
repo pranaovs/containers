@@ -16,6 +16,8 @@ services:
       - "lazytainer.group.minecraft.minPacketThreshold=2"
       - "lazytainer.group.minecraft.inactiveTimeout=600"
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
     restart: no
 
   mc:
@@ -47,6 +49,8 @@ services:
     labels:
       - "lazytainer.group=minecraft"
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
     depends_on:
       - lazytainer
     network_mode: service:lazytainer

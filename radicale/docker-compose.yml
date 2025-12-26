@@ -12,6 +12,8 @@ services:
     labels:
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
       # Traefik
       - "traefik.enable=true"
       - "traefik.http.routers.radicale-ts.rule=Host(`radicale.devserver.ts.net`) || Host(`caldav.devserver.ts.net`) || Host(`carddav.devserver.ts.net`) || Host(`contacts.devserver.ts.net`) || Host(`calendar.devserver.ts.net`) || Host(`radicale.devserver`) || Host(`caldav.devserver`) || Host(`carddav.devserver`) || Host(`contacts.devserver`) || Host(`calendar.devserver`)"
@@ -41,6 +43,8 @@ services:
       - "kuma.radicale_container.docker.parent_name=radicale_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
 networks:
   traefik_net:

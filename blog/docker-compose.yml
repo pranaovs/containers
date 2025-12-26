@@ -23,6 +23,8 @@ services:
 
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
     networks:
       - traefik_net
 
@@ -46,6 +48,8 @@ services:
       - "kuma.blog_container.docker.parent_name=blog_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
 networks:
   traefik_net:

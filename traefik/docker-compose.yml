@@ -25,6 +25,8 @@ services:
     labels:
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
       # Traefik
       - "traefik.enable=true"
       - "traefik.http.routers.traefik-ts.rule=Host(`devserver.ts.net`) || Host(`traefik.devserver.ts.net`) || Host(`devserver`) || Host(`traefik.devserver`)"
@@ -61,6 +63,8 @@ services:
     labels:
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
   anubis:
     image: ghcr.io/techarohq/anubis:main
@@ -92,6 +96,8 @@ services:
 
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
   whoami:
     image: traefik/whoami:latest
@@ -116,6 +122,8 @@ services:
 
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
   autokuma:
     image: busybox:latest
@@ -150,6 +158,8 @@ services:
 
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
 volumes:
   letsencrypt:

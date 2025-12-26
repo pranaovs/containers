@@ -13,6 +13,8 @@ services:
     labels:
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
       # Traefik
       - "traefik.enable=true"
       - "traefik.http.routers.webdav-ts.rule=Host(`webdav.devserver.ts.net`) || Host(`backups.devserver.ts.net`) || Host(`backups.devserver.ts.net`) || Host(`webdav.devserver`) || Host(`backup.devserver`) || Host(`backups.devserver`)"
@@ -41,6 +43,8 @@ services:
       - "kuma.webdav_container.docker.parent_name=webdav_grp"
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
 
 networks:
   traefik_net:
