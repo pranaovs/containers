@@ -50,7 +50,7 @@ services:
       - "5000"
     volumes:
       - ./data/log-dashboard/dashboard:/app/data:Z,U
-      - ./data/log-dashboard/geoip:/geoip:ro,Z
+      - ./data/log-dashboard/geoip:/geoip:ro,z
       - ./data/log-dashboard/positions:/data:Z,U
     environment:
       - AGENT_API_URL=http://traefik-agent:5000
@@ -94,7 +94,7 @@ services:
       - "5000"
     volumes:
       - logs:/var/log/traefik:ro
-      - ./data/logs-dashboard/positions:/data:Z,U
+      - ./data/log-dashboard/positions:/data:Z,U
     environment:
       # Log Paths
       - TRAEFIK_LOG_DASHBOARD_ACCESS_PATH=/var/log/traefik/access.log
@@ -127,6 +127,23 @@ services:
       # Podman Auto-Update
       - "io.containers.autoupdate=registry"
 
+  geoipupdate:
+    image: ghcr.io/maxmind/geoipupdate:latest
+    container_name: geoipupdate
+    restart: always
+    environment:
+      - GEOIPUPDATE_ACCOUNT_ID=${MAXMIND_ACCOUNT_ID}
+      - GEOIPUPDATE_LICENSE_KEY=${MAXMIND_LICENSE_KEY}
+      - GEOIPUPDATE_EDITION_IDS=GeoLite2-City GeoLite2-Country
+      - GEOIPUPDATE_FREQUENCY=168
+    volumes:
+      - ./data/log-dashboard/geoip:/usr/share/GeoIP:z,U
+    labels:
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
+
   crowdsec:
     image: crowdsecurity/crowdsec:latest
     container_name: crowdsec
@@ -142,7 +159,7 @@ services:
     depends_on:
       - traefik
     volumes:
-      - ./config/crowdsec/:/etc/crowdsec:Z,U
+      - ./data/crowdsec/:/etc/crowdsec:Z,U
       - logs:/var/log/traefik:ro
       - crowdsec-data:/var/lib/crowdsec/data/
     labels:
