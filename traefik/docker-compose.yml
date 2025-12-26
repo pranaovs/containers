@@ -14,7 +14,7 @@ services:
       - 30080:8080 # Dashboard WebGui
     volumes:
       - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro # Docker socket
-      - ./traefik.yml:/traefik.yml:ro,Z,U
+      - ./config/traefik/traefik.yml:/traefik.yml:ro,Z,U
       - letsencrypt:/letsencrypt
       - logs:/var/log/traefik # For crowdsec
     networks:
@@ -49,9 +49,9 @@ services:
     expose:
       - "5000"
     volumes:
-      - ./data/traefik-logs/dashboard:/app/data:Z,U
-      - ./data/traefik-logs/geoip:/geoip:ro,Z
-      - ./data/traefik-logs/positions:/data:Z,U
+      - ./data/log-dashboard/dashboard:/app/data:Z,U
+      - ./data/log-dashboard/geoip:/geoip:ro,Z
+      - ./data/log-dashboard/positions:/data:Z,U
     environment:
       - AGENT_API_URL=http://traefik-agent:5000
       - AGENT_API_TOKEN=${TRAEFIK_LOG_DASHBOARD_AUTH_TOKEN}
@@ -94,7 +94,7 @@ services:
       - "5000"
     volumes:
       - logs:/var/log/traefik:ro
-      - ./data/traefik-logs/positions:/data:Z,U
+      - ./data/logs-dashboard/positions:/data:Z,U
     environment:
       # Log Paths
       - TRAEFIK_LOG_DASHBOARD_ACCESS_PATH=/var/log/traefik/access.log
@@ -157,7 +157,7 @@ services:
     expose:
       - "8080"
     volumes:
-      - ./anubis.yaml:/policy.yaml:ro,Z,U
+      - ./config/anubis/anubis.yaml:/policy.yaml:ro,Z,U
     environment:
       - BIND=:8080
       # Telling Anubis to do redirect — ensure there is a space after '='
