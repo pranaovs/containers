@@ -10,7 +10,7 @@ services:
       - "io.containers.autoupdate=registry"
     env_file: .env
     volumes:
-      - ./data:/data
+      - ./data:/data:Z,U
     healthcheck:
       test:
         [

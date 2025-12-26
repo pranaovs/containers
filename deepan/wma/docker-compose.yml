@@ -4,7 +4,7 @@ services:
     image: searxng/searxng:latest
     container_name: wma-searxng
     volumes:
-      - ./config/searxng:/etc/searxng:rw
+      - ./config/searxng:/etc/searxng:rw,Z,U
     expose:
       - "8080"
     restart: always
@@ -25,7 +25,7 @@ services:
     volumes:
       - backend-data:/home/perplexica/data
       - uploads-data:/home/perplexica/uploads
-      - ./config/perplexica:/home/perplexica
+      - ./config/perplexica:/home/perplexica:Z,U
     restart: always
     healthcheck:
       test: ["CMD", "curl", "-q", "http://localhost:3001/api/models"]
