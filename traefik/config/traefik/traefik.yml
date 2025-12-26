@@ -9,8 +9,19 @@ api:
 entryPoints:
   web:
     address: ":80"
+    proxyProtocol:
+      trustedIPs:
+        - "127.0.0.1/32" # Localhost from nginx
+        - "10.0.0.0/8" # Podman gateway range
+        - "100.64.0.0/10" # Tailscale IP Range
+
   websecure:
     address: ":443"
+    proxyProtocol:
+      trustedIPs:
+        - "127.0.0.1/32" # Localhost from nginx
+        - "10.0.0.0/8" # Podman gateway range
+
     http:
       tls:
         certResolver: le

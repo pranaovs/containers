@@ -9,8 +9,8 @@ services:
     environment:
       - TZ=Asia/Kolkata
     ports:
-      - 80:80 # HTTP entryPoints
-      - 443:443/tcp # HTTPS entryPoints
+      - 127.0.0.1:8080:80 # HTTP entryPoints
+      - 127.0.0.1:8443:443/tcp # HTTPS entryPoints
       - 30080:8080 # Dashboard WebGui
     volumes:
       - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro # Docker socket
