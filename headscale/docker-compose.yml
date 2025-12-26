@@ -116,46 +116,6 @@ services:
     networks:
       - traefik_net
 
-  autokuma:
-    image: busybox:latest
-    container_name: headscale-autokuma
-    restart: always
-    command: ["sleep", "infinity"]
-    healthcheck:
-      test: ["CMD", "sleep", "0"]
-    labels:
-      # AutoKuma (uptime-kuma)
-      - "kuma.headscale_grp.group.name=Headscale"
-      - 'kuma.headscale_grp.group.notification_name_list=["ntfy"]'
-
-      - "kuma.headscale_http.http.name=Headscale HTTP"
-      - "kuma.headscale_http.http.url=https://headscale.pranaovs.me/health"
-      - "kuma.headscale_http.http.parent_name=headscale_grp"
-      - "kuma.headscale_container.docker.name=Headscale Container"
-      - "kuma.headscale_container.docker.docker_container=headscale"
-      - "kuma.headscale_container.docker.docker_host_name=local"
-      - "kuma.headscale_container.docker.parent_name=headscale_grp"
-
-      - "kuma.headplane_container.docker.name=Headplane Container"
-      - "kuma.headplane_container.docker.docker_container=headplane"
-      - "kuma.headplane_container.docker.docker_host_name=local"
-      - "kuma.headplane_container.docker.parent_name=headscale_grp"
-
-      - "kuma.headnscale_container.docker.name=Headnscale Container"
-      - "kuma.headnscale_container.docker.docker_container=headnscale"
-      - "kuma.headnscale_container.docker.docker_host_name=local"
-      - "kuma.headnscale_container.docker.parent_name=headscale_grp"
-
-      - "kuma.whoami_container.docker.docker_container=whoami"
-      - "kuma.whoami_container.docker.name=whoami Container"
-      - "kuma.whoami_container.docker.docker_host_name=local"
-      - "kuma.whoami_container.docker.parent_name=headscale_grp"
-      #
-      # Watchtower
-      - "com.centurylinklabs.watchtower.enable=true"
-      # Podman Auto-Update
-      - "io.containers.autoupdate=registry"
-
 volumes:
   headscale_run:
 

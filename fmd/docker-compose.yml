@@ -25,29 +25,6 @@ services:
     networks:
       - traefik_net
 
-  autokuma:
-    image: busybox:latest
-    container_name: fmd-autokuma
-    restart: always
-    command: ["sleep", "infinity"]
-    healthcheck:
-      test: ["CMD", "sleep", "0"]
-    labels:
-      # AutoKuma (uptime-kuma)
-      - "kuma.fmd_grp.group.name=FMD"
-      - 'kuma.fmd_grp.group.notification_name_list=["ntfy"]'
-      - "kuma.fmd_http.http.name=FMD HTTP"
-      - "kuma.fmd_http.http.url=https://fmd.pranaovs.me"
-      - "kuma.fmd_http.http.parent_name=fmd_grp"
-      - "kuma.fmd_container.docker.name=FMD Container"
-      - "kuma.fmd_container.docker.docker_container=fmd"
-      - "kuma.fmd_container.docker.docker_host_name=local"
-      - "kuma.fmd_container.docker.parent_name=fmd_grp"
-      # Watchtower
-      - "com.centurylinklabs.watchtower.enable=true"
-      # Podman Auto-Update
-      - "io.containers.autoupdate=registry"
-
 networks:
   traefik_net:
     external: true

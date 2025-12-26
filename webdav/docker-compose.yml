@@ -26,26 +26,6 @@ services:
     networks:
       - traefik_net
 
-  autokuma:
-    image: busybox:latest
-    container_name: webdav-autokuma
-    restart: always
-    command: ["sleep", "infinity"]
-    healthcheck:
-      test: ["CMD", "sleep", "0"]
-    labels:
-      # AutoKuma (uptime-kuma)
-      - "kuma.webdav_grp.group.name=WebDAV"
-      - 'kuma.webdav_grp.group.notification_name_list=["ntfy"]'
-      - "kuma.webdav_container.docker.name=WebDAV Container"
-      - "kuma.webdav_container.docker.docker_container=webdav"
-      - "kuma.webdav_container.docker.docker_host_name=local"
-      - "kuma.webdav_container.docker.parent_name=webdav_grp"
-      # Watchtower
-      - "com.centurylinklabs.watchtower.enable=true"
-      # Podman Auto-Update
-      - "io.containers.autoupdate=registry"
-
 networks:
   traefik_net:
     external: true

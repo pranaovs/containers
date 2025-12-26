@@ -31,26 +31,6 @@ services:
     networks:
       - traefik_net
 
-  autokuma:
-    image: busybox:latest
-    container_name: shadowsocks-autokuma
-    restart: always
-    command: ["sleep", "infinity"]
-    healthcheck:
-      test: ["CMD", "sleep", "0"]
-    labels:
-      # AutoKuma (uptime-kuma)
-      - "kuma.shadowsocks_grp.group.name=Shadowsocks"
-      - 'kuma.shadowsocks_grp.group.notification_name_list=["ntfy"]'
-      - "kuma.shadowsocks_container.docker.name=Shadowsocks Container"
-      - "kuma.shadowsocks_container.docker.docker_container=shadowsocks"
-      - "kuma.shadowsocks_container.docker.docker_host_name=local"
-      - "kuma.shadowsocks_container.docker.parent_name=shadowsocks_grp"
-      # Watchtower
-      - "com.centurylinklabs.watchtower.enable=true"
-      # Podman Auto-Update
-      - "io.containers.autoupdate=registry"
-
 networks:
   traefik_net:
     external: true

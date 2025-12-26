@@ -31,32 +31,6 @@ services:
     networks:
       - traefik_net
 
-  autokuma:
-    image: busybox:latest
-    container_name: speedtest-autokuma
-    restart: always
-    command: ["sleep", "infinity"]
-    healthcheck:
-      test: ["CMD", "sleep", "0"]
-    labels:
-      # AutoKuma (uptime-kuma)
-      - "kuma.speedtest_grp.group.name=Speedtest"
-      - 'kuma.speedtest_grp.group.notification_name_list=["ntfy"]'
-      - "kuma.speedtest_http_1.http.name=Speedtest (speedtest.pranaovs.me)"
-      - "kuma.speedtest_http_1.http.url=https://speedtest.pranaovs.me"
-      - "kuma.speedtest_http_1.http.parent_name=speedtest_grp"
-      - "kuma.speedtest_http_2.http.name=Speedtest (speed.pranaovs.me)"
-      - "kuma.speedtest_http_2.http.url=https://speed.pranaovs.me"
-      - "kuma.speedtest_http_2.http.parent_name=speedtest_grp"
-      - "kuma.speedtest_container.docker.name=Speedtest Container"
-      - "kuma.speedtest_container.docker.docker_container=speedtest"
-      - "kuma.speedtest_container.docker.docker_host_name=local"
-      - "kuma.speedtest_container.docker.parent_name=speedtest_grp"
-      # Watchtower
-      - "com.centurylinklabs.watchtower.enable=true"
-      # Podman Auto-Update
-      - "io.containers.autoupdate=registry"
-
 networks:
   traefik_net:
     external: true

@@ -28,35 +28,6 @@ services:
     networks:
       - traefik_net
 
-  autokuma:
-    image: busybox:latest
-    container_name: vaultwarden-autokuma
-    restart: always
-    command: ["sleep", "infinity"]
-    healthcheck:
-      test: ["CMD", "sleep", "0"]
-    labels:
-      # AutoKuma (uptime-kuma)
-      - "kuma.vaultwarden_grp.group.name=Vaultwarden"
-      - 'kuma.vaultwarden_grp.group.notification_name_list=["ntfy"]'
-      - "kuma.vaultwarden_http_1.http.name=Vaultwarden (vaultwarden.pranaovs.me)"
-      - "kuma.vaultwarden_http_1.http.url=https://vaultwarden.pranaovs.me"
-      - "kuma.vaultwarden_http_1.http.parent_name=vaultwarden_grp"
-      - "kuma.vaultwarden_http_2.http.name=Vaultwarden (bitwarden.pranaovs.me)"
-      - "kuma.vaultwarden_http_2.http.url=https://bitwarden.pranaovs.me"
-      - "kuma.vaultwarden_http_2.http.parent_name=vaultwarden_grp"
-      - "kuma.vaultwarden_http_3.http.name=Vaultwarden (passwords.pranaovs.me)"
-      - "kuma.vaultwarden_http_3.http.url=https://passwords.pranaovs.me"
-      - "kuma.vaultwarden_http_3.http.parent_name=vaultwarden_grp"
-      - "kuma.vaultwarden_container.docker.name=Vaultwarden Container"
-      - "kuma.vaultwarden_container.docker.docker_container=vaultwarden"
-      - "kuma.vaultwarden_container.docker.docker_host_name=local"
-      - "kuma.vaultwarden_container.docker.parent_name=vaultwarden_grp"
-      # Watchtower
-      - "com.centurylinklabs.watchtower.enable=true"
-      # Podman Auto-Update
-      - "io.containers.autoupdate=registry"
-
 networks:
   traefik_net:
     external: true

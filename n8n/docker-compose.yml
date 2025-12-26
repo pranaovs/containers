@@ -40,32 +40,6 @@ services:
     networks:
       - traefik_net
 
-  autokuma:
-    image: busybox:latest
-    container_name: n8n-autokuma
-    restart: always
-    command: ["sleep", "infinity"]
-    healthcheck:
-      test: ["CMD", "sleep", "0"]
-    labels:
-      # AutoKuma (uptime-kuma)
-      - "kuma.n8n_grp.group.name=n8n"
-      - 'kuma.n8n_grp.group.notification_name_list=["ntfy"]'
-      - "kuma.n8n_http_1.http.name=n8n (n8n.pranaovs.me)"
-      - "kuma.n8n_http_1.http.url=https://n8n.pranaovs.me"
-      - "kuma.n8n_http_1.http.parent_name=n8n_grp"
-      - "kuma.n8n_http_2.http.name=n8n (n8n.deepanalve.dev)"
-      - "kuma.n8n_http_2.http.url=https://n8n.deepanalve.dev"
-      - "kuma.n8n_http_2.http.parent_name=n8n_grp"
-      - "kuma.n8n_container.docker.name=n8n Container"
-      - "kuma.n8n_container.docker.docker_container=n8n-n8n-1"
-      - "kuma.n8n_container.docker.docker_host_name=local"
-      - "kuma.n8n_container.docker.parent_name=n8n_grp"
-      # Watchtower
-      - "com.centurylinklabs.watchtower.enable=true"
-      # Podman Auto-Update
-      - "io.containers.autoupdate=registry"
-
 networks:
   traefik_net:
     external: true

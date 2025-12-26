@@ -245,52 +245,6 @@ services:
       # Podman Auto-Update
       - "io.containers.autoupdate=registry"
 
-  autokuma:
-    image: busybox:latest
-    container_name: traefik-autokuma
-    restart: always
-    command: ["sleep", "infinity"]
-    healthcheck:
-      test: ["CMD", "sleep", "0"]
-    labels:
-      # Autokuma
-      - "kuma.traefik_grp.group.name=Traefik"
-      - 'kuma.traefik_grp.group.notification_name_list=["ntfy"]'
-      - "kuma.traefik_container.docker.name=Traefik Container"
-      - "kuma.traefik_container.docker.docker_container=traefik"
-      - "kuma.traefik_container.docker.docker_host_name=local"
-      - "kuma.traefik_container.docker.parent_name=traefik_grp"
-
-      - "kuma.traefik_log_agent_container.docker.name=Traefik Log Agent Container"
-      - "kuma.traefik_log_agent_container.docker.docker_container=traefik-log-dashboard-agent"
-      - "kuma.traefik_log_agent_container.docker.docker_host_name=local"
-      - "kuma.traefik_log_agent_container.docker.parent_name=traefik_grp"
-
-      - "kuma.traefik_log_dashboard_container.docker.name=Traefik Log Dashboard Container"
-      - "kuma.traefik_log_dashboard_container.docker.docker_container=traefik-log-dashboard"
-      - "kuma.traefik_log_dashboard_container.docker.docker_host_name=local"
-      - "kuma.traefik_log_dashboard_container.docker.parent_name=traefik_grp"
-
-      - "kuma.crowdsec_container.docker.name=Crowdsec Container"
-      - "kuma.crowdsec_container.docker.docker_container=crowdsec"
-      - "kuma.crowdsec_container.docker.docker_host_name=local"
-      - "kuma.crowdsec_container.docker.parent_name=traefik_grp"
-
-      - "kuma.anubis_container.docker.name=Anubis Container"
-      - "kuma.anubis_container.docker.docker_container=anubis"
-      - "kuma.anubis_container.docker.docker_host_name=local"
-      - "kuma.anubis_container.docker.parent_name=traefik_grp"
-
-      - "kuma.whoami_container.docker.name=whoami Container"
-      - "kuma.whoami_container.docker.docker_container=whoami"
-      - "kuma.whoami_container.docker.docker_host_name=local"
-      - "kuma.whoami_container.docker.parent_name=traefik_grp"
-
-      # Watchtower
-      - "com.centurylinklabs.watchtower.enable=true"
-      # Podman Auto-Update
-      - "io.containers.autoupdate=registry"
-
 volumes:
   letsencrypt:
     name: letsencrypt

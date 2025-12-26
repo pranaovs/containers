@@ -14,22 +14,3 @@ services:
       # Podman Auto-Update
       - "io.containers.autoupdate=registry"
 
-  autokuma:
-    image: busybox:latest
-    container_name: watchtower-autokuma
-    restart: always
-    command: ["sleep", "infinity"]
-    healthcheck:
-      test: ["CMD", "sleep", "0"]
-    labels:
-      # AutoKuma (uptime-kuma)
-      - "kuma.watchtower_grp.group.name=Watchtower"
-      - 'kuma.watchtower_grp.group.notification_name_list=["ntfy"]'
-      - "kuma.watchtower_container.docker.name=Watchtower Container"
-      - "kuma.watchtower_container.docker.docker_container=watchtower"
-      - "kuma.watchtower_container.docker.docker_host_name=local"
-      - "kuma.watchtower_container.docker.parent_name=watchtower_grp"
-      # Watchtower
-      - "com.centurylinklabs.watchtower.enable=true"
-      # Podman Auto-Update
-      - "io.containers.autoupdate=registry"

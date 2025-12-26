@@ -51,33 +51,6 @@ services:
       # Podman Auto-Update
       - "io.containers.autoupdate=registry"
 
-  autokuma:
-    image: busybox:latest
-    container_name: ntfy-autokuma
-    restart: always
-    command: ["sleep", "infinity"]
-    healthcheck:
-      test: ["CMD", "sleep", "0"]
-    labels:
-      # AutoKuma (uptime-kuma)
-      - "kuma.ntfy_grp.group.name=ntfy"
-      - 'kuma.ntfy_grp.group.notification_name_list=["ntfy"]'
-      - "kuma.ntfy_http_1.http.name=ntfy (ntfy.pranaovs.me)"
-      - "kuma.ntfy_http_1.http.url=https://ntfy.pranaovs.me"
-      - "kuma.ntfy_http_1.http.parent_name=ntfy_grp"
-      - "kuma.ntfy_http_2.http.name=ntfy (notify.pranaovs.me)"
-      - "kuma.ntfy_http_2.http.url=https://notify.pranaovs.me"
-      - "kuma.ntfy_http_2.http.parent_name=ntfy_grp"
-      - "kuma.ntfy_container.docker.name=ntfy Container"
-      - "kuma.ntfy_container.docker.docker_container=ntfy"
-      - "kuma.ntfy_container.docker.docker_host_name=local"
-      - "kuma.ntfy_container.docker.parent_name=ntfy_grp"
-
-      # Watchtower
-      - "com.centurylinklabs.watchtower.enable=true"
-      # Podman Auto-Update
-      - "io.containers.autoupdate=registry"
-
 volumes:
   ntfy_cache:
 

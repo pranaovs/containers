@@ -26,35 +26,6 @@ services:
     networks:
       - traefik_net
 
-  autokuma:
-    image: busybox:latest
-    container_name: bentopdf-autokuma
-    restart: always
-    command: ["sleep", "infinity"]
-    healthcheck:
-      test: ["CMD", "sleep", "0"]
-    labels:
-      # AutoKuma (uptime-kuma)
-      - "kuma.bentopdf_grp.group.name=BentoPDF"
-      - 'kuma.bentopdf_grp.group.notification_name_list=["ntfy"]'
-      - "kuma.bentopdf_http_1.http.name=BentoPDF (pdftools.pranaovs.me)"
-      - "kuma.bentopdf_http_1.http.url=https://pdftools.pranaovs.me"
-      - "kuma.bentopdf_http_1.http.parent_name=bentopdf_grp"
-      - "kuma.bentopdf_http_2.http.name=BentoPDF (pdf.pranaovs.me)"
-      - "kuma.bentopdf_http_2.http.url=https://pdf.pranaovs.me"
-      - "kuma.bentopdf_http_2.http.parent_name=bentopdf_grp"
-      - "kuma.bentopdf_http_3.http.name=BentoPDF (bentopdf.pranaovs.me)"
-      - "kuma.bentopdf_http_3.http.url=https://bentopdf.pranaovs.me"
-      - "kuma.bentopdf_http_3.http.parent_name=bentopdf_grp"
-      - "kuma.bentopdf_container.docker.name=BentoPDF Container"
-      - "kuma.bentopdf_container.docker.docker_container=bentopdf"
-      - "kuma.bentopdf_container.docker.docker_host_name=local"
-      - "kuma.bentopdf_container.docker.parent_name=bentopdf_grp"
-      # Watchtower
-      - "com.centurylinklabs.watchtower.enable=true"
-      # Podman Auto-Update
-      - "io.containers.autoupdate=registry"
-
 networks:
   traefik_net:
     external: true

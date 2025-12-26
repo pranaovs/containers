@@ -26,26 +26,6 @@ services:
     networks:
       - traefik_net
 
-  autokuma:
-    image: busybox:latest
-    container_name: radicale-autokuma
-    restart: always
-    command: ["sleep", "infinity"]
-    healthcheck:
-      test: ["CMD", "sleep", "0"]
-    labels:
-      # AutoKuma (uptime-kuma)
-      - "kuma.radicale_grp.group.name=Radicale"
-      - 'kuma.radicale_grp.group.notification_name_list=["ntfy"]'
-      - "kuma.radicale_container.docker.name=Radicale Container"
-      - "kuma.radicale_container.docker.docker_container=radicale"
-      - "kuma.radicale_container.docker.docker_host_name=local"
-      - "kuma.radicale_container.docker.parent_name=radicale_grp"
-      # Watchtower
-      - "com.centurylinklabs.watchtower.enable=true"
-      # Podman Auto-Update
-      - "io.containers.autoupdate=registry"
-
 networks:
   traefik_net:
     external: true
