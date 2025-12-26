@@ -53,7 +53,7 @@ services:
       # Docker setup
       - "kuma.local.docker_host.name=Docker socket"
       - "kuma.local.docker_host.connection_type=socket"
-      - "kuma.local.docker_host.path=/run/user/1000/podman/podman.sock"
+      - "kuma.local.docker_host.path=/var/run/docker.sock"
       # Notifications
       - kuma.ntfy.notification.name=ntfy Notifications
       - kuma.ntfy.notification.active=true
