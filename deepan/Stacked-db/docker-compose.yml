@@ -8,6 +8,15 @@ services:
       - "com.centurylinklabs.watchtower.enable=true"
       # Podman Auto-Update
       - "io.containers.autoupdate=registry"
+
+      # Autokuma
+      - "kuma.stacked_grp.group.name=Stacked DB"
+      - 'kuma.stacked_grp.group.notification_name_list=["ntfy"]'
+      - "kuma.stacked_backend_container.docker.name=Stacked DB Backend Container"
+      - "kuma.stacked_backend_container.docker.docker_container=stacked-backend"
+      - "kuma.stacked_backend_container.docker.docker_host_name=local"
+      - "kuma.stacked_backend_container.docker.parent_name=stacked_grp"
+
     env_file: .env
     volumes:
       - ./data:/data:Z,U
@@ -43,28 +52,8 @@ services:
       - "com.centurylinklabs.watchtower.enable=true"
       # Podman Auto-Update
       - "io.containers.autoupdate=registry"
-    healthcheck:
-      test: ["CMD", "curl", "-q", "http://localhost:80"]
-    networks:
-      - default
-      - traefik_net
 
-  autokuma:
-    image: busybox:latest
-    container_name: stacked-autokuma
-    restart: always
-    command: ["sleep", "infinity"]
-    healthcheck:
-      test: ["CMD", "sleep", "0"]
-    labels:
       # AutoKuma (uptime-kuma)
-      - "kuma.stacked_grp.group.name=Stacked DB"
-      - 'kuma.stacked_grp.group.notification_name_list=["ntfy"]'
-      - "kuma.stacked_backend_container.docker.name=Stacked DB Backend Container"
-      - "kuma.stacked_backend_container.docker.docker_container=stacked-backend"
-      - "kuma.stacked_backend_container.docker.docker_host_name=local"
-      - "kuma.stacked_backend_container.docker.parent_name=stacked_grp"
-
       - "kuma.stacked_http_1.http.name=Stacked DB (stacked.deepanalve.dev)"
       - "kuma.stacked_http_1.http.url=https://stacked.deepanalve.dev"
       - "kuma.stacked_http_1.http.parent_name=stacked_grp"
@@ -72,10 +61,12 @@ services:
       - "kuma.stacked_frontend_container.docker.docker_container=stacked-frontend"
       - "kuma.stacked_frontend_container.docker.docker_host_name=local"
       - "kuma.stacked_frontend_container.docker.parent_name=stacked_grp"
-      # Watchtower
-      - "com.centurylinklabs.watchtower.enable=true"
-      # Podman Auto-Update
-      - "io.containers.autoupdate=registry"
+
+    healthcheck:
+      test: ["CMD", "curl", "-q", "http://localhost:80"]
+    networks:
+      - default
+      - traefik_net
 
 networks:
   traefik_net:
