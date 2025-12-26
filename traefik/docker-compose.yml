@@ -94,6 +94,7 @@ services:
       - "5000"
     volumes:
       - logs:/var/log/traefik:ro
+      - ./data/log-dashboard/geoip:/geoip:ro,z
       - ./data/log-dashboard/positions:/data:Z,U
     environment:
       # Log Paths
@@ -105,6 +106,10 @@ services:
       - TRAEFIK_LOG_DASHBOARD_SYSTEM_MONITORING=true
       # Server Port
       - PORT=5000
+      # Geoip
+      - TRAEFIK_LOG_DASHBOARD_GEOIP_ENABLED=true
+      - TRAEFIK_LOG_DASHBOARD_GEOIP_CITY_DB=/geoip/GeoLite2-City.mmdb
+      - TRAEFIK_LOG_DASHBOARD_GEOIP_COUNTRY_DB=/geoip/GeoLite2-Country.mmdb
     healthcheck:
       test:
         [
@@ -119,6 +124,8 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
+    depends_on:
+      - traefik
     networks:
       - traefik_logs_net
     labels:
