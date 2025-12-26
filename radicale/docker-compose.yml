@@ -1,6 +1,7 @@
 services:
   radicale:
     image: ghcr.io/kozea/radicale:latest
+    user: root
     container_name: radicale
     ports:
       - "30089:5232"

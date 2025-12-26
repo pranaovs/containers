@@ -5,6 +5,7 @@ services:
     command:
       - serve
     init: true
+    user: root
     healthcheck:
       test:
         [
