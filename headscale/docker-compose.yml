@@ -41,7 +41,7 @@ services:
       - ./config/headscale:/etc/headscale
       - ./private:/private:ro
       - ./dns:/dns
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/run/user/1000/podman/podman.sock:/var/run/docker.sock:ro"
 
     labels:
       # Watchtower
@@ -76,7 +76,7 @@ services:
     restart: always
     volumes:
       - ./lib/headnscale:/var/lib/headnscale
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
       - ./dns:/data
     expose:
       - "8080"

@@ -13,7 +13,7 @@ services:
       - 443:443/tcp # HTTPS entryPoints
       - 30080:8080 # Dashboard WebGui
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro # Docker socket
+      - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro # Docker socket
       - ./traefik.yml:/traefik.yml:ro
       - letsencrypt:/letsencrypt
       - logs:/var/log/traefik # For crowdsec

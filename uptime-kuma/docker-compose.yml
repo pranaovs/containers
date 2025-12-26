@@ -8,7 +8,7 @@ services:
     security_opt:
       - label=type:spc_t
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
       - ./data/uptime_kuma:/app/data
     labels:
       # Traefik
@@ -43,7 +43,7 @@ services:
     security_opt:
       - label=type:spc_t
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
       - ./data/autokuma:/data
     depends_on:
       - uptimekuma
@@ -52,7 +52,7 @@ services:
       # Docker setup
       - "kuma.local.docker_host.name=Docker socket"
       - "kuma.local.docker_host.connection_type=socket"
-      - "kuma.local.docker_host.path=/var/run/docker.sock"
+      - "kuma.local.docker_host.path=/run/user/1000/podman/podman.sock"
       # Notifications
       - kuma.ntfy.notification.name=ntfy Notifications
       - kuma.ntfy.notification.active=true
