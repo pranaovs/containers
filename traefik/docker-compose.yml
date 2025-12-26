@@ -261,6 +261,16 @@ services:
       - "kuma.traefik_container.docker.docker_host_name=local"
       - "kuma.traefik_container.docker.parent_name=traefik_grp"
 
+      - "kuma.traefik_log_agent_container.docker.name=Traefik Log Agent Container"
+      - "kuma.traefik_log_agent_container.docker.docker_container=traefik-log-dashboard-agent"
+      - "kuma.traefik_log_agent_container.docker.docker_host_name=local"
+      - "kuma.traefik_log_agent_container.docker.parent_name=traefik_grp"
+
+      - "kuma.traefik_log_dashboard_container.docker.name=Traefik Log Dashboard Container"
+      - "kuma.traefik_log_dashboard_container.docker.docker_container=traefik-log-dashboard"
+      - "kuma.traefik_log_dashboard_container.docker.docker_host_name=local"
+      - "kuma.traefik_log_dashboard_container.docker.parent_name=traefik_grp"
+
       - "kuma.crowdsec_container.docker.name=Crowdsec Container"
       - "kuma.crowdsec_container.docker.docker_container=crowdsec"
       - "kuma.crowdsec_container.docker.docker_host_name=local"
