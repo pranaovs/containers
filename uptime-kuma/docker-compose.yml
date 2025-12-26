@@ -52,6 +52,11 @@ services:
       - uptimekuma
 
     labels:
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
+
       # Docker setup
       - "kuma.local.docker_host.name=Docker socket"
       - "kuma.local.docker_host.connection_type=socket"
@@ -63,14 +68,6 @@ services:
       # Group for CTF Tools
       - "kuma.ctf_grp.group.name=CTF"
 
-  autokuma-labels:
-    image: busybox:latest
-    container_name: uptimekuma-autokuma
-    restart: always
-    command: ["sleep", "infinity"]
-    healthcheck:
-      test: ["CMD", "sleep", "0"]
-    labels:
       # AutoKuma (uptime-kuma)
       - "kuma.uptime_kuma_grp.group.name=Uptime Kuma"
       - 'kuma.uptime_kuma_grp.group.notification_name_list=["ntfy"]'
@@ -436,11 +433,6 @@ services:
       - "kuma.wma_searxng.docker.docker_container=wma-searxng"
       - "kuma.wma_searxng.docker.docker_host_name=local"
       - "kuma.wma_searxng.docker.parent_name=wma_grp"
-
-      # Watchtower
-      - "com.centurylinklabs.watchtower.enable=true"
-      # Podman Auto-Update
-      - "io.containers.autoupdate=registry"
 
 networks:
   traefik_net:
