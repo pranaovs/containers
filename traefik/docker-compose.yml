@@ -77,12 +77,23 @@ services:
       - "com.centurylinklabs.watchtower.enable=true"
       # Podman Auto-Update
       - "io.containers.autoupdate=registry"
+
       # Traefik
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik-log-ts.rule=Host(`logs.devserver.ts.net`) || Host(`logs.devserver`)"
-      - "headnscale.subdomain=logs"
-      - "traefik.http.routers.traefik-log-ts.entrypoints=web"
-      - "traefik.http.routers.traefik-log-ts.service=traefik-dashboard"
+      - "traefik.http.routers.traefik-dashboard-ts.rule=Host(`logs.devserver.ts.net`) || Host(`logs.devserver`) || Host(`log.devserver.ts.net`) || Host(`log.devserver`)"
+      - "headnscale.subdomain=logs|log"
+      - "traefik.http.routers.traefik-dashboard-ts.priority=10"
+      - "traefik.http.routers.traefik-dashboard-ts.entrypoints=web"
+      - "traefik.http.routers.traefik-dashboard-ts.service=traefik-dashboard"
+
+      # Root-only rewrite router
+      - "traefik.http.routers.traefik-dashboard-ts-root.rule=(Host(`logs.devserver.ts.net`) || Host(`logs.devserver`) || Host(`log.devserver.ts.net`) || Host(`log.devserver`)) && Path(`/`)"
+      - "traefik.http.routers.traefik-dashboard-ts-root.priority=100"
+      - "traefik.http.routers.traefik-dashboard-ts-root.entrypoints=web"
+      - "traefik.http.routers.traefik-dashboard-ts-root.middlewares=redirect-dashboard"
+      - "traefik.http.routers.traefik-dashboard-ts-root.service=traefik-dashboard"
+      - "traefik.http.middlewares.redirect-dashboard.addprefix.prefix=/dashboard"
+
       - "traefik.http.services.traefik-dashboard.loadbalancer.server.port=3000"
       - "traefik.docker.network=traefik_net"
 
