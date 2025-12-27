@@ -1,7 +1,7 @@
 services:
   n8n:
     image: docker.n8n.io/n8nio/n8n
-    restart: unless-stopped
+    restart: always
     user: root
     ports:
       - "30088:5678"
