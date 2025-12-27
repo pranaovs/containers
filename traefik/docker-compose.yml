@@ -42,6 +42,29 @@ services:
       # Anubis
       - traefik.http.middlewares.anubis.forwardauth.address=http://anubis:8080/.within.website/x/cmd/anubis/api/check
 
+  log-filter:
+    image: alpine:latest
+    container_name: traefik-access-log-filter
+    restart: always
+    volumes:
+      - "logs:/logs:z,U"
+    environment:
+      - IGNORE_IPS=46.62.253.207|2a01:4f9:c010:dd94::2
+
+    command: >
+      sh -c "
+      touch /logs/access-raw.log
+      touch /logs/access.log
+
+      echo 'Starting Log Filter'
+
+      echo 'Ignoring IPs: ' $$IGNORE_IPS
+
+      tail -n 0 -F /logs/access-raw.log | \
+      awk -v skip=\"$$IGNORE_IPS\" '\$0 !~ skip {print; fflush()}' \
+      >> /logs/access.log
+      "
+
   log-dashboard:
     image: hhftechnology/traefik-log-dashboard:latest
     container_name: traefik-log-dashboard
