@@ -64,7 +64,7 @@ services:
       - model-cache:/cache
     env_file:
       - .env
-    restart: unless-stopped
+    restart: always
     healthcheck:
       disable: false
     labels:
