@@ -42,7 +42,7 @@ services:
       # Anubis
       - traefik.http.middlewares.anubis.forwardauth.address=http://anubis:8080/.within.website/x/cmd/anubis/api/check
 
-  traefik-dashboard:
+  log-dashboard:
     image: hhftechnology/traefik-log-dashboard:latest
     container_name: traefik-log-dashboard
     restart: always
@@ -53,7 +53,7 @@ services:
       - ./data/log-dashboard/geoip:/geoip:ro,z
       - ./data/log-dashboard/positions:/data:Z,U
     environment:
-      - AGENT_API_URL=http://traefik-agent:5000
+      - AGENT_API_URL=http://log-dashboard-agent:5000
       - AGENT_API_TOKEN=${TRAEFIK_LOG_DASHBOARD_AUTH_TOKEN}
       - AGENT_NAME=Local
 
@@ -66,7 +66,7 @@ services:
       - NEXT_PUBLIC_SHOW_DEMO_PAGE=true
       - NEXT_PUBLIC_MAX_LOGS_DISPLAY=500
     depends_on:
-      traefik-agent:
+      log-dashboard-agent:
         condition: service_healthy
     networks:
       - traefik_net
@@ -97,7 +97,7 @@ services:
       - "traefik.http.services.traefik-dashboard.loadbalancer.server.port=3000"
       - "traefik.docker.network=traefik_net"
 
-  traefik-agent:
+  log-dashboard-agent:
     image: hhftechnology/traefik-log-dashboard-agent:latest
     container_name: traefik-log-dashboard-agent
     restart: always
