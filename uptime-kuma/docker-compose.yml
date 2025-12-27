@@ -42,6 +42,7 @@ services:
       # Default settings
       AUTOKUMA__DEFAULT_SETTINGS: |-
         *.max_retries: 5
+        *.resend_interval: 30
     env_file: ".env"
     security_opt:
       - label=type:spc_t
@@ -217,6 +218,8 @@ services:
       - "kuma.jellyfin_container.docker.docker_container=jellyfin"
       - "kuma.jellyfin_container.docker.docker_host_name=local"
       - "kuma.jellyfin_container.docker.parent_name=jellyfin_grp"
+
+      # Jellyfin Proxy
       - "kuma.jellyfinproxy_grp.group.name=Jellyfin Proxy"
       - "kuma.jellyfinproxy_http_1.http.name=Jellyfin Proxy (proxy.jellyfin.pranaovs.me)"
       - "kuma.jellyfinproxy_http_1.http.url=https://proxy.jellyfin.pranaovs.me"
