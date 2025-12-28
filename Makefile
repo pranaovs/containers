@@ -9,3 +9,6 @@ recreate:
 
 orphans:
 	find . -maxdepth 2 -type f -name "docker-compose.yml" -print0 | xargs -0 -I {} bash -c 'podman compose -f "{}" up -d --remove-orphans &'
+
+hooks:
+	git config --local core.hooksPath .githooks/
