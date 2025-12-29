@@ -81,7 +81,7 @@ services:
       - "traefik.http.routers.wma-https.rule=Host(`wma.deepanalve.dev`)" # CHANGE THIS
       - "traefik.http.routers.wma-https.entrypoints=websecure"
       - "traefik.http.routers.wma-https.service=frontend"
-      - "traefik.http.routers.wma-https.middlewares=anubis@docker"
+      # - "traefik.http.routers.wma-https.middlewares=anubis@docker"
 
       # Service configuration
       - "traefik.http.services.frontend.loadbalancer.server.port=3000"
