@@ -212,6 +212,7 @@ services:
   anubis:
     image: ghcr.io/techarohq/anubis:main
     container_name: anubis
+    restart: always
     expose:
       - "8080"
     volumes:
@@ -245,6 +246,7 @@ services:
   whoami:
     image: traefik/whoami:latest
     container_name: whoami
+    restart: always
     networks:
       - traefik_net
     labels:

@@ -2,7 +2,6 @@ services:
   backend:
     image: ghcr.io/deepan-alve/stacked-backend:latest
     container_name: stacked-backend
-    restart: always
     labels:
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
@@ -34,10 +33,10 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
+    restart: always
 
   frontend:
     image: ghcr.io/deepan-alve/stacked-frontend:latest
-    restart: always
     container_name: stacked-frontend
     env_file: .env
     labels:
@@ -64,6 +63,7 @@ services:
 
     healthcheck:
       test: ["CMD", "curl", "-q", "http://localhost:80"]
+    restart: always
     networks:
       - default
       - traefik_net

@@ -4,7 +4,6 @@ services:
     image: ghcr.io/deepan-alve/demo-or-repo-backend:latest
     container_name: project-dashboard-backend
     pull_policy: always
-    restart: always
     environment:
       - NODE_ENV=production
       - PORT=3000
@@ -22,6 +21,7 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
+    restart: always
     labels:
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
@@ -42,7 +42,6 @@ services:
     image: ghcr.io/deepan-alve/demo-or-repo-frontend:latest
     container_name: project-dashboard-frontend
     pull_policy: always
-    restart: always
     depends_on:
       - backend
     expose:
@@ -53,6 +52,7 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
+    restart: always
     labels:
       # Traefik - HTTPS routes
       - "traefik.enable=true"

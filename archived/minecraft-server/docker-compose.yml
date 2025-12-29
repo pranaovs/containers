@@ -18,7 +18,7 @@ services:
       - "com.centurylinklabs.watchtower.enable=true"
       # Podman Auto-Update
       - "io.containers.autoupdate=registry"
-    restart: no
+    restart: always
 
   mc:
     image: itzg/minecraft-server:latest
@@ -54,4 +54,4 @@ services:
     depends_on:
       - lazytainer
     network_mode: service:lazytainer
-    restart: no
+    restart: always

@@ -1,6 +1,7 @@
 services:
   xandikos:
     image: ghcr.io/jelmer/xandikos
+    restart: always
     ports:
       - 30089:8000
       - 30090:8001
@@ -26,7 +27,6 @@ services:
 
       # Compatibility mode for buggy clients
       # - NO_STRICT=false
-    restart: always
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:30090/health"]
       interval: 30s

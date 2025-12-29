@@ -2,7 +2,7 @@ services:
   web:
     image: ghcr.io/corentinth/it-tools:latest
     container_name: ittools
-    restart: no
+    restart: unless-stopped
     expose:
       - "80"
     labels:

@@ -50,7 +50,7 @@ services:
     ports:
       - ${OR_PORT}:${OR_PORT}
       - ${PT_PORT}:${PT_PORT}
-    restart: unless-stopped
+    restart: always
 
 volumes:
   data:

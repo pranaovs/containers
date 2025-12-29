@@ -2,7 +2,7 @@ services:
   web:
     image: ghcr.io/gchq/cyberchef:latest
     container_name: cyberchef
-    restart: no
+    restart: unless-stopped
     expose:
       - "80"
     labels:

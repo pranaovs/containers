@@ -1,6 +1,7 @@
 services:
   stirling-pdf:
     image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
+    restart: always
     volumes:
       - ./StirlingPDF/trainingData:/usr/share/tessdata # Required for extra OCR languages
       - ./StirlingPDF/extraConfigs:/configs
@@ -15,7 +16,7 @@ services:
       # Podman Auto-Update
       - "io.containers.autoupdate=registry"
     network_mode: service:lazytainer
-    restart: unless-stopped
+    restart: always
 
   lazytainer:
     container_name: lazytainer_stirling_pdf

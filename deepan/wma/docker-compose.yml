@@ -3,6 +3,7 @@ services:
   searxng:
     image: searxng/searxng:latest
     container_name: wma-searxng
+    restart: always
     volumes:
       - ./config/searxng:/etc/searxng:rw,Z,U
     expose:
@@ -13,6 +14,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+    restart: always
 
     labels:
       # Watchtower
@@ -29,6 +31,7 @@ services:
   backend:
     image: ghcr.io/deepan-alve/win-my-argument-backend:latest
     container_name: wma-backend
+    restart: always
     environment:
       - NODE_ENV=production
       - SEARXNG_API_URL=http://wma-searxng:8080
@@ -38,7 +41,6 @@ services:
       - backend-data:/home/perplexica/data
       - uploads-data:/home/perplexica/uploads
       - ./config/perplexica:/home/perplexica:Z,U
-    restart: always
     healthcheck:
       test: ["CMD", "curl", "-q", "http://localhost:3001/api/models"]
       interval: 30s
@@ -58,6 +60,7 @@ services:
   frontend:
     image: ghcr.io/deepan-alve/win-my-argument-frontend:latest
     container_name: wma-frontend
+    restart: always
     environment:
       - NODE_ENV=production
       - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:3001/api}
@@ -67,7 +70,6 @@ services:
     networks:
       - traefik_net
       - default
-    restart: always
     healthcheck:
       test: ["CMD", "curl", "-q", "http://localhost:3000"]
       interval: 30s
