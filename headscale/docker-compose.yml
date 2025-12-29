@@ -42,7 +42,7 @@ services:
       - ./lib/headplane:/var/lib/headplane:Z,U
       - ./config/headscale:/etc/headscale:ro,z
       - ./private:/private:ro,Z
-      - ./dns:/dns:ro,z
+      - ./dns:/dns:z
       - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
 
     labels:
@@ -81,7 +81,7 @@ services:
     volumes:
       - ./lib/headnscale:/var/lib/headnscale:Z,U
       - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
-      - ./dns:/data:z,U
+      - ./dns:/data:z
     expose:
       - "8080"
     environment:
