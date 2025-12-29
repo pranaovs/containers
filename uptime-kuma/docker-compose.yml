@@ -276,21 +276,6 @@ services:
       - "kuma.ntfy_container.docker.docker_host_name=local"
       - "kuma.ntfy_container.docker.parent_name=ntfy_grp"
 
-      # Project Dashboard
-      - "kuma.project_dashboard_grp.group.name=Project Dashboard"
-      - 'kuma.project_dashboard_grp.group.notification_name_list=["ntfy"]'
-      - "kuma.project_dashboard_http_1.http.name=Project Dashboard (projects.deepanalve.dev)"
-      - "kuma.project_dashboard_http_1.http.url=https://projects.deepanalve.dev"
-      - "kuma.project_dashboard_http_1.http.parent_name=project_dashboard_grp"
-      - "kuma.project_dashboard_frontend.docker.name=Project Dashboard Frontend Container"
-      - "kuma.project_dashboard_frontend.docker.docker_container=project-dashboard-frontend"
-      - "kuma.project_dashboard_frontend.docker.docker_host_name=local"
-      - "kuma.project_dashboard_frontend.docker.parent_name=project_dashboard_grp"
-      - "kuma.project_dashboard_backend.docker.name=Project Dashboard Backend Container"
-      - "kuma.project_dashboard_backend.docker.docker_container=project-dashboard-backend"
-      - "kuma.project_dashboard_backend.docker.docker_host_name=local"
-      - "kuma.project_dashboard_backend.docker.parent_name=project_dashboard_grp"
-
       # Radicale
       - "kuma.radicale_grp.group.name=Radicale"
       - 'kuma.radicale_grp.group.notification_name_list=["ntfy"]'
@@ -320,21 +305,6 @@ services:
       - "kuma.speedtest_container.docker.docker_container=speedtest"
       - "kuma.speedtest_container.docker.docker_host_name=local"
       - "kuma.speedtest_container.docker.parent_name=speedtest_grp"
-
-      # Stacked DB
-      - "kuma.stacked_grp.group.name=Stacked DB"
-      - 'kuma.stacked_grp.group.notification_name_list=["ntfy"]'
-      - "kuma.stacked_backend_container.docker.name=Stacked DB Backend Container"
-      - "kuma.stacked_backend_container.docker.docker_container=stacked-backend"
-      - "kuma.stacked_backend_container.docker.docker_host_name=local"
-      - "kuma.stacked_backend_container.docker.parent_name=stacked_grp"
-      - "kuma.stacked_http_1.http.name=Stacked DB (stacked.deepanalve.dev)"
-      - "kuma.stacked_http_1.http.url=https://stacked.deepanalve.dev"
-      - "kuma.stacked_http_1.http.parent_name=stacked_grp"
-      - "kuma.stacked_frontend_container.docker.name=Stacked DB Frontend Container"
-      - "kuma.stacked_frontend_container.docker.docker_container=stacked-frontend"
-      - "kuma.stacked_frontend_container.docker.docker_host_name=local"
-      - "kuma.stacked_frontend_container.docker.parent_name=stacked_grp"
 
       # Traefik
       - "kuma.traefik_grp.group.name=Traefik"
@@ -414,25 +384,6 @@ services:
       - "kuma.webdav_container.docker.docker_container=webdav"
       - "kuma.webdav_container.docker.docker_host_name=local"
       - "kuma.webdav_container.docker.parent_name=webdav_grp"
-
-      # WMA
-      - "kuma.wma_grp.group.name=WMA"
-      - 'kuma.wma_grp.group.notification_name_list=["ntfy"]'
-      - "kuma.wma_http_1.http.name=WMA HTTP (wma.deepanalve.dev)"
-      - "kuma.wma_http_1.http.url=https://wma.deepanalve.dev"
-      - "kuma.wma_http_1.http.parent_name=wma_grp"
-      - "kuma.wma_frontend.docker.name=WMA Frontend Container"
-      - "kuma.wma_frontend.docker.docker_container=wma-frontend"
-      - "kuma.wma_frontend.docker.docker_host_name=local"
-      - "kuma.wma_frontend.docker.parent_name=wma_grp"
-      - "kuma.wma_backend.docker.name=WMA Backend Container"
-      - "kuma.wma_backend.docker.docker_container=wma-backend"
-      - "kuma.wma_backend.docker.docker_host_name=local"
-      - "kuma.wma_backend.docker.parent_name=wma_grp"
-      - "kuma.wma_searxng.docker.name=WMA Searxng Container"
-      - "kuma.wma_searxng.docker.docker_container=wma-searxng"
-      - "kuma.wma_searxng.docker.docker_host_name=local"
-      - "kuma.wma_searxng.docker.parent_name=wma_grp"
 
 networks:
   traefik_net:
