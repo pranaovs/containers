@@ -174,10 +174,6 @@ services:
       - "kuma.headnscale_container.docker.docker_container=headnscale"
       - "kuma.headnscale_container.docker.docker_host_name=local"
       - "kuma.headnscale_container.docker.parent_name=headscale_grp"
-      - "kuma.whoami_container.docker.docker_container=whoami"
-      - "kuma.whoami_container.docker.name=whoami Container"
-      - "kuma.whoami_container.docker.docker_host_name=local"
-      - "kuma.whoami_container.docker.parent_name=headscale_grp"
 
       # Immich
       - "kuma.immich_grp.group.name=Immich"
@@ -325,10 +321,10 @@ services:
       - "kuma.crowdsec_container.docker.docker_container=crowdsec"
       - "kuma.crowdsec_container.docker.docker_host_name=local"
       - "kuma.crowdsec_container.docker.parent_name=traefik_grp"
-      - "kuma.whoami2_container.docker.name=whoami Container"
-      - "kuma.whoami2_container.docker.docker_container=whoami"
-      - "kuma.whoami2_container.docker.docker_host_name=local"
-      - "kuma.whoami2_container.docker.parent_name=traefik_grp"
+      - "kuma.whoami_container.docker.name=whoami Container"
+      - "kuma.whoami_container.docker.docker_container=whoami"
+      - "kuma.whoami_container.docker.docker_host_name=local"
+      - "kuma.whoami_container.docker.parent_name=traefik_grp"
 
       # Vaultwarden
       - "kuma.vaultwarden_grp.group.name=Vaultwarden"
