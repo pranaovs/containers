@@ -200,9 +200,9 @@ services:
     depends_on:
       - traefik
     volumes:
-      - ./data/crowdsec/:/etc/crowdsec:Z,U
+      - ./config/crowdsec/:/etc/crowdsec:Z,U
       - logs:/var/log/traefik:ro
-      - crowdsec-data:/var/lib/crowdsec/data/
+      - ./data/crowdsec:/var/lib/crowdsec/data:Z,U
     labels:
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
@@ -275,7 +275,6 @@ volumes:
     name: letsencrypt
   logs:
     name: traefik_logs
-  crowdsec-data:
   anubis_data:
 
 networks:
