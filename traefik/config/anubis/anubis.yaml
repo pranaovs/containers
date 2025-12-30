@@ -1,2 +1,17 @@
 bots:
   - import: (data)/meta/default-config.yaml
+
+  - name: tailscale-network
+    action: ALLOW
+    remote_addresses:
+      - 100.64.0.0/10
+
+  - name: podman-network
+    action: ALLOW
+    remote_addresses:
+      - 10.88.0.0/16
+
+  - name: traefik-network
+    action: ALLOW
+    remote_addresses:
+      - 10.89.6.0/24
