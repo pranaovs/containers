@@ -39,8 +39,6 @@ services:
       - "traefik.http.middlewares.crowdsec.plugin.crowdsec-bouncer.enabled=true"
       - "traefik.http.middlewares.crowdsec.plugin.crowdsec-bouncer.crowdsecappsecenabled=false"
       - "traefik.http.middlewares.crowdsec.plugin.crowdsec-bouncer.crowdseclapikey=${CROWDSEC_LAPI_KEY}"
-      # Anubis
-      - traefik.http.middlewares.anubis.forwardauth.address=http://anubis:8080/.within.website/x/cmd/anubis/api/check
 
   log-filter:
     image: alpine:latest
@@ -209,40 +207,6 @@ services:
       # Podman Auto-Update
       - "io.containers.autoupdate=registry"
 
-  anubis:
-    image: ghcr.io/techarohq/anubis:main
-    container_name: anubis
-    restart: always
-    expose:
-      - "8080"
-    volumes:
-      - ./config/anubis/anubis.yaml:/policy.yaml:ro,Z,U
-    environment:
-      - BIND=:8080
-      # Telling Anubis to do redirect — ensure there is a space after '='
-      - "TARGET= "
-      - REDIRECT_DOMAINS=*.pranaovs.me,*.deepanalve.dev
-      - PUBLIC_URL=https://anubis.pranaovs.me
-      - COOKIE_DOMAIN=pranaovs.me
-      - POLICY_FNAME=/policy.yaml
-    networks:
-      - traefik_net
-
-    labels:
-      # Traefik
-      - traefik.enable=true
-      - traefik.http.routers.anubis-https.rule=Host(`anubis.pranaovs.me`)
-      - traefik.http.routers.anubis-https.entrypoints=websecure
-      - traefik.http.routers.anubis-https.service=anubis
-
-      - traefik.http.services.anubis.loadbalancer.server.port=8080
-      - traefik.docker.network=traefik_net
-
-      # Watchtower
-      - "com.centurylinklabs.watchtower.enable=true"
-      # Podman Auto-Update
-      - "io.containers.autoupdate=registry"
-
   whoami:
     image: traefik/whoami:latest
     container_name: whoami
@@ -254,7 +218,6 @@ services:
       - traefik.enable=true
       - traefik.http.routers.whoami-https.rule=Host(`whoami.pranaovs.me`)
       - traefik.http.routers.whoami-https.entrypoints=websecure
-      - traefik.http.routers.whoami-https.middlewares=anubis@docker
       - traefik.http.routers.whoami-https.service=whoami
 
       - traefik.http.routers.whoami-ts.rule=Host(`whoami.devserver.ts.net`) || Host(`whoami.devserver.ts.net`)
@@ -276,7 +239,6 @@ volumes:
   logs:
     name: traefik_logs
   crowdsec-data:
-  anubis_data:
 
 networks:
   traefik_net:

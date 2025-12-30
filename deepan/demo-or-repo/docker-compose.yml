@@ -59,7 +59,6 @@ services:
       - "traefik.http.routers.project-dashboard-https.rule=Host(`projects.deepanalve.dev`)" # CHANGE THIS
       - "traefik.http.routers.project-dashboard-https.entrypoints=websecure"
       - "traefik.http.routers.project-dashboard-https.service=frontend"
-      # - "traefik.http.routers.project-dashboard-https.middlewares=anubis@docker"
 
       # Service configuration
       - "traefik.http.services.frontend.loadbalancer.server.port=80"
