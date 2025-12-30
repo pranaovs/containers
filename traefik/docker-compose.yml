@@ -195,17 +195,67 @@ services:
       BOUNCER_KEY_TRAEFIK: ${CROWDSEC_LAPI_KEY}"
     networks:
       - traefik_net
+      - crowdsec_net
     depends_on:
       - traefik
     volumes:
-      - ./data/crowdsec/:/etc/crowdsec:Z,U
+      - ./data/crowdsec/:/etc/crowdsec:z,U
       - logs:/var/log/traefik:ro
-      - crowdsec-data:/var/lib/crowdsec/data/
+      - crowdsec-data:/var/lib/crowdsec/data
     labels:
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
       # Podman Auto-Update
       - "io.containers.autoupdate=registry"
+
+  crowdsec-manager:
+    image: hhftechnology/crowdsec-manager:latest
+    container_name: crowdsec-manager
+    restart: always
+    expose:
+      - "8080"
+    environment:
+      - PORT=8080
+      - LOG_LEVEL=warn
+      - ENVIRONMENT=production
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - COMPOSE_FILE=/app/docker-compose.yml
+      - PANGOLIN_DIR=/app
+      - CONFIG_DIR=/app/config
+      - DATABASE_PATH=/app/data/settings.db
+      - TRAEFIK_DYNAMIC_CONFIG=/dynamic_config.yml
+      - TRAEFIK_STATIC_CONFIG=/etc/traefik/traefik_config.yml
+      - TRAEFIK_ACCESS_LOG=/var/log/traefik/access.log
+      - TRAEFIK_ERROR_LOG=/var/log/traefik/traefik.log
+      - CROWDSEC_ACQUIS_FILE=/etc/crowdsec/acquis.yaml
+      - BACKUP_DIR=/app/backups
+      - RETENTION_DAYS=14
+      - INCLUDE_CROWDSEC=true
+      - INCLUDE_PANGOLIN=false
+      - INCLUDE_GERBIL=false
+
+    volumes:
+      - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
+      - ./config/crowdsec-manager:/app/config:Z,U
+      - ./docker-compose.yml:/app/docker-compose.yml:ro
+      - ./data/crowdsec-manager/backups:/app/backups:Z,U
+      - logs:/var/log/traefik:ro
+      - ./data/crowdsec-manager:/app/data:Z,U
+      - ./data/crowdsec:/etc/crowdsec:z,U
+    networks:
+      - crowdsec_net
+      - traefik_net
+
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+      - "io.containers.autoupdate=registry"
+      - "traefik.enable=true"
+      - "traefik.http.routers.pangolin.rule=Host(`pangolin.devserver.ts.net`) || Host(`pangolin.devserver`)"
+      - "headnscale.subdomain=pangolin"
+      - "traefik.http.routers.pangolin.entrypoints=web"
+      - "traefik.http.routers.pangolin.service=crowdsec-manager"
+      - "traefik.http.services.crowdsec-manager.loadbalancer.server.port=8080"
+      - "traefik.docker.network=traefik_net"
 
   whoami:
     image: traefik/whoami:latest
@@ -244,3 +294,4 @@ networks:
   traefik_net:
     external: true
   traefik_logs_net:
+  crowdsec_net:
