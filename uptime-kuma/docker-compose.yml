@@ -125,7 +125,7 @@ services:
       - "kuma.blog_http_1.http.url=https://blog.pranaovs.me"
       - "kuma.blog_http_1.http.parent_name=blog_grp"
       - "kuma.blog_container.docker.name=Blog Container"
-      - "kuma.blog_container.docker.docker_container=hugo-blog"
+      - "kuma.blog_container.docker.docker_container=blog"
       - "kuma.blog_container.docker.docker_host_name=local"
       - "kuma.blog_container.docker.parent_name=blog_grp"
 
