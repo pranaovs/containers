@@ -361,14 +361,6 @@ services:
       - "kuma.wakapi_db_container.docker.docker_host_name=local"
       - "kuma.wakapi_db_container.docker.parent_name=wakapi_grp"
 
-      # Watchtower
-      - "kuma.watchtower_grp.group.name=Watchtower"
-      - 'kuma.watchtower_grp.group.notification_name_list=["ntfy"]'
-      - "kuma.watchtower_container.docker.name=Watchtower Container"
-      - "kuma.watchtower_container.docker.docker_container=watchtower"
-      - "kuma.watchtower_container.docker.docker_host_name=local"
-      - "kuma.watchtower_container.docker.parent_name=watchtower_grp"
-
       # WebDAV
       - "kuma.webdav_grp.group.name=WebDAV"
       - 'kuma.webdav_grp.group.notification_name_list=["ntfy"]'
