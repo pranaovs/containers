@@ -2,6 +2,11 @@
   "groups": {
     "group:admin": [
       "admin@"
+    ],
+    "group:minecraft": [
+      "pranaovs@",
+      "ashu@",
+      "alt@"
     ]
   },
   "acls": [
@@ -39,6 +44,17 @@
       ],
       "dst": [
         "alt@:*"
+      ]
+    },
+    {
+      "action": "accept",
+      "src": [
+        "group:minecraft"
+      ],
+      "dst": [
+        "group:minecraft:25565",
+        "group:minecraft:19132",
+        "group:minecraft:19133"
       ]
     }
   ],
