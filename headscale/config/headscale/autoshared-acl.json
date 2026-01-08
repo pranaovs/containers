@@ -10,6 +10,10 @@
       "yuva@"
     ]
   },
+  "hosts": {
+    "devbox": "100.64.0.1",
+    "devserver": "100.64.0.2"
+  },
   "acls": [
     {
       "action": "accept",
