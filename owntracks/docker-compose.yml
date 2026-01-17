@@ -1,0 +1,47 @@
+services:
+  otrecorder:
+    image: owntracks/recorder
+    container_name: owntracks
+    expose:
+      - "8083"
+    volumes:
+      - ./config/owntracks:/config:ro,Z,U
+      - ./data/owntracks:/store:Z,U
+      - /etc/localtime:/etc/localtime:ro
+    restart: always
+    networks:
+      - traefik_net
+    environment:
+      - OTR_PORT=0 # No MQTT
+
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+
+      - "traefik.http.routers.owntracks-ts.rule=Host(`owntracks.devserver.ts.net`) || Host(`owntracks.devserver`)"
+      - "headnscale.subdomain=owntracks"
+      - "traefik.http.routers.owntracks-ts.entrypoints=web"
+      - "traefik.http.routers.owntracks-ts.service=owntracks"
+
+      - "traefik.http.services.owntracks.loadbalancer.server.port=8083"
+      - "traefik.docker.network=traefik_net"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
+
+  # mosquitto:
+  #   image: eclipse-mosquitto
+  #   user: root
+  #   container_name: owntracks-mqtt
+  #   expose:
+  #     - "1883"
+  #     - "8883"
+  #   volumes:
+  #     - ./config/mosquitto:/mosquitto/config:ro,Z,U
+  #     - ./data/mosquitto:/mosquitto/data:Z,U
+  #   restart: always
+
+networks:
+  traefik_net:
+    external: true
