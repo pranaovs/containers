@@ -12,7 +12,8 @@
   },
   "hosts": {
     "devbox": "100.64.0.1",
-    "devserver": "100.64.0.2"
+    "devserver": "100.64.0.2",
+    "devmobile": "100.64.0.3"
   },
   "acls": [
     {
