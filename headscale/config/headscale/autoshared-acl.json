@@ -90,18 +90,6 @@
     {
       "action": "accept",
       "src": [
-        "pranaovs@"
-      ],
-      "dst": [
-        "alt@"
-      ],
-      "users": [
-        "autogroup:nonroot"
-      ]
-    },
-    {
-      "action": "accept",
-      "src": [
         "autogroup:member"
       ],
       "dst": [
