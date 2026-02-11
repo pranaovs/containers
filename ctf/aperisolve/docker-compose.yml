@@ -7,16 +7,29 @@ services:
     expose:
       - "5000"
     volumes:
-      - apresults:/aperisolve/results
+      - apresults:/app/aperisolve/results
     depends_on:
       postgres:
         condition: service_healthy
+      initdb:
+        condition: service_completed_successfully
       redis:
         condition: service_started
       worker:
         condition: service_started
     env_file:
       - .env
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "dd if=/dev/urandom of=/tmp/healthcheck.png bs=1 count=1000000 && curl -X POST -F 'image=@/tmp/healthcheck.png' http://localhost:5000/upload -s -o /dev/null -w '%{http_code}' | grep -q 200",
+        ]
+      interval: 3600s
+      timeout: 30s
+      retries: 3
+      start_period: 900s
+
     labels:
       # Traefik
       - "traefik.enable=true"
@@ -46,19 +59,37 @@ services:
     restart: unless-stopped
     command: rq worker default --url redis://redis:6379/0
     volumes:
-      - apresults:/aperisolve/results
+      - apresults:/app/aperisolve/results
     depends_on:
-      - redis
-      - postgres
+      postgres:
+        condition: service_healthy
+      initdb:
+        condition: service_completed_successfully
+      redis:
+        condition: service_started
     env_file:
       - .env
 
-  postgres:
-    image: postgres:14
-    container_name: postgres
-    restart: unless-stopped
+  initdb:
+    image: ghcr.io/zeecka/aperisolve:latest
+    #build: .
+    container_name: aperisolve-initdb
+    command: python -m aperisolve.utils.init_db
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - apresults:/app/aperisolve/results
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+    restart: "no"
+
+  postgres:
+    image: postgres:18
+    container_name: postgres
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U aperiuser -d aperisolve"]
       interval: 5s
@@ -70,16 +101,16 @@ services:
   redis:
     image: redis:7
     container_name: redis
-    restart: unless-stopped
+    restart: always
     env_file:
       - .env
 
   rqdashboard:
     image: eoranged/rq-dashboard
     container_name: rq-dashboard
-    restart: unless-stopped
-    expose:
-      - "9181"
+    restart: always
+    ports:
+      - "9181:9181"
     depends_on:
       - redis
     env_file:
