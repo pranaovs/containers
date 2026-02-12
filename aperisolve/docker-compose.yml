@@ -1,11 +1,11 @@
 services:
-  web:
+  aperisolve-web:
     image: ghcr.io/zeecka/aperisolve:latest
     #build: .
     container_name: aperisolve-web
     restart: unless-stopped
-    expose:
-      - "5000"
+    ports:
+      - "5000:5000"
     volumes:
       - apresults:/app/aperisolve/results
     depends_on:
@@ -20,27 +20,24 @@ services:
     env_file:
       - .env
     healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "dd if=/dev/urandom of=/tmp/healthcheck.png bs=1 count=1000000 && curl -X POST -F 'image=@/tmp/healthcheck.png' http://localhost:5000/upload -s -o /dev/null -w '%{http_code}' | grep -q 200",
-        ]
-      interval: 3600s
-      timeout: 30s
-      retries: 3
-      start_period: 900s
-
+      disable: true
     labels:
       # Traefik
       - "traefik.enable=true"
-      - "traefik.http.routers.aperisolve.rule=Host(`aperisolve.pranaovs.me`)"
+      - "traefik.http.routers.aperisolve-https.rule=Host(`aperisolve.pranaovs.me`)"
+      - "traefik.http.routers.aperisolve-https.entrypoints=websecure"
+      - "traefik.http.routers.aperisolve-https.service=aperisolve-web"
+
+      - "traefik.http.routers.aperisolve-ts.rule=Host(`aperisolve.devserver.ts.net`) || Host(`aperisolve.devserver`)"
+      - "headnscale.subdomain=aperisolve"
+      - "traefik.http.routers.aperisolve-ts.entrypoints=web"
+      - "traefik.http.routers.aperisolve-ts.service=aperisolve-web"
+
+      - "traefik.http.services.aperisolve-web.loadbalancer.server.port=5000"
       - "traefik.docker.network=traefik_net"
-      - "traefik.http.services.aperisolve.loadbalancer.server.port=5000"
-      - "traefik.http.routers.aperisolve.entrypoints=websecure"
       # AutoKuma (uptime-kuma)
       - "kuma.aperisolve_grp.group.name=Aperisolve"
       - 'kuma.aperisolve_grp.group.notification_name_list=["ntfy"]'
-      - "kuma.aperisolve_grp.group.parent_name=ctf_grp"
       - "kuma.aperisolve_http.http.name=Aperisolve HTTP"
       - "kuma.aperisolve_http.http.url=https://aperisolve.pranaovs.me"
       - "kuma.aperisolve_http.http.parent_name=aperisolve_grp"
@@ -69,6 +66,8 @@ services:
         condition: service_started
     env_file:
       - .env
+    networks:
+      - default
 
   initdb:
     image: ghcr.io/zeecka/aperisolve:latest
@@ -83,6 +82,8 @@ services:
     env_file:
       - .env
     restart: "no"
+    networks:
+      - default
 
   postgres:
     image: postgres:18
@@ -97,6 +98,8 @@ services:
       retries: 5
     env_file:
       - .env
+    networks:
+      - default
 
   redis:
     image: redis:7
@@ -104,6 +107,8 @@ services:
     restart: always
     env_file:
       - .env
+    networks:
+      - default
 
   rqdashboard:
     image: eoranged/rq-dashboard
@@ -115,6 +120,8 @@ services:
       - redis
     env_file:
       - .env
+    networks:
+      - default
 
 volumes:
   apresults:

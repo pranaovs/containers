@@ -2,20 +2,26 @@ services:
   web:
     image: ghcr.io/corentinth/it-tools:latest
     container_name: ittools
-    restart: unless-stopped
+    restart: always
     expose:
       - "80"
     labels:
       # Traefik
       - "traefik.enable=true"
-      - "traefik.http.routers.ittools.rule=Host(`it-tools.pranaovs.me`) || Host(`ittools.pranaovs.me`)"
-      - "traefik.docker.network=traefik_net"
+      - "traefik.http.routers.ittools-https.rule=Host(`ittools.pranaovs.me`) || Host(`it-tools.pranaovs.me`)"
+      - "traefik.http.routers.ittools-https.entrypoints=websecure"
+      - "traefik.http.routers.ittools-https.service=ittools"
+
+      - "traefik.http.routers.ittools-ts.rule=Host(`ittools.devserver.ts.net`) || Host(`it-tools.devserver.ts.net`) || Host(`ittools.devserver`) || Host(`it-tools.devserver`)"
+      - "headnscale.subdomain=ittools|it-tools"
+      - "traefik.http.routers.ittools-ts.entrypoints=web"
+      - "traefik.http.routers.ittools-ts.service=ittools"
+
       - "traefik.http.services.ittools.loadbalancer.server.port=80"
-      - "traefik.http.routers.ittools.entrypoints=websecure"
+      - "traefik.docker.network=traefik_net"
       # AutoKuma (uptime-kuma)
       - "kuma.ittools_grp.group.name=IT-Tools"
       - 'kuma.ittools_grp.group.notification_name_list=["ntfy"]'
-      - "kuma.ittools_grp.group.parent_name=ctf_grp"
       - "kuma.ittools_http_1.http.name=IT-Tools (it-tools.pranaovs.me)"
       - "kuma.ittools_http_1.http.url=https://it-tools.pranaovs.me"
       - "kuma.ittools_http_1.http.parent_name=ittools_grp"
