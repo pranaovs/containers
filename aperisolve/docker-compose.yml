@@ -35,16 +35,6 @@ services:
 
       - "traefik.http.services.aperisolve-web.loadbalancer.server.port=5000"
       - "traefik.docker.network=traefik_net"
-      # AutoKuma (uptime-kuma)
-      - "kuma.aperisolve_grp.group.name=Aperisolve"
-      - 'kuma.aperisolve_grp.group.notification_name_list=["ntfy"]'
-      - "kuma.aperisolve_http.http.name=Aperisolve HTTP"
-      - "kuma.aperisolve_http.http.url=https://aperisolve.pranaovs.me"
-      - "kuma.aperisolve_http.http.parent_name=aperisolve_grp"
-      - "kuma.aperisolve_container.docker.name=Aperisolve Container"
-      - "kuma.aperisolve_container.docker.docker_container=aperisolve-web"
-      - "kuma.aperisolve_container.docker.docker_host_name=local"
-      - "kuma.aperisolve_container.docker.parent_name=aperisolve_grp"
     networks:
       - default
       - traefik_net

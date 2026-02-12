@@ -99,6 +99,17 @@ services:
       - "kuma.dns_aaaa.dns.dns_resolve_type=AAAA"
       - "kuma.dns_aaaa.dns.parent_name=dns_grp"
 
+      # Aperisolve
+      - "kuma.aperisolve_grp.group.name=Aperisolve"
+      - 'kuma.aperisolve_grp.group.notification_name_list=["ntfy"]'
+      - "kuma.aperisolve_http.http.name=Aperisolve HTTP"
+      - "kuma.aperisolve_http.http.url=https://aperisolve.pranaovs.me"
+      - "kuma.aperisolve_http.http.parent_name=aperisolve_grp"
+      - "kuma.aperisolve_container.docker.name=Aperisolve Container"
+      - "kuma.aperisolve_container.docker.docker_container=aperisolve-web"
+      - "kuma.aperisolve_container.docker.docker_host_name=local"
+      - "kuma.aperisolve_container.docker.parent_name=aperisolve_grp"
+
       # BentoPDF
       - "kuma.bentopdf_grp.group.name=BentoPDF"
       - 'kuma.bentopdf_grp.group.notification_name_list=["ntfy"]'
@@ -126,6 +137,17 @@ services:
       - "kuma.blog_container.docker.docker_container=blog"
       - "kuma.blog_container.docker.docker_host_name=local"
       - "kuma.blog_container.docker.parent_name=blog_grp"
+
+      # Cyberchef
+      - "kuma.cyberchef_grp.group.name=Cyberchef"
+      - 'kuma.cyberchef_grp.group.notification_name_list=["ntfy"]'
+      - "kuma.cyberchef_http.http.name=Cyberchef HTTP"
+      - "kuma.cyberchef_http.http.url=https://cyberchef.pranaovs.me"
+      - "kuma.cyberchef_http.http.parent_name=cyberchef_grp"
+      - "kuma.cyberchef_container.docker.name=Cyberchef Container"
+      - "kuma.cyberchef_container.docker.docker_container=cyberchef"
+      - "kuma.cyberchef_container.docker.docker_host_name=local"
+      - "kuma.cyberchef_container.docker.parent_name=cyberchef_grp"
 
       # Firefly III
       - "kuma.firefly_grp.group.name=Firefly III"
@@ -198,6 +220,20 @@ services:
       - "kuma.immich_postgres_container.docker.docker_container=immich_postgres"
       - "kuma.immich_postgres_container.docker.docker_host_name=local"
       - "kuma.immich_postgres_container.docker.parent_name=immich_grp"
+
+      # IT-Tools
+      - "kuma.ittools_grp.group.name=IT-Tools"
+      - 'kuma.ittools_grp.group.notification_name_list=["ntfy"]'
+      - "kuma.ittools_http_1.http.name=IT-Tools (it-tools.pranaovs.me)"
+      - "kuma.ittools_http_1.http.url=https://it-tools.pranaovs.me"
+      - "kuma.ittools_http_1.http.parent_name=ittools_grp"
+      - "kuma.ittools_http_2.http.name=IT-Tools (ittools.pranaovs.me)"
+      - "kuma.ittools_http_2.http.url=https://ittools.pranaovs.me"
+      - "kuma.ittools_http_2.http.parent_name=ittools_grp"
+      - "kuma.ittools_container.docker.name=IT-Tools Container"
+      - "kuma.ittools_container.docker.docker_container=ittools"
+      - "kuma.ittools_container.docker.docker_host_name=local"
+      - "kuma.ittools_container.docker.parent_name=ittools_grp"
 
       # Jellyfin
       - "kuma.jellyfin_grp.group.name=Jellyfin"

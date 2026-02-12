@@ -12,16 +12,6 @@ services:
       - "traefik.docker.network=traefik_net"
       - "traefik.http.services.cyberchef.loadbalancer.server.port=80"
       - "traefik.http.routers.cyberchef.entrypoints=websecure"
-      # AutoKuma (uptime-kuma)
-      - "kuma.cyberchef_grp.group.name=Cyberchef"
-      - 'kuma.cyberchef_grp.group.notification_name_list=["ntfy"]'
-      - "kuma.cyberchef_http.http.name=Cyberchef HTTP"
-      - "kuma.cyberchef_http.http.url=https://cyberchef.pranaovs.me"
-      - "kuma.cyberchef_http.http.parent_name=cyberchef_grp"
-      - "kuma.cyberchef_container.docker.name=Cyberchef Container"
-      - "kuma.cyberchef_container.docker.docker_container=cyberchef"
-      - "kuma.cyberchef_container.docker.docker_host_name=local"
-      - "kuma.cyberchef_container.docker.parent_name=cyberchef_grp"
     networks:
       - traefik_net
 
