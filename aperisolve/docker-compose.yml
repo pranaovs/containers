@@ -4,8 +4,6 @@ services:
     #build: .
     container_name: aperisolve-web
     restart: unless-stopped
-    ports:
-      - "5000:5000"
     volumes:
       - apresults:/app/aperisolve/results
     depends_on:
