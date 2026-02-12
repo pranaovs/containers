@@ -49,7 +49,6 @@ services:
     networks:
       - default
       - traefik_net
-      - immich_ml_net
 
   immich-machine-learning:
     container_name: immich_machine_learning
@@ -71,8 +70,6 @@ services:
       - "com.centurylinklabs.watchtower.enable=true"
       # Podman Auto-Update
       - "io.containers.autoupdate=registry"
-    networks:
-      - immich_ml_net
 
   redis:
     container_name: immich_redis
@@ -102,6 +99,4 @@ volumes:
 
 networks:
   traefik_net:
-    external: true
-  immich_ml_net:
     external: true
