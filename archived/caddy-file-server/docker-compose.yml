@@ -3,8 +3,6 @@ services:
     image: caddy:latest
     container_name: caddy_file_server
     restart: always
-    ports:
-      - "30083:80"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data

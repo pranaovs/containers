@@ -7,8 +7,6 @@ services:
     volumes:
       - ./data/upload:/var/www/html/storage/upload:Z,U
     env_file: .env
-    ports:
-      - 30086:8080
     depends_on:
       - db
     labels:

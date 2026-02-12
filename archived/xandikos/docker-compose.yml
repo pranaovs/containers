@@ -2,9 +2,6 @@ services:
   xandikos:
     image: ghcr.io/jelmer/xandikos
     restart: always
-    ports:
-      - 30089:8000
-      - 30090:8001
     user: "1000"
     volumes:
       - ./data:/data

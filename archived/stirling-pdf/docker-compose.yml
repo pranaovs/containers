@@ -23,8 +23,6 @@ services:
     image: ghcr.io/vmorganp/lazytainer:master
     environment:
       VERBOSE: false
-    ports:
-      - "30085:8080"
     volumes:
       - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
     security_opt:

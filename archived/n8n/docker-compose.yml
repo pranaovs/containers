@@ -4,8 +4,6 @@ services:
     container_name: n8n
     restart: unless-stopped
     user: root
-    ports:
-      - "30088:5678"
     environment:
       - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
       - N8N_PORT=5678

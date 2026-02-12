@@ -4,7 +4,6 @@ services:
     container_name: jellyfin
     restart: always
     ports:
-      - 30096:8096/tcp
       - 7359:7359/udp
     volumes:
       - ./config:/config

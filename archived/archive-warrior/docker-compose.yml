@@ -3,8 +3,6 @@ services:
     image: atdr.meo.ws/archiveteam/warrior-dockerfile
     container_name: archiveTeamWarrior
     hostname: archiveTeamWarrior
-    ports:
-      - "30082:8001"
     labels:
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"

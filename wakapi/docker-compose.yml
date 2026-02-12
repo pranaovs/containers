@@ -3,8 +3,6 @@ services:
     image: ghcr.io/muety/wakapi:latest
     container_name: wakapi
     restart: always
-    ports:
-      - "30084:3000"
     environment:
       ENVIRONMENT: "prod"
       WAKAPI_DB_TYPE: "postgres"

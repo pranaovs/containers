@@ -2,8 +2,6 @@ services:
   webdav:
     image: "ghcr.io/hacdias/webdav:latest"
     container_name: webdav
-    ports:
-      - "30094:6065"
     volumes:
       - ./data:/data:Z,U
       - ./config:/config:ro,Z,U

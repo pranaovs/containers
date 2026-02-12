@@ -20,8 +20,6 @@ services:
       - ./config:/etc/ntfy:ro,Z,U
       - ./data:/var/lib/ntfy:Z,U
       - ntfy_cache:/var/cache/ntfy
-    ports:
-      - "30091:80"
     expose:
       - "80"
     restart: always

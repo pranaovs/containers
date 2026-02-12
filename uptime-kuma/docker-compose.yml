@@ -4,8 +4,6 @@ services:
     container_name: uptimekuma
     user: root
     restart: always
-    ports:
-      - "30090:3001"
     security_opt:
       - label=type:spc_t
     volumes:
