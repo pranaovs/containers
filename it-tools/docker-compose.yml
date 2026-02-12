@@ -1,5 +1,5 @@
 services:
-  web:
+  ittools:
     image: ghcr.io/corentinth/it-tools:latest
     container_name: ittools
     restart: always
@@ -27,7 +27,7 @@ services:
       BIND: ":8923"
       SLOG_LEVEL: "WARN"
       SERVE_ROBOTS_TXT: "true"
-      TARGET: "http://web"
+      TARGET: "http://ittools"
       POLICY_FNAME: "/data/cfg/botPolicy.yaml"
       COOKIE_DOMAIN: pranaovs.me
       OG_PASSTHROUGH: "true"

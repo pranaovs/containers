@@ -1,5 +1,5 @@
 services:
-  web:
+  cyberchef:
     image: ghcr.io/gchq/cyberchef:latest
     container_name: cyberchef
     restart: always
@@ -21,7 +21,7 @@ services:
       BIND: ":8923"
       SLOG_LEVEL: "WARN"
       SERVE_ROBOTS_TXT: "true"
-      TARGET: "http://web"
+      TARGET: "http://cyberchef"
       POLICY_FNAME: "/data/cfg/botPolicy.yaml"
       COOKIE_DOMAIN: pranaovs.me
       OG_PASSTHROUGH: "true"
