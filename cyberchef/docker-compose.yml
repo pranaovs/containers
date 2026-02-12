@@ -6,12 +6,49 @@ services:
     expose:
       - "80"
     labels:
+      - "traefik.http.services.cyberchef.loadbalancer.server.port=80"
+      - "traefik.docker.network=traefik_net"
+    networks:
+      - traefik_net
+
+  anubis:
+    image: ghcr.io/techarohq/anubis:latest
+    container_name: cyberchef-anubis
+    restart: always
+    expose:
+      - "8923"
+    environment:
+      BIND: ":8923"
+      SLOG_LEVEL: "WARN"
+      SERVE_ROBOTS_TXT: "true"
+      TARGET: "http://web"
+      POLICY_FNAME: "/data/cfg/botPolicy.yaml"
+      COOKIE_DOMAIN: pranaovs.me
+      OG_PASSTHROUGH: "true"
+      OG_EXPIRY_TIME: "24h"
+    healthcheck:
+      test: ["CMD", "anubis", "--healthcheck"]
+      interval: 5s
+      timeout: 30s
+      retries: 5
+      start_period: 500ms
+    volumes:
+      - ../traefik/config/anubis/anubis.yaml:/data/cfg/botPolicy.yaml:ro,z
+
+    labels:
       # Traefik
       - "traefik.enable=true"
-      - "traefik.http.routers.cyberchef.rule=Host(`cyberchef.pranaovs.me`)"
+      - "traefik.http.routers.cyberchef-https.rule=Host(`cyberchef.pranaovs.me`)"
+      - "traefik.http.routers.cyberchef-https.entrypoints=websecure"
+      - "traefik.http.routers.cyberchef-https.service=cyberchef-anubis"
+
+      - "traefik.http.services.cyberchef-anubis.loadbalancer.server.port=8923"
       - "traefik.docker.network=traefik_net"
-      - "traefik.http.services.cyberchef.loadbalancer.server.port=80"
-      - "traefik.http.routers.cyberchef.entrypoints=websecure"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
+
     networks:
       - traefik_net
 

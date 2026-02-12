@@ -3,7 +3,7 @@ services:
     image: ghcr.io/zeecka/aperisolve:latest
     #build: .
     container_name: aperisolve-web
-    restart: unless-stopped
+    restart: always
     volumes:
       - apresults:/app/aperisolve/results
     depends_on:
@@ -21,11 +21,6 @@ services:
       disable: true
     labels:
       # Traefik
-      - "traefik.enable=true"
-      - "traefik.http.routers.aperisolve-https.rule=Host(`aperisolve.pranaovs.me`)"
-      - "traefik.http.routers.aperisolve-https.entrypoints=websecure"
-      - "traefik.http.routers.aperisolve-https.service=aperisolve-web"
-
       - "traefik.http.routers.aperisolve-ts.rule=Host(`aperisolve.devserver.ts.net`) || Host(`aperisolve.devserver`)"
       - "headnscale.subdomain=aperisolve"
       - "traefik.http.routers.aperisolve-ts.entrypoints=web"
@@ -35,6 +30,47 @@ services:
       - "traefik.docker.network=traefik_net"
     networks:
       - default
+      - traefik_net
+
+  anubis:
+    image: ghcr.io/techarohq/anubis:latest
+    container_name: aperisolve-anubis
+    restart: always
+    expose:
+      - "8923"
+    environment:
+      BIND: ":8923"
+      SLOG_LEVEL: "WARN"
+      SERVE_ROBOTS_TXT: "true"
+      TARGET: "http://aperisolve-web:5000"
+      POLICY_FNAME: "/data/cfg/botPolicy.yaml"
+      COOKIE_DOMAIN: pranaovs.me
+      OG_PASSTHROUGH: "true"
+      OG_EXPIRY_TIME: "24h"
+    healthcheck:
+      test: ["CMD", "anubis", "--healthcheck"]
+      interval: 5s
+      timeout: 30s
+      retries: 5
+      start_period: 500ms
+    volumes:
+      - ../traefik/config/anubis/anubis.yaml:/data/cfg/botPolicy.yaml:ro,z
+
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.routers.aperisolve-https.rule=Host(`aperisolve.pranaovs.me`)"
+      - "traefik.http.routers.aperisolve-https.entrypoints=websecure"
+      - "traefik.http.routers.aperisolve-https.service=aperisolve-anubis"
+
+      - "traefik.http.services.aperisolve-anubis.loadbalancer.server.port=8923"
+      - "traefik.docker.network=traefik_net"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
+
+    networks:
       - traefik_net
 
   worker:

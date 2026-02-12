@@ -3,19 +3,12 @@ services:
     container_name: speedtest
     image: ghcr.io/librespeed/speedtest:latest
     restart: always
-    ports:
-      - "30093:8080"
     environment:
       MODE: standalone
       IPINFO_APIKEY: "${SPEEDTEST_IPINFO_APIKEY}"
       DISTANCE: "km"
     labels:
       # Traefik
-      - "traefik.enable=true"
-      - "traefik.http.routers.speedtest-https.rule=Host(`speedtest.pranaovs.me`) || Host(`speed.pranaovs.me`)"
-      - "traefik.http.routers.speedtest-https.entrypoints=websecure"
-      - "traefik.http.routers.speedtest-https.service=speedtest"
-
       - "traefik.http.routers.speedtest-ts.rule=Host(`speedtest.devserver.ts.net`) || Host(`speed.devserver.ts.net`) || Host(`speedtest.devserver`) || Host(`speed.devserver`)"
       - "headnscale.subdomain=speedtest|speed"
       - "traefik.http.routers.speedtest-ts.entrypoints=web"
@@ -28,6 +21,47 @@ services:
       - "com.centurylinklabs.watchtower.enable=true"
       # Podman Auto-Update
       - "io.containers.autoupdate=registry"
+    networks:
+      - traefik_net
+
+  anubis:
+    image: ghcr.io/techarohq/anubis:latest
+    container_name: speedtest-anubis
+    restart: always
+    expose:
+      - "8923"
+    environment:
+      BIND: ":8923"
+      SLOG_LEVEL: "WARN"
+      SERVE_ROBOTS_TXT: "true"
+      TARGET: "http://speedtest:8080"
+      POLICY_FNAME: "/data/cfg/botPolicy.yaml"
+      COOKIE_DOMAIN: pranaovs.me
+      OG_PASSTHROUGH: "true"
+      OG_EXPIRY_TIME: "24h"
+    healthcheck:
+      test: ["CMD", "anubis", "--healthcheck"]
+      interval: 5s
+      timeout: 30s
+      retries: 5
+      start_period: 500ms
+    volumes:
+      - ../traefik/config/anubis/anubis.yaml:/data/cfg/botPolicy.yaml:ro,z
+
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.routers.speedtest-https.rule=Host(`speedtest.pranaovs.me`) || Host(`speed.pranaovs.me`)"
+      - "traefik.http.routers.speedtest-https.entrypoints=websecure"
+      - "traefik.http.routers.speedtest-https.service=speedtest-anubis"
+
+      - "traefik.http.services.speedtest-anubis.loadbalancer.server.port=8923"
+      - "traefik.docker.network=traefik_net"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
+
     networks:
       - traefik_net
 

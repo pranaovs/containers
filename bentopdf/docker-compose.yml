@@ -2,16 +2,9 @@ services:
   bentopdf:
     image: bentopdf/bentopdf-simple:latest
     container_name: bentopdf
-    ports:
-      - "30085:8080"
     restart: always
     labels:
       # Traefik
-      - "traefik.enable=true"
-      - "traefik.http.routers.bentopdf-https.rule=Host(`pdftools.pranaovs.me`) || Host(`pdf.pranaovs.me`) || Host(`bentopdf.pranaovs.me`)"
-      - "traefik.http.routers.bentopdf-https.entrypoints=websecure"
-      - "traefik.http.routers.bentopdf-https.service=bentopdf"
-
       - "traefik.http.routers.bentopdf-ts.rule=Host(`pdftools.devserver.ts.net`) || Host(`pdf.devserver.ts.net`) || Host(`bentopdf.devserver.ts.net`) || Host(`pdftools.devserver`) || Host(`pdf.devserver`) || Host(`bentopdf.devserver`)"
       - "headnscale.subdomain=pdftools|pdf|bentopdf"
       - "traefik.http.routers.bentopdf-ts.entrypoints=web"
@@ -22,6 +15,47 @@ services:
       - "com.centurylinklabs.watchtower.enable=true"
       # Podman Auto-Update
       - "io.containers.autoupdate=registry"
+    networks:
+      - traefik_net
+
+  anubis:
+    image: ghcr.io/techarohq/anubis:latest
+    container_name: bentopdf-anubis
+    restart: always
+    expose:
+      - "8923"
+    environment:
+      BIND: ":8923"
+      SLOG_LEVEL: "WARN"
+      SERVE_ROBOTS_TXT: "true"
+      TARGET: "http://bentopdf:8080"
+      POLICY_FNAME: "/data/cfg/botPolicy.yaml"
+      COOKIE_DOMAIN: pranaovs.me
+      OG_PASSTHROUGH: "true"
+      OG_EXPIRY_TIME: "24h"
+    healthcheck:
+      test: ["CMD", "anubis", "--healthcheck"]
+      interval: 5s
+      timeout: 30s
+      retries: 5
+      start_period: 500ms
+    volumes:
+      - ../traefik/config/anubis/anubis.yaml:/data/cfg/botPolicy.yaml:ro,z
+
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.routers.bentopdf-https.rule=Host(`pdftools.pranaovs.me`) || Host(`pdf.pranaovs.me`) || Host(`bentopdf.pranaovs.me`)"
+      - "traefik.http.routers.bentopdf-https.entrypoints=websecure"
+      - "traefik.http.routers.bentopdf-https.service=bentopdf-anubis"
+
+      - "traefik.http.services.bentopdf-anubis.loadbalancer.server.port=8923"
+      - "traefik.docker.network=traefik_net"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
+
     networks:
       - traefik_net
 
