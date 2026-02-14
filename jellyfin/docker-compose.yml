@@ -21,6 +21,14 @@ services:
         read_only: true
         bind:
           selinux: z
+
+      - type: bind
+        source: /home/personal/Videos/Movies
+        target: /media/movies
+        read_only: true
+        bind:
+          selinux: z
+
     environment:
       - JELLYFIN_PublishedServerUrl=https://jellyfin.pranaovs.me
     networks:
