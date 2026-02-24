@@ -18,7 +18,8 @@ services:
     env_file:
       - .env
     healthcheck:
-      disable: true
+      test: ["CMD", "true"]
+
     labels:
       # Traefik
       - "traefik.http.routers.aperisolve-ts.rule=Host(`aperisolve.devserver.ts.net`) || Host(`aperisolve.devserver`)"
