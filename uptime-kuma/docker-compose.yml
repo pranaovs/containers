@@ -140,6 +140,10 @@ services:
       - "kuma.bentopdf_container.docker.docker_container=bentopdf"
       - "kuma.bentopdf_container.docker.docker_host_name=local"
       - "kuma.bentopdf_container.docker.parent_name=bentopdf_grp"
+      - "kuma.bentopdf_anubis_container.docker.name=BentoPDF Anubis Container"
+      - "kuma.bentopdf_anubis_container.docker.docker_container=bentopdf-anubis"
+      - "kuma.bentopdf_anubis_container.docker.docker_host_name=local"
+      - "kuma.bentopdf_anubis_container.docker.parent_name=bentopdf_grp"
 
       # Blog
       - "kuma.blog_grp.group.name=Blog"
@@ -151,6 +155,10 @@ services:
       - "kuma.blog_container.docker.docker_container=blog"
       - "kuma.blog_container.docker.docker_host_name=local"
       - "kuma.blog_container.docker.parent_name=blog_grp"
+      - "kuma.blog_anubis_container.docker.name=Blog Anubis Container"
+      - "kuma.blog_anubis_container.docker.docker_container=blog-anubis"
+      - "kuma.blog_anubis_container.docker.docker_host_name=local"
+      - "kuma.blog_anubis_container.docker.parent_name=blog_grp"
 
       # Cyberchef
       - "kuma.cyberchef_grp.group.name=Cyberchef"
@@ -346,6 +354,10 @@ services:
       - "kuma.speedtest_container.docker.docker_container=speedtest"
       - "kuma.speedtest_container.docker.docker_host_name=local"
       - "kuma.speedtest_container.docker.parent_name=speedtest_grp"
+      - "kuma.speedtest_anubis_container.docker.name=Speedtest Anubis Container"
+      - "kuma.speedtest_anubis_container.docker.docker_container=speedtest-anubis"
+      - "kuma.speedtest_anubis_container.docker.docker_host_name=local"
+      - "kuma.speedtest_anubis_container.docker.parent_name=speedtest_grp"
 
       # Traefik
       - "kuma.traefik_grp.group.name=Traefik"
