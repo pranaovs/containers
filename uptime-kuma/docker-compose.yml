@@ -107,6 +107,22 @@ services:
       - "kuma.aperisolve_container.docker.docker_container=aperisolve-web"
       - "kuma.aperisolve_container.docker.docker_host_name=local"
       - "kuma.aperisolve_container.docker.parent_name=aperisolve_grp"
+      - "kuma.aperisolve_anubis_container.docker.name=Aperisolve Anubis Container"
+      - "kuma.aperisolve_anubis_container.docker.docker_container=aperisolve-anubis"
+      - "kuma.aperisolve_anubis_container.docker.docker_host_name=local"
+      - "kuma.aperisolve_anubis_container.docker.parent_name=aperisolve_grp"
+      - "kuma.aperisolve_worker_container.docker.name=Aperisolve Worker Container"
+      - "kuma.aperisolve_worker_container.docker.docker_container=aperisolve-worker"
+      - "kuma.aperisolve_worker_container.docker.docker_host_name=local"
+      - "kuma.aperisolve_worker_container.docker.parent_name=aperisolve_grp"
+      - "kuma.aperisolve_db_container.docker.name=Aperisolve Database Container"
+      - "kuma.aperisolve_db_container.docker.docker_container=postgres"
+      - "kuma.aperisolve_db_container.docker.docker_host_name=local"
+      - "kuma.aperisolve_db_container.docker.parent_name=aperisolve_grp"
+      - "kuma.aperisolve_redis_container.docker.name=Aperisolve Redis Container"
+      - "kuma.aperisolve_redis_container.docker.docker_container=redis"
+      - "kuma.aperisolve_redis_container.docker.docker_host_name=local"
+      - "kuma.aperisolve_redis_container.docker.parent_name=aperisolve_grp"
 
       # BentoPDF
       - "kuma.bentopdf_grp.group.name=BentoPDF"
@@ -146,6 +162,10 @@ services:
       - "kuma.cyberchef_container.docker.docker_container=cyberchef"
       - "kuma.cyberchef_container.docker.docker_host_name=local"
       - "kuma.cyberchef_container.docker.parent_name=cyberchef_grp"
+      - "kuma.cyberchef_anubis_container.docker.name=Cyberchef Anubis Container"
+      - "kuma.cyberchef_anubis_container.docker.docker_container=cyberchef-anubis"
+      - "kuma.cyberchef_anubis_container.docker.docker_host_name=local"
+      - "kuma.cyberchef_anubis_container.docker.parent_name=cyberchef_grp"
 
       # Firefly III
       - "kuma.firefly_grp.group.name=Firefly III"
@@ -232,6 +252,10 @@ services:
       - "kuma.ittools_container.docker.docker_container=ittools"
       - "kuma.ittools_container.docker.docker_host_name=local"
       - "kuma.ittools_container.docker.parent_name=ittools_grp"
+      - "kuma.ittools_anubis_container.docker.name=IT-Tools Anubis Container"
+      - "kuma.ittools_anubis_container.docker.docker_container=ittools-anubis"
+      - "kuma.ittools_anubis_container.docker.docker_host_name=local"
+      - "kuma.ittools_anubis_container.docker.parent_name=ittools_grp"
 
       # Jellyfin
       - "kuma.jellyfin_grp.group.name=Jellyfin"
