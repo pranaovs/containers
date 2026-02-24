@@ -7,8 +7,7 @@
       "pranaovs@",
       "ashu@",
       "alt@",
-      "yuva@",
-      "brainfuel@"
+      "yuva@"
     ]
   },
   "hosts": {
@@ -64,7 +63,11 @@
         "group:minecraft:25565",
         "group:minecraft:19132",
         "group:minecraft:19133",
-        "group:minecraft:24454"
+        "group:minecraft:24454",
+        "brainfuel-server:25565",
+        "brainfuel-server:19132",
+        "brainfuel-server:19133",
+        "brainfuel-server:24454"
       ]
     },
     {
