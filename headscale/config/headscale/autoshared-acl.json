@@ -7,13 +7,15 @@
       "pranaovs@",
       "ashu@",
       "alt@",
-      "yuva@"
+      "yuva@",
+      "brainfuel@"
     ]
   },
   "hosts": {
     "devbox": "100.64.0.1",
     "devserver": "100.64.0.2",
-    "devmobile": "100.64.0.3"
+    "devmobile": "100.64.0.3",
+    "brainfuel-server": "100.64.0.14"
   },
   "acls": [
     {
@@ -49,7 +51,8 @@
         "pranaovs@"
       ],
       "dst": [
-        "alt@:*"
+        "alt@:*",
+        "brainfuel-server:22"
       ]
     },
     {
@@ -60,7 +63,8 @@
       "dst": [
         "group:minecraft:25565",
         "group:minecraft:19132",
-        "group:minecraft:19133"
+        "group:minecraft:19133",
+        "group:minecraft:24454"
       ]
     },
     {
