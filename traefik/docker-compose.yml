@@ -217,7 +217,7 @@ services:
       - PORT=8080
       - LOG_LEVEL=warn
       - ENVIRONMENT=production
-      - DOCKER_HOST=unix:///var/run/docker.sock
+      # - DOCKER_HOST=unix:///var/run/docker.sock
       - COMPOSE_FILE=/app/docker-compose.yml
       - PANGOLIN_DIR=/app
       - CONFIG_DIR=/app/config
@@ -239,7 +239,7 @@ services:
       - TRAEFIK_LOG_DASHBOARD_AUTH_TOKEN=${TRAEFIK_LOG_DASHBOARD_AUTH_TOKEN}
 
     volumes:
-      - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
+      # - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
       - ./config/crowdsec-manager:/app/config:Z,U
       - ./docker-compose.yml:/app/docker-compose.yml:ro
       - ./data/crowdsec-manager/backups:/app/backups:Z,U
