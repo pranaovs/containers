@@ -232,6 +232,11 @@ services:
       - INCLUDE_CROWDSEC=true
       - INCLUDE_PANGOLIN=false
       - INCLUDE_GERBIL=false
+      - MAXMIND_ACCOUNT_ID=${MAXMIND_ACCOUNT_ID}
+      - MAXMIND_LICENSE_KEY=${MAXMIND_LICENSE_KEY}
+      - CROWDSEC_LAPI_KEY=${CROWDSEC_LAPI_KEY}
+      - TRAEFIK_ACME_EMAIL=${TRAEFIK_ACME_EMAIL}
+      - TRAEFIK_LOG_DASHBOARD_AUTH_TOKEN=${TRAEFIK_LOG_DASHBOARD_AUTH_TOKEN}
 
     volumes:
       - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro
