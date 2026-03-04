@@ -47,20 +47,25 @@ services:
       - "logs:/logs:z,U"
     environment:
       - IGNORE_IPS=46.62.253.207|2a01:4f9:c010:dd94::2
+      - IGNORE_ROUTERS=-ts@docker
+      - IGNORE_PATHS=/derp|/ts2021
+    command:
+      - /bin/sh
+      - -c
+      - |
+        touch /logs/access-raw.log
+        touch /logs/access.log
 
-    command: >
-      sh -c "
-      touch /logs/access-raw.log
-      touch /logs/access.log
+        echo "Starting Log Filter"
+        echo "Ignoring IPs: $$IGNORE_IPS"
+        echo "Ignoring Routers: $$IGNORE_ROUTERS"
+        echo "Ignoring Paths: $$IGNORE_PATHS"
 
-      echo 'Starting Log Filter'
-
-      echo 'Ignoring IPs: ' $$IGNORE_IPS
-
-      tail -n 0 -F /logs/access-raw.log | \
-      awk -v skip=\"$$IGNORE_IPS\" '\$0 !~ skip {print; fflush()}' \
-      >> /logs/access.log
-      "
+        tail -n 0 -F /logs/access-raw.log | awk \
+          -v skip_ips="$$IGNORE_IPS" \
+          -v skip_routers="$$IGNORE_ROUTERS" \
+          -v skip_paths="$$IGNORE_PATHS" \
+          '$$0 !~ skip_ips && $$0 !~ skip_routers && $$0 !~ skip_paths {print; fflush()}' >> /logs/access.log
 
   log-dashboard:
     image: hhftechnology/traefik-log-dashboard:latest
