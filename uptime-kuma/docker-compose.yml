@@ -30,6 +30,8 @@ services:
     networks:
       - default
       - traefik_net
+    extra_hosts:
+      - brainfuel-server:100.64.0.14
 
   autokuma:
     image: ghcr.io/bigboot/autokuma:latest
