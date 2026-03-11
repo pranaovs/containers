@@ -37,6 +37,34 @@ services:
       - default
       - traefik_net
 
+  nginx-download:
+    image: nginx:alpine
+    container_name: qashare-nginx-download
+    restart: always
+    expose:
+      - "80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro,Z
+      - ./app:/app:ro,Z
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+
+      - "traefik.http.routers.qashare-download-https.rule=Host(`qashare.pranaovs.me`) && PathPrefix(`/download`)"
+      - "traefik.http.routers.qashare-download-https.entrypoints=websecure"
+      - "traefik.http.routers.qashare-download-https.service=qashare-download"
+      - "traefik.http.routers.qashare-download-https.priority=10"
+
+      - "traefik.http.routers.qashare-download-ts.rule=(Host(`qashare.devserver.ts.net`) || Host(`qashare.devserver`)) && PathPrefix(`/download`)"
+      - "traefik.http.routers.qashare-download-ts.entrypoints=web"
+      - "traefik.http.routers.qashare-download-ts.service=qashare-download"
+      - "traefik.http.routers.qashare-download-ts.priority=10"
+
+      - "traefik.http.services.qashare-download.loadbalancer.server.port=80"
+      - "traefik.docker.network=traefik_net"
+    networks:
+      - traefik_net
+
   postgres:
     image: postgres:18-alpine
     restart: always
