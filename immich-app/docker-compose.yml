@@ -26,8 +26,6 @@ services:
       - database
       - redis
     restart: always
-    healthcheck:
-      disable: false
     labels:
       # Traefik
       - "traefik.enable=true"
@@ -63,8 +61,6 @@ services:
     env_file:
       - .env
     restart: always
-    healthcheck:
-      disable: false
     labels:
       # Watchtower
       - "com.centurylinklabs.watchtower.enable=true"
