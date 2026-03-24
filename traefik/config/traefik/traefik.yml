@@ -52,6 +52,10 @@ accessLog:
   format: common # or json
   # bufferingSize: 0 # disable buffering, send directly to stdout
   filePath: /var/log/traefik/access-raw.log
+  # Timezone specific
+  fields:
+    names:
+      StartUTC: drop
 
 experimental:
   plugins:
