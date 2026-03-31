@@ -1,7 +1,23 @@
 {
+  "tagOwners": {
+    "tag:prod": [
+      "pranaovs@"
+    ]
+  },
+  "hosts": {
+    "devbox": "100.64.0.1",
+    "devserver": "100.64.0.2",
+    "devmobile": "100.64.0.3",
+    "brainfuel-server": "100.64.0.14"
+  },
   "groups": {
     "group:admin": [
       "admin@"
+    ],
+    "group:prod": [
+      "pranaovs@",
+      "sasvat@",
+      "siddharth@"
     ],
     "group:minecraft": [
       "pranaovs@",
@@ -11,22 +27,7 @@
       "tejas@"
     ]
   },
-  "hosts": {
-    "devbox": "100.64.0.1",
-    "devserver": "100.64.0.2",
-    "devmobile": "100.64.0.3",
-    "brainfuel-server": "100.64.0.14"
-  },
   "acls": [
-    {
-      "action": "accept",
-      "src": [
-        "group:admin"
-      ],
-      "dst": [
-        "*:*"
-      ]
-    },
     {
       "action": "accept",
       "src": [
@@ -51,8 +52,18 @@
         "pranaovs@"
       ],
       "dst": [
+        "tag:prod:*",
         "alt@:*",
         "brainfuel-server:22"
+      ]
+    },
+    {
+      "action": "accept",
+      "src": [
+        "group:prod"
+      ],
+      "dst": [
+        "tag:prod:22"
       ]
     },
     {
@@ -101,6 +112,54 @@
       ],
       "users": [
         "autogroup:nonroot"
+      ]
+    },
+    {
+      "action": "accept",
+      "src": [
+        "group:prod"
+      ],
+      "dst": [
+        "tag:prod"
+      ],
+      "users": [
+        "localpart:*@"
+      ]
+    },
+    {
+      "action": "accept",
+      "src": [
+        "pranaovs@"
+      ],
+      "dst": [
+        "tag:prod"
+      ],
+      "users": [
+        "personal"
+      ]
+    },
+    {
+      "action": "accept",
+      "src": [
+        "sasvat@"
+      ],
+      "dst": [
+        "tag:prod"
+      ],
+      "users": [
+        "sasvat"
+      ]
+    },
+    {
+      "action": "accept",
+      "src": [
+        "siddharth@"
+      ],
+      "dst": [
+        "tag:prod"
+      ],
+      "users": [
+        "siddharth"
       ]
     }
   ]
