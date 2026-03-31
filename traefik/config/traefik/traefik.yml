@@ -9,7 +9,7 @@ api:
 entryPoints:
   web:
     address: ":80"
-    proxyProtocol:
+    forwardedHeaders:
       trustedIPs:
         - "127.0.0.1/32" # Localhost from nginx
         - "10.0.0.0/8" # Podman gateway range
