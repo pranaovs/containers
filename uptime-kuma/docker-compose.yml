@@ -125,6 +125,10 @@ services:
       - "kuma.aperisolve_redis_container.docker.docker_container=redis"
       - "kuma.aperisolve_redis_container.docker.docker_host_name=local"
       - "kuma.aperisolve_redis_container.docker.parent_name=aperisolve_grp"
+      - "kuma.aperisolve_rqdashboard_container.docker.name=Aperisolve RQ Dashboard Container"
+      - "kuma.aperisolve_rqdashboard_container.docker.docker_container=rq-dashboard"
+      - "kuma.aperisolve_rqdashboard_container.docker.docker_host_name=local"
+      - "kuma.aperisolve_rqdashboard_container.docker.parent_name=aperisolve_grp"
 
       # BentoPDF
       - "kuma.bentopdf_grp.group.name=BentoPDF"
@@ -327,6 +331,29 @@ services:
       - "kuma.ntfy_container.docker.docker_host_name=local"
       - "kuma.ntfy_container.docker.parent_name=ntfy_grp"
 
+      # Owntracks
+      - "kuma.owntracks_grp.group.name=Owntracks"
+      - 'kuma.owntracks_grp.group.notification_name_list=["ntfy"]'
+      - "kuma.owntracks_container.docker.name=Owntracks Container"
+      - "kuma.owntracks_container.docker.docker_container=owntracks"
+      - "kuma.owntracks_container.docker.docker_host_name=local"
+      - "kuma.owntracks_container.docker.parent_name=owntracks_grp"
+
+      # QAShare
+      - "kuma.qashare_grp.group.name=QAShare"
+      - 'kuma.qashare_grp.group.notification_name_list=["ntfy"]'
+      - "kuma.qashare_http.http.name=QAShare (qashare.pranaovs.me)"
+      - "kuma.qashare_http.http.url=https://qashare.pranaovs.me"
+      - "kuma.qashare_http.http.parent_name=qashare_grp"
+      - "kuma.qashare_container.docker.name=QAShare Container"
+      - "kuma.qashare_container.docker.docker_container=qashare"
+      - "kuma.qashare_container.docker.docker_host_name=local"
+      - "kuma.qashare_container.docker.parent_name=qashare_grp"
+      - "kuma.qashare_db_container.docker.name=QAShare Database Container"
+      - "kuma.qashare_db_container.docker.docker_container=qashare-db"
+      - "kuma.qashare_db_container.docker.docker_host_name=local"
+      - "kuma.qashare_db_container.docker.parent_name=qashare_grp"
+
       # Radicale
       - "kuma.radicale_grp.group.name=Radicale"
       - 'kuma.radicale_grp.group.notification_name_list=["ntfy"]'
@@ -334,6 +361,21 @@ services:
       - "kuma.radicale_container.docker.docker_container=radicale"
       - "kuma.radicale_container.docker.docker_host_name=local"
       - "kuma.radicale_container.docker.parent_name=radicale_grp"
+
+      # Resume
+      - "kuma.resume_grp.group.name=Resume"
+      - 'kuma.resume_grp.group.notification_name_list=["ntfy"]'
+      - "kuma.resume_http.http.name=Resume (pranaovs.me/resume)"
+      - "kuma.resume_http.http.url=https://pranaovs.me/resume"
+      - "kuma.resume_http.http.parent_name=resume_grp"
+      - "kuma.resume_container.docker.name=Resume Container"
+      - "kuma.resume_container.docker.docker_container=resume"
+      - "kuma.resume_container.docker.docker_host_name=local"
+      - "kuma.resume_container.docker.parent_name=resume_grp"
+      - "kuma.resume_anubis_container.docker.name=Resume Anubis Container"
+      - "kuma.resume_anubis_container.docker.docker_container=resume-anubis"
+      - "kuma.resume_anubis_container.docker.docker_host_name=local"
+      - "kuma.resume_anubis_container.docker.parent_name=resume_grp"
 
       # Shadowsocks
       - "kuma.shadowsocks_grp.group.name=Shadowsocks"
@@ -384,6 +426,18 @@ services:
       - "kuma.whoami_container.docker.docker_container=whoami"
       - "kuma.whoami_container.docker.docker_host_name=local"
       - "kuma.whoami_container.docker.parent_name=traefik_grp"
+      - "kuma.traefik_log_filter_container.docker.name=Traefik Log Filter Container"
+      - "kuma.traefik_log_filter_container.docker.docker_container=traefik-access-log-filter"
+      - "kuma.traefik_log_filter_container.docker.docker_host_name=local"
+      - "kuma.traefik_log_filter_container.docker.parent_name=traefik_grp"
+      - "kuma.geoipupdate_container.docker.name=GeoIP Update Container"
+      - "kuma.geoipupdate_container.docker.docker_container=geoipupdate"
+      - "kuma.geoipupdate_container.docker.docker_host_name=local"
+      - "kuma.geoipupdate_container.docker.parent_name=traefik_grp"
+      - "kuma.crowdsec_manager_container.docker.name=Crowdsec Manager Container"
+      - "kuma.crowdsec_manager_container.docker.docker_container=crowdsec-manager"
+      - "kuma.crowdsec_manager_container.docker.docker_host_name=local"
+      - "kuma.crowdsec_manager_container.docker.parent_name=traefik_grp"
 
       # Vaultwarden
       - "kuma.vaultwarden_grp.group.name=Vaultwarden"
