@@ -1,0 +1,73 @@
+services:
+  resume:
+    image: nginx:alpine
+    container_name: resume
+    restart: always
+    expose:
+      - "80"
+    volumes:
+      - ./config:/etc/nginx/conf.d:ro,Z,U
+      - ./resumes:/usr/share/nginx/resumes:ro,Z,U
+    environment:
+      - TZ=Asia/Kolkata
+
+    labels:
+      # Traefik
+      - "traefik.http.routers.resume-ts.rule=(Host(`resume.devserver.ts.net`) || Host(`resume.devserver`)) && PathPrefix(`/resume`)"
+      - "headnscale.subdomain=resume"
+      - "traefik.http.routers.resume-ts.entrypoints=web"
+      - "traefik.http.routers.resume-ts.service=resume"
+
+      - "traefik.http.services.resume.loadbalancer.server.port=80"
+      - "traefik.docker.network=traefik_net"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
+
+    networks:
+      - traefik_net
+
+  anubis:
+    image: ghcr.io/techarohq/anubis:latest
+    container_name: resume-anubis
+    restart: always
+    expose:
+      - "8923"
+    environment:
+      BIND: ":8923"
+      SLOG_LEVEL: "WARN"
+      SERVE_ROBOTS_TXT: "true"
+      TARGET: "http://resume"
+      POLICY_FNAME: "/data/cfg/botPolicy.yaml"
+      COOKIE_DOMAIN: pranaovs.me
+      OG_PASSTHROUGH: "true"
+      OG_EXPIRY_TIME: "24h"
+    healthcheck:
+      test: ["CMD", "anubis", "--healthcheck"]
+      interval: 5s
+      timeout: 30s
+      retries: 5
+      start_period: 500ms
+    volumes:
+      - ../traefik/config/anubis/anubis.yaml:/data/cfg/botPolicy.yaml:ro,z
+
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.routers.resume-https.rule=Host(`pranaovs.me`) && PathPrefix(`/resume`)"
+      - "traefik.http.routers.resume-https.entrypoints=websecure"
+      - "traefik.http.routers.resume-https.service=resume-anubis"
+      - "traefik.http.services.resume-anubis.loadbalancer.server.port=8923"
+      - "traefik.docker.network=traefik_net"
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
+
+    networks:
+      - traefik_net
+
+networks:
+  traefik_net:
+    external: true
