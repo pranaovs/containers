@@ -43,6 +43,7 @@ services:
       COOKIE_DOMAIN: pranaovs.me
       OG_PASSTHROUGH: "true"
       OG_EXPIRY_TIME: "24h"
+      BASE_PREFIX: "/resume"
     healthcheck:
       test: ["CMD", "anubis", "--healthcheck"]
       interval: 5s
