@@ -27,6 +27,7 @@ entryPoints:
         certResolver: le
       middlewares:
         - crowdsec@docker
+        - hsts@file
 
 serversTransport:
   insecureSkipVerify: true
