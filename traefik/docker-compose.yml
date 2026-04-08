@@ -14,7 +14,7 @@ services:
     volumes:
       - /run/user/1000/podman/podman.sock:/var/run/docker.sock:ro # Docker socket
       - ./config/traefik/traefik.yml:/traefik.yml:ro,Z,U
-      - ./config/traefik/dynamic.yml:/dynamic.yml:ro,Z,U
+      - ./config/traefik/security.yml:/security.yml:ro,Z,U
       - letsencrypt:/letsencrypt
       - logs:/var/log/traefik # For crowdsec
     networks:

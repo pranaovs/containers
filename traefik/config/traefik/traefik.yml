@@ -28,6 +28,9 @@ entryPoints:
       middlewares:
         - crowdsec@docker
         - hsts@file
+        - nosniff@file
+        - frame-options@file
+        - referrer-policy@file
 
 serversTransport:
   insecureSkipVerify: true
@@ -37,7 +40,7 @@ providers:
     exposedByDefault: false
     endpoint: "unix:///var/run/docker.sock"
   file:
-    filename: /dynamic.yml
+    filename: /security.yml
     watch: true
 
 certificatesResolvers:

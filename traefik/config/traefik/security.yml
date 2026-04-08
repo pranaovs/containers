@@ -20,3 +20,15 @@ http:
         stsSeconds: 86400
         stsIncludeSubdomains: true
         stsPreload: false
+
+    nosniff:
+      headers:
+        contentTypeNosniff: true
+
+    frame-options:
+      headers:
+        customFrameOptionsValue: SAMEORIGIN
+
+    referrer-policy:
+      headers:
+        referrerPolicy: "strict-origin-when-cross-origin"
