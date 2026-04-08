@@ -203,7 +203,7 @@ services:
     environment:
       COLLECTIONS: crowdsecurity/traefik crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules
       CUSTOM_HOSTNAME: crowdsec
-      BOUNCER_KEY_TRAEFIK: ${CROWDSEC_LAPI_KEY}"
+      BOUNCER_KEY_TRAEFIK: "${CROWDSEC_LAPI_KEY}"
     networks:
       - traefik_net
       - crowdsec_net
