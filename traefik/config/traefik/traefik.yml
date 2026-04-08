@@ -35,6 +35,9 @@ providers:
   docker:
     exposedByDefault: false
     endpoint: "unix:///var/run/docker.sock"
+  file:
+    filename: /dynamic.yml
+    watch: true
 
 certificatesResolvers:
   le:
