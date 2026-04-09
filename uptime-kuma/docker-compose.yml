@@ -434,10 +434,10 @@ services:
       - "kuma.geoipupdate_container.docker.docker_container=geoipupdate"
       - "kuma.geoipupdate_container.docker.docker_host_name=local"
       - "kuma.geoipupdate_container.docker.parent_name=traefik_grp"
-      - "kuma.crowdsec_manager_container.docker.name=Crowdsec Manager Container"
-      - "kuma.crowdsec_manager_container.docker.docker_container=crowdsec-manager"
-      - "kuma.crowdsec_manager_container.docker.docker_host_name=local"
-      - "kuma.crowdsec_manager_container.docker.parent_name=traefik_grp"
+      - "kuma.crowdsec_ui_container.docker.name=Crowdsec UI Container"
+      - "kuma.crowdsec_ui_container.docker.docker_container=crowdsec-ui"
+      - "kuma.crowdsec_ui_container.docker.docker_host_name=local"
+      - "kuma.crowdsec_ui_container.docker.parent_name=traefik_grp"
 
       # Vaultwarden
       - "kuma.vaultwarden_grp.group.name=Vaultwarden"

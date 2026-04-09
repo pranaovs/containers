@@ -219,6 +219,39 @@ services:
       # Podman Auto-Update
       - "io.containers.autoupdate=registry"
 
+  crowdsec-web-ui:
+    image: ghcr.io/theduffman85/crowdsec-web-ui:latest
+    container_name: crowdsec-ui
+    expose:
+      - "3000"
+    environment:
+      - CROWDSEC_URL=http://crowdsec:8080
+      - CROWDSEC_USER=crowdsec-ui
+      - CROWDSEC_PASSWORD=${CROWDSEC_UI_PASSWORD}
+      # Optional: Lookback period for alerts/stats (default: 168h/7d)
+      - CROWDSEC_REFRESH_INTERVAL=5s
+    volumes:
+      - crowdsec-ui-data:/app/data
+    restart: always
+    networks:
+      - crowdsec_net
+      - traefik_net
+
+    labels:
+      # Traefik
+      - "traefik.enable=true"
+      - "traefik.http.routers.crowdsec-ui.rule=Host(`crowdsec.devserver.ts.net`) || Host(`crowdsec.devserver`)"
+      - "headnscale.subdomain=crowdsec"
+      - "traefik.http.routers.crowdsec-ui.entrypoints=web"
+      - "traefik.http.routers.crowdsec-ui.service=crowdsec-ui"
+      - "traefik.http.services.webdav.loadbalancer.server.port=3000"
+      - "traefik.docker.network=traefik_net"
+
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
+
   whoami:
     image: traefik/whoami:latest
     container_name: whoami
@@ -251,6 +284,7 @@ volumes:
   logs:
     name: traefik_logs
   crowdsec-data:
+  crowdsec-ui-data:
 
 networks:
   traefik_net:
