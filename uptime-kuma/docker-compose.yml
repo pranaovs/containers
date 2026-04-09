@@ -343,7 +343,7 @@ services:
       - "kuma.qashare_grp.group.name=QAShare"
       - 'kuma.qashare_grp.group.notification_name_list=["ntfy"]'
       - "kuma.qashare_http.http.name=QAShare (qashare.pranaovs.me)"
-      - "kuma.qashare_http.http.url=https://qashare.pranaovs.me"
+      - "kuma.qashare_http.http.url=https://qashare.pranaovs.me/api/health"
       - "kuma.qashare_http.http.parent_name=qashare_grp"
       - "kuma.qashare_container.docker.name=QAShare Container"
       - "kuma.qashare_container.docker.docker_container=qashare"
