@@ -42,6 +42,7 @@ services:
       # Default settings
       AUTOKUMA__DEFAULT_SETTINGS: |-
         *.max_retries: 5
+        *.interval: 600
         *.resend_interval: 30
     env_file: ".env"
     security_opt:
