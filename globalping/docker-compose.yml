@@ -1,0 +1,15 @@
+services:
+  globalping:
+    image: globalping/globalping-probe
+    container_name: globalping
+    restart: always
+    environment:
+      - GP_ADOPTION_TOKEN=${GP_ADOPTION_TOKEN}
+    cap_add:
+      - NET_RAW
+
+    labels:
+      # Watchtower
+      - "com.centurylinklabs.watchtower.enable=true"
+      # Podman Auto-Update
+      - "io.containers.autoupdate=registry"
