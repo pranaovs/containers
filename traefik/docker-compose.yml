@@ -219,14 +219,14 @@ services:
       # Podman Auto-Update
       - "io.containers.autoupdate=registry"
 
-  crowdsec-web-ui:
+  crowdsec-ui:
     image: ghcr.io/theduffman85/crowdsec-web-ui:latest
     container_name: crowdsec-ui
     expose:
       - "3000"
     environment:
       - CROWDSEC_URL=http://crowdsec:8080
-      - CROWDSEC_USER=crowdsec-ui
+      - CROWDSEC_USER=crowdsec-web-ui
       - CROWDSEC_PASSWORD=${CROWDSEC_UI_PASSWORD}
       # Optional: Lookback period for alerts/stats (default: 168h/7d)
       - CROWDSEC_REFRESH_INTERVAL=5s
@@ -244,7 +244,7 @@ services:
       - "headnscale.subdomain=crowdsec"
       - "traefik.http.routers.crowdsec-ui.entrypoints=web"
       - "traefik.http.routers.crowdsec-ui.service=crowdsec-ui"
-      - "traefik.http.services.webdav.loadbalancer.server.port=3000"
+      - "traefik.http.services.crowdsec-ui.loadbalancer.server.port=3000"
       - "traefik.docker.network=traefik_net"
 
       # Watchtower
