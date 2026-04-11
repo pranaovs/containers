@@ -56,13 +56,20 @@ log:
   filePath: "" # empty means stdout
 
 accessLog:
-  format: common # or json
+  format: json # or json
   # bufferingSize: 0 # disable buffering, send directly to stdout
   filePath: /var/log/traefik/access-raw.log
   # Timezone specific
   fields:
+    # Keep all the fields by default
+    defaultMode: keep
     names:
       StartUTC: drop
+    headers:
+      # Keep all the headers by default
+      defaultMode: keep
+      names:
+        Authorization: drop
 
 experimental:
   plugins:

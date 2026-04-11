@@ -37,6 +37,7 @@ services:
       - "traefik.docker.network=traefik_net"
       # Crowdsec
       - "traefik.http.middlewares.crowdsec.plugin.crowdsec-bouncer.enabled=true"
+      - "traefik.http.middlewares.crowdsec.plugin.crowdsec-bouncer.logformat=json"
       - "traefik.http.middlewares.crowdsec.plugin.crowdsec-bouncer.crowdsecappsecenabled=false"
       - "traefik.http.middlewares.crowdsec.plugin.crowdsec-bouncer.crowdseclapikey=${CROWDSEC_LAPI_KEY}"
 
@@ -54,19 +55,26 @@ services:
       - /bin/sh
       - -c
       - |
+        # Install jq for JSON parsing
+        apk add --no-cache jq
+
         touch /logs/access-raw.log
         touch /logs/access.log
 
-        echo "Starting Log Filter"
+        echo "Starting JSON Log Filter"
         echo "Ignoring IPs: $$IGNORE_IPS"
         echo "Ignoring Routers: $$IGNORE_ROUTERS"
         echo "Ignoring Paths: $$IGNORE_PATHS"
 
-        tail -n 0 -F /logs/access-raw.log | awk \
-          -v skip_ips="$$IGNORE_IPS" \
-          -v skip_routers="$$IGNORE_ROUTERS" \
-          -v skip_paths="$$IGNORE_PATHS" \
-          '$$0 !~ skip_ips && $$0 !~ skip_routers && $$0 !~ skip_paths {print; fflush()}' >> /logs/access.log
+        tail -n 0 -F /logs/access-raw.log | jq -c --unbuffered \
+          --arg ips "$$IGNORE_IPS" \
+          --arg routers "$$IGNORE_ROUTERS" \
+          --arg paths "$$IGNORE_PATHS" \
+          'select(
+            ($$ips == "" or (.ClientHost // "" | test($$ips) | not)) and
+            ($$routers == "" or (.RouterName // "" | test($$routers) | not)) and
+            ($$paths == "" or (.RequestPath // "" | test($$paths) | not))
+          )' >> /logs/access.log
 
   log-dashboard:
     image: hhftechnology/traefik-log-dashboard:latest
@@ -147,7 +155,7 @@ services:
       # Log Paths
       - TRAEFIK_LOG_DASHBOARD_ACCESS_PATH=/var/log/traefik/access.log
       - TRAEFIK_LOG_DASHBOARD_ERROR_PATH=/var/log/traefik/access.log
-      - TRAEFIK_LOG_DASHBOARD_LOG_FORMAT=common
+      - TRAEFIK_LOG_DASHBOARD_LOG_FORMAT=json
       # Authentication
       - TRAEFIK_LOG_DASHBOARD_AUTH_TOKEN=${TRAEFIK_LOG_DASHBOARD_AUTH_TOKEN}
       # System Monitoring
